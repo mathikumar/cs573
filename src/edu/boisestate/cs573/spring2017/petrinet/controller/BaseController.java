@@ -1,4 +1,4 @@
-package edu.boisestate.cs597.spring2017.petrinet;
+package edu.boisestate.cs573.spring2017.petrinet.controller;
 
 public class BaseController implements IController {
 	private IChangeListener changeListener;

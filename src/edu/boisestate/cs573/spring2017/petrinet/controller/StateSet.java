@@ -1,4 +1,4 @@
-package edu.boisestate.cs597.spring2017.petrinet;
+package edu.boisestate.cs573.spring2017.petrinet.controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
