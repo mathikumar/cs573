@@ -4,24 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-public class History implements IChangeListener {
-	public Stack<ChangeSet> history;
+public class History implements IStateListener {
+	public Stack<StateSet> history;
 	
-	public History(){
-		this.history = new Stack<>();
-	}
-	
-	public List<NetOp> getUnwindOps(){
-		return null;
-	}
-	
-	public Boolean commitUndo(){
-		this.history.pop();
-		return true;
-	}
+
 
 	@Override
-	public void stateChange(ChangeSet cs) {
+	public void newState(StateSet cs) {
 		history.push(cs);	
 	}
 	
