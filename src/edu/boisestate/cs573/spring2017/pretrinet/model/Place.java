@@ -38,5 +38,10 @@ public class Place extends GraphNode
 		this.setNumberOfTokens(this.getNumberOfTokens()-n);
 	}
 	
+	public AbstractPlace getAbstract(){
+		AbstractPlace p =  new AbstractPlace(this.getX(), this.getY(), this.numberOfTokens, this.getName());
+		p.setID(this.getID());
+		return p;
+	}
 	
 }

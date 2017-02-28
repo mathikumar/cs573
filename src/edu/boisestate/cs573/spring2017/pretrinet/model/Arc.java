@@ -49,7 +49,9 @@ public class Arc
 		this.weight = weight;
 	}
 
-	
+	public AbstractArc getAbstract(){
+		return new AbstractArc(source.getID(), target.getID(),weight);
+	}
 	
 
 }
