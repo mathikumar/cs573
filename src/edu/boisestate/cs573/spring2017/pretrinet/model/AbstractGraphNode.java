@@ -59,5 +59,13 @@ public class AbstractGraphNode {
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof AbstractGraphNode){
+			return this.ID == ((AbstractGraphNode)o).ID;
+		}
+		return false;
+	}
 
 }

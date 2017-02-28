@@ -21,6 +21,7 @@ public class BaseController implements IController {
 	
 
 	public BaseController(){
+		this.stateListeners = new ArrayList<>();
 		this.petrinet = new PetriNet();
 		HistoryProvider.init();
 		this.random = new Random();
