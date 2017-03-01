@@ -2,26 +2,48 @@ package edu.boisestate.cs573.spring2017.pretrinet.model;
 
 import java.util.HashSet;
 
-import edu.boisestate.cs573.spring2017.helpers.IdGenerator;
 
-public class GraphNode extends AbstractGraphNode
+abstract class GraphNode extends GraphElement
 {
-	private HashSet<Arc> arcs;
-	//Should never be instantiated
-	public GraphNode()
-	{
-		super();
-		this.setID(IdGenerator.getUniqueIdentifier());
-		this.arcs =((new HashSet<Arc>()));
-	}
-	
-	public GraphNode(AbstractGraphNode n){
-		super(n);
-		this.setID(IdGenerator.getUniqueIdentifier());
-		this.arcs =((new HashSet<Arc>()));
-	}
-	
 
+	private Integer x = 0;
+	private Integer y = 0;
+
+	private HashSet<Arc> arcs;
+	
+	//Should never be instantiated
+	public GraphNode(int id, String name)
+	{
+		super(id, name);
+		this.arcs =((new HashSet<Arc>()));
+	}
+		
+	public Integer getX()
+	{
+		return x;
+	}
+	
+	public void setX(Integer x)
+	{
+		this.x = x;
+	}
+	
+	public Integer getY()
+	{
+		return y;
+	}
+	
+	public void setY(Integer y)
+	{
+		this.y = y;
+	}
+
+	public void addArc(Arc a)
+	{
+		this.arcs.add(a);
+	}
+	
+	
 	public HashSet<Arc> getArcs()
 	{
 		return arcs;

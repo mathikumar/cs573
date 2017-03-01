@@ -1,24 +1,18 @@
 package edu.boisestate.cs573.spring2017.pretrinet.model;
 
-public class Arc 
+public class Arc extends GraphElement
 {
 	private GraphNode source;
 	private GraphNode target;
-	private int weight;
+	private int weight=1;
 	
-	public Arc()
+	protected Arc(int id, String name, GraphNode source, GraphNode target)
 	{
-		this.setWeight(1);
+		super(id,name);
+		this.source = source;
+		this.target = target;
 	}
 
-	
-	public Arc(GraphNode source,GraphNode target)
-	{
-		this.setSource(source);
-		this.setTarget(target);
-		this.setWeight(1);
-	}
-	
 	public GraphNode getSource()
 	{
 		return source;
@@ -49,9 +43,7 @@ public class Arc
 		this.weight = weight;
 	}
 
-	public AbstractArc getAbstract(){
-		return new AbstractArc(source.getID(), target.getID(),weight);
-	}
+	
 	
 
 }
