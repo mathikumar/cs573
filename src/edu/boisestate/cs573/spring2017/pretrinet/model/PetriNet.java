@@ -66,6 +66,57 @@ public class PetriNet
 		return this.createArc(IdGenerator.getUniqueIdentifier(), name, sourceId, targeId, weight);
 	}
     
+   /* private boolean deletePlace(int id)
+    {
+    	return true;
+    }
+    
+    private boolean deletePlace(int id)
+    {
+    	return true;
+    }
+    
+    private boolean deletePlace(int id)
+    {
+    	return true;
+    }
+    */
+    
+    public boolean setArcWeight(int id, int weight)
+    {
+    	//TODO
+    	return true;
+    }
+    
+    public boolean setPlaceTokenNumber(int id, int tokenNumber)
+    {
+    	//TODO
+    	return true;
+    }
+    public boolean setName(int id , String name){
+    	//TODO
+    	return true;
+    }
+    
+    public boolean setPosition(int id, int x, int y)
+    {
+    	//TODO
+    	return true;
+    }
+    
+    public boolean fire(int transitionId)
+    {
+    	//TODO
+    	return true;
+    }
+    
+    
+    public boolean delete(int id)
+    {
+    	//TODO
+    	return true;
+    }
+    
 	public PetriNet getDeepCopy()
 	{
 		PetriNet newNet = this;
@@ -87,6 +138,27 @@ public class PetriNet
 	{
 		return this.transitions;
 	}
+	
+	public HashMap<Integer,Transition> getAbstractTransitions()
+	{
+		//TODO
+		return this.transitions;
+	}
+	
+	
+	public HashMap<Integer,Transition> getAbstractArcs()
+	{
+		//TODO
+		return this.transitions;
+	}
+	
+	public HashMap<Integer,Transition> getAbstractPlaces()
+	{
+		//TODO
+		return this.transitions;
+	}
+	
+	
 	
 	public Arc getArcById(int id){	
 		return this.arcs.get(id);
