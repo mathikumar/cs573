@@ -39,7 +39,7 @@ public interface IController {
 	 * @param p The place to delete
 	 * @return true on success, false on failure
 	 */
-	public Boolean delete(AbstractGraphNode n);
+	public Boolean delete(Integer ID);
 	
 	/**
 	 * 

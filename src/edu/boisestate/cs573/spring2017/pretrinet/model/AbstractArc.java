@@ -2,13 +2,13 @@ package edu.boisestate.cs573.spring2017.pretrinet.model;
 
 import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
 
-public class AbstractArc {
+public class AbstractArc{
 	private Integer weight;
 	private Integer origin;
 	private Integer target;
 
 	
-	public AbstractArc(Integer weight, Integer origin, Integer target) {
+	public AbstractArc(Integer weight, Integer originID, Integer targetID) {
 		this.weight = weight;
 		this.origin = origin;
 		this.target = target;

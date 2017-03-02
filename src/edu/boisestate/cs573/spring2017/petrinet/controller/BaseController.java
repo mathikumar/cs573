@@ -43,7 +43,7 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean addPlace(AbstractPlace p) {
-		// TODO Auto-generated method stub
+		petrinet.addPlace(p.getName(), p.getTokens());
 		notifyStateListeners();
 		return null;
 	}
@@ -56,24 +56,24 @@ public class BaseController implements IController {
 	}
 
 	@Override
-	public Boolean delete(AbstractGraphNode n) {
-		// TODO Auto-generated method stub
+	public Boolean delete(Integer ID) {
+		petrinet.delete(ID);
 		notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean setArcWeight(AbstractArc a) {
-		// TODO Auto-generated method stub
+		Boolean r = petrinet.setArcWeight(a.getID(), a.getWeight());
 		notifyStateListeners();
-		return null;
+		return r;
 	}
 
 	@Override
 	public Boolean setPlaceTokenCount(AbstractPlace p) {
-		// TODO Auto-generated method stub
+		Boolean r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
 		notifyStateListeners();
-		return null;
+		return r;
 	}
 
 	@Override
@@ -83,6 +83,7 @@ public class BaseController implements IController {
 		return null;
 	}
 
+
 	@Override
 	public Boolean registerStateListener(IStateListener l) {
 		this.stateListeners.add(l);
@@ -91,29 +92,28 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean setLocation(AbstractGraphNode n) {
-		// TODO Auto-generated method stub
+		petrinet.setPosition(id, x, y);
 		notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean save(String filename) {
-		// TODO Auto-generated method stub
-		return null;
+		return XmlInputOutput.printModel(petrinet, filename);
 	}
 
 	@Override
 	public Boolean load(String filename) {
-		// TODO Auto-generated method stub
+		petrinet = XmlInputOutput.readModel(filename);
 		notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean fire(AbstractTransition t) {
-		// TODO Auto-generated method stub
+		Boolean r = petrinet.fire(t.getID())
 		notifyStateListeners();
-		return null;
+		return r;
 	}
 
 	@Override
@@ -122,9 +122,9 @@ public class BaseController implements IController {
 			//Get available firable transitions.
 			HashMap<Integer,AbstractTransition> firables = new HashMap<>();
 			int k = 0;
-			for(Transition t :this.petrinet.getTransitions()){
+			for(Transition t :this.petrinet.getAbstractTransitions()){
 				if(t.isFirable()){
-					firables.put(k++, t.getAbstract());
+					firables.put(k++, t);
 				}
 			}
 			//Fire one.
@@ -151,14 +151,14 @@ public class BaseController implements IController {
 		HistoryProvider.savePetriNetCheckPoint(this.petrinet);
 		for(IStateListener l : this.stateListeners){
 			StateSet newstate = new StateSet();
-			for(Arc arc: this.petrinet.getArcs()){
-				newstate.addArc(arc.getAbstract());
+			for(Arc arc: this.petrinet.getAbstractArcs()){
+				newstate.addArc(arc);
 			}
-			for(Transition trans: this.petrinet.getTransitions()){
-				newstate.addTransition(trans.getAbstract());
+			for(Transition trans: this.petrinet.getAbstractTransitions()){
+				newstate.addTransition(trans);
 			}
-			for(Place place: this.petrinet.getPlaces()){
-				newstate.addPlace(place.getAbstract());
+			for(Place place: this.petrinet.getAbstractPlaces()){
+				newstate.addPlace(place);
 			}
 			l.newState(newstate);
 		}

@@ -6,6 +6,10 @@ public class AbstractGraphNode {
 	private Integer y;
 	private String name;
 	
+	public AbstractGraphNode(Integer ID){
+		this.ID = ID;
+	}
+	
 	public AbstractGraphNode(){
 		this.x=0;
 		this.y=0;
