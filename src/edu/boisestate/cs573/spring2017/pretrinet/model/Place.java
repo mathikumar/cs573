@@ -4,17 +4,11 @@ package edu.boisestate.cs573.spring2017.pretrinet.model;
 public class Place extends GraphNode
 {
 	private int	numberOfTokens;
-
-	public Place()
+	
+	protected Place(int id, String name, int numberofTokens)
 	{
-		super();
-
-	}
-
-	public Place(int numberofTokens)
-	{
-		super();
-
+		super(id,name);
+		
 		this.setNumberOfTokens(numberofTokens);
 	}
 

@@ -3,9 +3,9 @@ package edu.boisestate.cs573.spring2017.pretrinet.model;
 public class Transition extends GraphNode
 {
 
-	public Transition()
+	protected Transition(int id, String name)
 	{
-
+		super(id,name);
 	}
 
 	public boolean isFirable()

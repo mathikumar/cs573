@@ -1,7 +1,9 @@
 package edu.boisestate.cs573.spring2017.petrinet.controller;
 
-
-
+import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractArc;
+import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractPlace;
+import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractTransition;
+import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
 
 public interface IController {
 	
@@ -16,41 +18,28 @@ public interface IController {
 	 * Adds a transition to the petrinet.\n
 	 * @return true on success, false on failure
 	 */
-	public Boolean addTransition();
+	public Boolean addTransition(AbstractTransition t);
 	
 	/**
 	 * Adds a place to the petrinet
 	 * @return
 	 */
-	public Boolean addPlace();
+	public Boolean addPlace(AbstractPlace p);
 	
 	/**
 	 * Adds an arc to the petrinet
 	 * @return true on success, false on failure
 	 */
-	public Boolean addArc();
+	public Boolean addArc(AbstractArc a);
 
-	/**
-	 * Connects an arc to another petrinet component.\n
-	 * <span style="font-style: italic;">Precondition: ID and name are set on n  </span>
-	 * @param a The Arc to connect
-	 * @return true on success, false on failure
-	 */
-	public Boolean connectArc(AbstractArc a);
-	
-	/**
-	 * Disconnects an arc from another petrinet component.
-	 * @param a Arc to disconnect
-	 * @return true on success, false on failure
-	 */
-	public Boolean disconnectArc(AbstractArc a);
+
 	
 	/**
 	 * Delete a node from a petrinet.  Could be a place, transition or arc.
 	 * @param p The place to delete
 	 * @return true on success, false on failure
 	 */
-	public Boolean delete(GraphNode n);
+	public Boolean delete(Integer ID);
 	
 	/**
 	 * 
@@ -72,7 +61,7 @@ public interface IController {
 	 * @param n
 	 * @return
 	 */
-	public Boolean setName(GraphNode n);
+	public Boolean setName(AbstractGraphNode n);
 	
 	/**
 	 * Adds the StateListener l to the list of objects that will be notified of changes in the net.
@@ -86,7 +75,7 @@ public interface IController {
 	 * @param n
 	 * @return
 	 */
-	public Boolean setLocation(GraphNode n);
+	public Boolean setLocation(AbstractGraphNode n);
 	
 	/**
 	 * Saves the initial state of the net to the specified filename

@@ -13,5 +13,9 @@ public class IdGenerator
 		
 	}
 	
+	public static void updateId(int id)
+	{
+		 IdGenerator.lastId=Math.max(IdGenerator.lastId,id);
+	}
 	
 }
