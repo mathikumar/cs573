@@ -12,6 +12,8 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxKeyboardHandler;
 import com.mxgraph.swing.util.mxGraphActions;
 
+import edu.bsu.petriNet.controller.FileMenuController;
+
 /**
  * @author Administrator
  * 
@@ -60,8 +62,8 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 	{
 		ActionMap map = super.createActionMap();
 
-		map.put("save", new EditorActions.SaveAction(false));
-		map.put("saveAs", new EditorActions.SaveAction(true));
+		map.put("save", new FileMenuController.SaveAction(false));
+		map.put("saveAs", new FileMenuController.SaveAction(true));
 		map.put("new", new EditorActions.NewAction());
 		map.put("open", new EditorActions.OpenAction());
 		map.put("undo", new EditorActions.HistoryAction(true));

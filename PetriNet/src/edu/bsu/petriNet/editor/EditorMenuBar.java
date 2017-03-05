@@ -48,7 +48,7 @@ import edu.bsu.petriNet.editor.EditorActions.PageSetupAction;
 import edu.bsu.petriNet.editor.EditorActions.PrintAction;
 import edu.bsu.petriNet.editor.EditorActions.PromptPropertyAction;
 import edu.bsu.petriNet.editor.EditorActions.PromptValueAction;
-import edu.bsu.petriNet.editor.EditorActions.SaveAction;
+import edu.bsu.petriNet.controller.FileMenuController.SaveAction;
 import edu.bsu.petriNet.editor.EditorActions.ScaleAction;
 import edu.bsu.petriNet.editor.EditorActions.SelectShortestPathAction;
 import edu.bsu.petriNet.editor.EditorActions.SelectSpanningTreeAction;
@@ -869,13 +869,13 @@ public class EditorMenuBar extends JMenuBar
 					dialogText = "Configure indegree analysis";
 				else if (graphType == GraphType.OUTDEGREE)
 					dialogText = "Configure outdegree analysis";
-				GraphConfigDialog dialog = new GraphConfigDialog(graphType, dialogText);
+				/*GraphConfigDialog dialog = new GraphConfigDialog(graphType, dialogText);
 				dialog.configureLayout(graph, graphType, aGraph);
 				dialog.setModal(true);
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				Dimension frameSize = dialog.getSize();
 				dialog.setLocation(screenSize.width / 2 - (frameSize.width / 2), screenSize.height / 2 - (frameSize.height / 2));
-				dialog.setVisible(true);
+				dialog.setVisible(true);*/
 			}
 		}
 	}
