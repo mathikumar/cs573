@@ -1,12 +1,12 @@
-package edu.boisestate.cs573.spring2017.petrinet.controller;
+package edu.bsu.petriNet.controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractArc;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractPlace;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractTransition;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
+import edu.bsu.petriNet.model.AbstractArc;
+import edu.bsu.petriNet.model.AbstractPlace;
+import edu.bsu.petriNet.model.AbstractTransition;
+import edu.bsu.petriNet.model.AbstractGraphNode;
 
 public class StateSet {
 	private ArrayList<AbstractArc> arcs;

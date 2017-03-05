@@ -1,4 +1,4 @@
-package edu.boisestate.cs573.spring2017.pretrinet.model;
+package edu.bsu.petriNet.model;
 
 public class AbstractGraphNode {
 	private Integer ID;

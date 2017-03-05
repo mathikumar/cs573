@@ -1,4 +1,4 @@
-package edu.boisestate.cs573.spring2017.petrinet.controller;
+package edu.bsu.petriNet.controller;
 
 public interface IStateListener {
 

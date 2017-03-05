@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.boisestate.cs573.spring2017.petrinet.controller.BaseController;
+import edu.bsu.petriNet.controller.BaseController;
 import edu.boisestate.cs573.spring2017.petrinet.controller.IStateListener;
 import edu.boisestate.cs573.spring2017.petrinet.controller.StateSet;
 import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractArc;

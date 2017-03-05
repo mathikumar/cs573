@@ -1,6 +1,6 @@
-package edu.boisestate.cs573.spring2017.pretrinet.model;
+package edu.bsu.petriNet.model;
 
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
+import edu.bsu.petriNet.model.AbstractGraphNode;
 
 public class AbstractArc{
 	private Integer weight;

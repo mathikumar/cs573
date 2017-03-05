@@ -1,4 +1,4 @@
-package edu.boisestate.cs573.spring2017.petrinet.controller;
+package edu.bsu.petriNet.controller;
 
 import java.util.Iterator;
 import java.util.List;

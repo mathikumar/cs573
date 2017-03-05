@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import edu.bsu.petriNet.model.PetriNet;
 
-
-
 public class HistoryProvider
 {
 

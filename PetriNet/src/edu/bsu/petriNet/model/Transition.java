@@ -3,9 +3,9 @@ package edu.bsu.petriNet.model;
 public class Transition extends GraphNode
 {
 
-	public Transition()
+	protected Transition(int id, String name)
 	{
-
+		super(id,name);
 	}
 
 	public boolean isFirable()

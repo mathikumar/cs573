@@ -1,18 +1,18 @@
-package edu.boisestate.cs573.spring2017.petrinet.controller;
+package edu.bsu.petriNet.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import edu.boisestate.cs573.spring2017.helpers.HistoryProvider;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractArc;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractPlace;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractTransition;
-import edu.boisestate.cs573.spring2017.pretrinet.model.Arc;
-import edu.boisestate.cs573.spring2017.pretrinet.model.PetriNet;
-import edu.boisestate.cs573.spring2017.pretrinet.model.Place;
-import edu.boisestate.cs573.spring2017.pretrinet.model.Transition;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
+import edu.bsu.petriNet.helper.HistoryProvider;
+import edu.bsu.petriNet.model.AbstractArc;
+import edu.bsu.petriNet.model.AbstractPlace;
+import edu.bsu.petriNet.model.AbstractTransition;
+import edu.bsu.petriNet.model.Arc;
+import edu.bsu.petriNet.model.PetriNet;
+import edu.bsu.petriNet.model.Place;
+import edu.bsu.petriNet.model.Transition;
+import edu.bsu.petriNet.model.AbstractGraphNode;
 
 public class BaseController implements IController {
 	private ArrayList<IStateListener> stateListeners;
