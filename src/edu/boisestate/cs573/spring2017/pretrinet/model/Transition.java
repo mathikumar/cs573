@@ -45,5 +45,12 @@ public class Transition extends GraphNode
 		return true;
 
 	}
+	
+	public AbstractTransition getAbstract(){
+		AbstractTransition t = new AbstractTransition(this.getX(), this.getY(), this.getName());
+		t.setID(this.getID());
+		t.setFirable(this.isFirable());
+		return t;
+	}
 
 }

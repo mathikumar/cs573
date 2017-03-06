@@ -12,6 +12,18 @@ abstract class GraphElement
 		this.name = name;
 	}
 	
+	public GraphElement(String name){
+		this.name = name;
+	}
+	
+	public GraphElement(int id){
+		this.ID = id;
+	}
+	
+	public GraphElement(){
+		
+	}
+	
 	public Integer getID()
 	{
 		return ID;
@@ -31,6 +43,13 @@ abstract class GraphElement
 	{
 		this.name = name;
 	}
-
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof GraphElement){
+			return this.ID == ((GraphElement)o).ID;
+		}
+		return false;
+	}
 	
 }

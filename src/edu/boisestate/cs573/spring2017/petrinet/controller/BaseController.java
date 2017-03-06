@@ -12,6 +12,7 @@ import edu.boisestate.cs573.spring2017.pretrinet.model.Arc;
 import edu.boisestate.cs573.spring2017.pretrinet.model.PetriNet;
 import edu.boisestate.cs573.spring2017.pretrinet.model.Place;
 import edu.boisestate.cs573.spring2017.pretrinet.model.Transition;
+import edu.boisestate.cs573.spring2017.pretrinet.model.XmlInputOutput;
 import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
 
 public class BaseController implements IController {
@@ -36,21 +37,21 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean addTransition(AbstractTransition t) {
-		// TODO Auto-generated method stub
+		petrinet.createTransition(t.getName());
 		notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean addPlace(AbstractPlace p) {
-		petrinet.addPlace(p.getName(), p.getTokens());
+		petrinet.createPlace(p.getName(), p.getTokens());
 		notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean addArc(AbstractArc a) {
-		// TODO Auto-generated method stub
+		petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
 		notifyStateListeners();
 		return null;
 	}
@@ -92,7 +93,7 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean setLocation(AbstractGraphNode n) {
-		petrinet.setPosition(id, x, y);
+		petrinet.setPosition(n.getID(), n.getX(), n.getY());
 		notifyStateListeners();
 		return null;
 	}
@@ -111,7 +112,7 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean fire(AbstractTransition t) {
-		Boolean r = petrinet.fire(t.getID())
+		Boolean r = petrinet.fire(t.getID());
 		notifyStateListeners();
 		return r;
 	}
@@ -122,7 +123,7 @@ public class BaseController implements IController {
 			//Get available firable transitions.
 			HashMap<Integer,AbstractTransition> firables = new HashMap<>();
 			int k = 0;
-			for(Transition t :this.petrinet.getAbstractTransitions()){
+			for(AbstractTransition t :this.petrinet.getAbstractTransitions()){
 				if(t.isFirable()){
 					firables.put(k++, t);
 				}
@@ -151,13 +152,13 @@ public class BaseController implements IController {
 		HistoryProvider.savePetriNetCheckPoint(this.petrinet);
 		for(IStateListener l : this.stateListeners){
 			StateSet newstate = new StateSet();
-			for(Arc arc: this.petrinet.getAbstractArcs()){
+			for(AbstractArc arc: this.petrinet.getAbstractArcs()){
 				newstate.addArc(arc);
 			}
-			for(Transition trans: this.petrinet.getAbstractTransitions()){
+			for(AbstractTransition trans: this.petrinet.getAbstractTransitions()){
 				newstate.addTransition(trans);
 			}
-			for(Place place: this.petrinet.getAbstractPlaces()){
+			for(AbstractPlace place: this.petrinet.getAbstractPlaces()){
 				newstate.addPlace(place);
 			}
 			l.newState(newstate);

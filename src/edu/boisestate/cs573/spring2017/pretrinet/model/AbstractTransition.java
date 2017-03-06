@@ -17,4 +17,10 @@ public class AbstractTransition extends AbstractGraphNode {
 		this.firable = firable;
 	}
 
+	public Boolean isFirable() {
+		return firable;
+	}
+	
+	
+
 }

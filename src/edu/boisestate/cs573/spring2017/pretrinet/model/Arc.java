@@ -43,7 +43,11 @@ public class Arc extends GraphElement
 		this.weight = weight;
 	}
 
-	
+	public AbstractArc getAbstract(){
+		AbstractArc a =  new AbstractArc(this.weight, this.source.getID(), this.target.getID(), this.getName());
+		a.setID(this.getID());
+		return a;
+	}	
 	
 
 }

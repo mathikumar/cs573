@@ -1,7 +1,8 @@
 package edu.boisestate.cs573.spring2017.pretrinet.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 
 import edu.boisestate.cs573.spring2017.helpers.IdGenerator;
 
@@ -139,23 +140,32 @@ public class PetriNet
 		return this.transitions;
 	}
 	
-	public HashMap<Integer,Transition> getAbstractTransitions()
+	public List<AbstractTransition> getAbstractTransitions()
 	{
-		//TODO
-		return this.transitions;
+		List<AbstractTransition> abstractTransitions = new ArrayList<>();
+		for(Transition t: this.transitions.values()){
+			abstractTransitions.add(t.getAbstract());
+		}
+		return abstractTransitions;
 	}
 	
 	
-	public HashMap<Integer,Transition> getAbstractArcs()
+	public List<AbstractArc> getAbstractArcs()
 	{
-		//TODO
-		return this.transitions;
+		List<AbstractArc> abstractArcs = new ArrayList<>();
+		for(Arc a: this.arcs.values()){
+			abstractArcs.add(a.getAbstract());
+		}
+		return abstractArcs;
 	}
 	
-	public HashMap<Integer,Transition> getAbstractPlaces()
+	public List<AbstractPlace> getAbstractPlaces()
 	{
-		//TODO
-		return this.transitions;
+		List<AbstractPlace> abstractPlaces = new ArrayList<>();
+		for(Place p: this.places.values()){
+			abstractPlaces.add(p.getAbstract());
+		}
+		return abstractPlaces;
 	}
 	
 	
