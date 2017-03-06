@@ -26,6 +26,21 @@ public class PetriNet
 		places.put(id,p);
 		return true;
 	}
+	
+	public Boolean addPlace(Place p){
+		places.put(IdGenerator.getUniqueIdentifier(),p);
+		return true;
+	}
+	
+	public Boolean addTransition(Transition t){
+		transitions.put(IdGenerator.getUniqueIdentifier(),t);
+		return true;
+	}
+	
+	public Boolean addArc(Arc a){
+		arcs.put(IdGenerator.getUniqueIdentifier(),a);
+		return true;
+	}
 		
 	public Boolean createPlace(String name, int tokenN){
 		

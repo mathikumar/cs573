@@ -3,7 +3,7 @@ package edu.bsu.petriNet.model;
 import java.util.HashSet;
 
 
-abstract class GraphNode extends GraphElement
+public abstract class GraphNode extends GraphElement
 {
 
 	private Integer x = 0;

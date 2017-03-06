@@ -3,7 +3,7 @@ package edu.bsu.petriNet.model;
 public class Transition extends GraphNode
 {
 
-	protected Transition(int id, String name)
+	public Transition(int id, String name)
 	{
 		super(id,name);
 	}

@@ -21,6 +21,7 @@ import com.mxgraph.view.mxGraph;
 import edu.bsu.petriNet.editor.BasicGraphEditor;
 import edu.bsu.petriNet.editor.DefaultFileFilter;
 import edu.bsu.petriNet.model.PetriNet;
+import edu.bsu.petriNet.model.XmlInputOutput;
 import edu.bsu.petriNet.util.PetriNetUtil;
 
 public class FileMenuController {
@@ -81,23 +82,9 @@ public class FileMenuController {
 			String xml = mxXmlUtils.getXml(codec.encode(graph.getModel()));
 			FileWriter fWriter = null;
 			PetriNet petriNet = PetriNetUtil.convertMxGraphToPetriNet(graph);
-			BufferedWriter bWriter = null;
+			XmlInputOutput.printModel(petriNet, filename);
 			
-			try
-			{
-				 fWriter= new FileWriter(new File(
-						filename));
-				
-				bWriter = new BufferedWriter(fWriter);
-				bWriter.write(xml);
-					
-			}
-			finally
-			{
-				
-				bWriter.close();
-				fWriter.close();
-			}
+			
 		}
 
 		/**
