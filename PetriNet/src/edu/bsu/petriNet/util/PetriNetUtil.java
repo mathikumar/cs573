@@ -8,6 +8,9 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.view.mxGraph;
 
+import edu.bsu.petriNet.model.AbstractArc;
+import edu.bsu.petriNet.model.AbstractPlace;
+import edu.bsu.petriNet.model.AbstractTransition;
 import edu.bsu.petriNet.model.Arc;
 import edu.bsu.petriNet.model.GraphNode;
 import edu.bsu.petriNet.model.PetriNet;
@@ -26,7 +29,6 @@ public class PetriNetUtil {
 			mxCell v = (mxCell)vertex;
 			String name = (String)v.getValue();
 			if(v.getStyle()!=null && v.getStyle().equals("ellipse")){
-				//TODO tokens
 				Place place = new Place(Integer.parseInt(v.getId()),name,0);
 				mxGeometry geo = v.getGeometry();
 				place.setX((int)geo.getX());
@@ -68,5 +70,36 @@ public class PetriNetUtil {
 		}
 		
 		return petriNet;
+	}
+	
+	public static mxGraph convertPetriNetToMxGraph(PetriNet petriNet){
+		mxGraph graph = new mxGraph();
+		graph.getModel().beginUpdate();
+		Object parent = graph.getDefaultParent();
+		try
+		{
+			Map<Integer,Object> nodes = new HashMap<Integer,Object>();
+			for(AbstractPlace place:petriNet.getAbstractPlaces()){
+				//TODO size and location
+				Object v = graph.insertVertex(parent, null, place.getName(), 100, 100, 70, 70,"shape=ellipse;perimeter=ellipsePerimeter");	
+				nodes.put(place.getID(),v);
+			}
+			
+			for(AbstractTransition transition:petriNet.getAbstractTransitions()){
+				//TODO size and location
+				Object t = graph.insertVertex(parent, null,transition.getName(),300,300, 40,70);
+				nodes.put(transition.getID(), t);
+			}
+					
+			for(AbstractArc arc:petriNet.getAbstractArcs()){
+				graph.insertEdge(parent, null, arc.getName(), nodes.get(arc.getOrigin()), nodes.get(arc.getTarget()));
+			}
+		}
+		finally
+		{
+			graph.getModel().endUpdate();
+			
+		}
+		return graph;
 	}
 }

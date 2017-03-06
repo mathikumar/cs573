@@ -11,11 +11,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.bsu.petriNet.controller.BaseController;
-import edu.boisestate.cs573.spring2017.petrinet.controller.IStateListener;
-import edu.boisestate.cs573.spring2017.petrinet.controller.StateSet;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractArc;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractPlace;
-import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractTransition;
+import edu.bsu.petriNet.controller.IStateListener;
+import edu.bsu.petriNet.controller.StateSet;
+import edu.bsu.petriNet.model.AbstractArc;
+import edu.bsu.petriNet.model.AbstractPlace;
+import edu.bsu.petriNet.model.AbstractTransition;
 
 public class ControllerTest {
 	public BaseController controller;

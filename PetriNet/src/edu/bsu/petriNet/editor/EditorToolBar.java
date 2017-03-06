@@ -29,9 +29,9 @@ import edu.bsu.petriNet.editor.EditorActions.FontStyleAction;
 import edu.bsu.petriNet.editor.EditorActions.HistoryAction;
 import edu.bsu.petriNet.editor.EditorActions.KeyValueAction;
 import edu.bsu.petriNet.editor.EditorActions.NewAction;
-import edu.bsu.petriNet.editor.EditorActions.OpenAction;
 import edu.bsu.petriNet.editor.EditorActions.PrintAction;
 import edu.bsu.petriNet.controller.FileMenuController.SaveAction;
+import edu.bsu.petriNet.controller.FileMenuController.OpenAction;
 
 public class EditorToolBar extends JToolBar
 {

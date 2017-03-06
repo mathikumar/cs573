@@ -42,7 +42,7 @@ import edu.bsu.petriNet.editor.EditorActions.HistoryAction;
 import edu.bsu.petriNet.editor.EditorActions.ImportAction;
 import edu.bsu.petriNet.editor.EditorActions.KeyValueAction;
 import edu.bsu.petriNet.editor.EditorActions.NewAction;
-import edu.bsu.petriNet.editor.EditorActions.OpenAction;
+import edu.bsu.petriNet.controller.FileMenuController.OpenAction;
 import edu.bsu.petriNet.editor.EditorActions.PageBackgroundAction;
 import edu.bsu.petriNet.editor.EditorActions.PageSetupAction;
 import edu.bsu.petriNet.editor.EditorActions.PrintAction;
