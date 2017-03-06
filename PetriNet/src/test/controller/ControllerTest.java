@@ -32,6 +32,15 @@ public class ControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		this.controller = new BaseController();
+		//Register as listener
+		controller.registerStateListener(new IStateListener(){
+			
+			@Override
+			public void newState(StateSet ss) {
+				stateset = ss;
+				
+			}
+		});
 	}
 
 	@After
@@ -45,12 +54,19 @@ public class ControllerTest {
 
 	@Test
 	public final void testNewNet() {
-		fail("Not yet implemented"); // TODO
+		controller.newNet();
+		assertEquals(0, stateset.getArcs().size());
+		assertEquals(0, stateset.getPlaces().size());
+		assertEquals(0, stateset.getTransitions().size());
 	}
 
 	@Test
 	public final void testAddTransition() {
-		fail("Not yet implemented"); // TODO
+		controller.addTransition(new AbstractTransition(0,3,"Some Transition"));
+		assertEquals(1, stateset.getTransitions().size());
+		assertTrue(stateset.getTransitions().get(0).getName().equals("Some Transition"));
+		assertEquals((Integer)0, stateset.getTransitions().get(0).getX());
+		assertEquals((Integer)3, stateset.getTransitions().get(0).getY());
 	}
 
 	@Test
@@ -118,18 +134,9 @@ public class ControllerTest {
 		fail("Not yet implemented"); // TODO
 	}
 
+	public final StateSet setupAsyncCommunicationNet() {
 
-	@Test
-	public final void testAsyncCommunicationNet() {
-		//Register as listener
-		controller.registerStateListener(new IStateListener(){
-			
-			@Override
-			public void newState(StateSet ss) {
-				stateset = ss;
-				
-			}
-		});
+
 		int id = 1;
 		//places
 		ArrayList<AbstractPlace> places = new ArrayList<>();
@@ -142,9 +149,8 @@ public class ControllerTest {
 								"Buffer full",
 								"Ack sent"};
 		for(String name: placenames){
-			AbstractPlace p = new AbstractPlace(0,0,1,name);
+			AbstractPlace p = new AbstractPlace(id++,0,0,1,name);
 			controller.addPlace(p);
-			p.setID(id++);
 			places.add(p);
 		}
 	
@@ -158,30 +164,72 @@ public class ControllerTest {
 									"Send Ack"
 		};
 		for(String name: transitionnames){
-			AbstractTransition t = new AbstractTransition(0,0,name);
+			AbstractTransition t = new AbstractTransition(id++,0,0,name);
 			controller.addTransition(t);
-			t.setID(id++);
 			transitions.add(t);
 		}
 		//Arcs
+		ArrayList<AbstractArc> arcs = new ArrayList<>();
 		Integer[] originplaces = 			{0,1,2,3,4,5,6,7};
 		Integer[] destinationtransitions =	{0,1,1,4,5,4,2,3};
 		for(int i=0; i < originplaces.length; i++){
 			Integer originID = originplaces[i]+1;
 			Integer destinationID = placenames.length + destinationtransitions[i] + 1;
-			controller.addArc(new AbstractArc(1,originID, destinationID ));
+			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			arcs.add(a);
+			controller.addArc(a);
 		}
 		Integer[] origintransitions =		{0,0,1,2,3,4,5,5};
 		Integer[] destinationplaces = 		{2,3,4,0,1,5,6,7};
 		for(int i=0; i < origintransitions.length; i++){
 			Integer originID = placenames.length + origintransitions[i]+1;
 			Integer destinationID = destinationplaces[i] + 1;
-			controller.addArc(new AbstractArc(1,originID, destinationID ));
+			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			arcs.add(a);
+			controller.addArc(a);
 		}
+		StateSet output = new StateSet();
+		output.addArcs(arcs);
+		output.addPlaces(places);
+		output.addTransitions(transitions);
+		return output;
+	}
 		
+	@Test
+	public final void testAsyncCommunicationNet() {
+		StateSet initial = setupAsyncCommunicationNet();
 		//Check the stateset
-		for(AbstractPlace p: places){
-			assertTrue(stateset.getArcs().contains(p));
+		for(AbstractPlace p: initial.getPlaces()){
+			System.out.println(p);
+			assertTrue(stateset.getPlaces().contains(p));
+		}
+		for(AbstractTransition t: initial.getTransitions()){
+			System.out.println(t);
+			assertTrue(stateset.getTransitions().contains(t));
+		}
+		for(AbstractArc a: initial.getArcs()){
+			System.out.println(a);
+			assertTrue(stateset.getArcs().contains(a));
+		}
+	}
+	
+	@Test
+	public final void testAsyncCommunicationNetIO(){
+		StateSet initial = setupAsyncCommunicationNet();
+		controller.save("AsyncCommunication.xml");
+		controller.load("AsyncCommunication.xml");
+		//Check the stateset
+		for(AbstractPlace p: initial.getPlaces()){
+			System.out.println(p);
+			assertTrue(stateset.getPlaces().contains(p));
+		}
+		for(AbstractTransition t: initial.getTransitions()){
+			System.out.println(t);
+			assertTrue(stateset.getTransitions().contains(t));
+		}
+		for(AbstractArc a: initial.getArcs()){
+			System.out.println(a);
+			assertTrue(stateset.getArcs().contains(a));
 		}
 	}
 
