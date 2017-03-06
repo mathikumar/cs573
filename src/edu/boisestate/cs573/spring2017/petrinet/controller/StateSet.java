@@ -43,7 +43,23 @@ public class StateSet {
 		places.add(p);
 	}
 	
+	public void addArcs(Iterable<AbstractArc> arcs){
+		for(AbstractArc a: arcs){
+			this.arcs.add(a);
+		}
+	}
 	
+	public void addTransitions(Iterable<AbstractTransition> trans){
+		for(AbstractTransition t: trans){
+			transitions.add(t);
+		}
+	}
+	
+	public void addPlaces(Iterable<AbstractPlace> places){
+		for(AbstractPlace p: places){
+			this.places.add(p);
+		}
+	}	
 	
 	public ArrayList<AbstractArc> getArcs() {
 		return arcs;

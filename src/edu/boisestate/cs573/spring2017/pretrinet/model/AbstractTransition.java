@@ -5,6 +5,10 @@ import edu.boisestate.cs573.spring2017.pretrinet.model.AbstractGraphNode;
 public class AbstractTransition extends AbstractGraphNode {
 	private Boolean firable;
 
+	public AbstractTransition(Integer id, Integer x, Integer y, String name) {
+		super(id, x, y, name);
+	}
+	
 	public AbstractTransition(Integer x, Integer y) {
 		super(x, y);
 	}
@@ -21,6 +25,9 @@ public class AbstractTransition extends AbstractGraphNode {
 		return firable;
 	}
 	
-	
+	@Override
+	public String toString(){
+		return "Transition \""+this.getName() + "\"("+this.getID()+")";
+	}	
 
 }

@@ -32,6 +32,7 @@ public class BaseController implements IController {
 	public Boolean newNet() {
 		this.petrinet = new PetriNet();
 		HistoryProvider.reset();
+		notifyStateListeners();
 		return true;
 	}
 
