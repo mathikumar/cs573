@@ -28,7 +28,7 @@ public class PetriNet
 		return true;
 	}
 	
-	// TODO: why do we need this?
+	/*// TODO: why do we need this?
 	public Boolean addPlace(Place p){
 		places.put(IdGenerator.getUniqueIdentifier(),p);
 		return true;
@@ -42,7 +42,7 @@ public class PetriNet
 	public Boolean addArc(Arc a){
 		arcs.put(IdGenerator.getUniqueIdentifier(),a);
 		return true;
-	}
+	}*/
 		
 	public Boolean createPlace(String name, int tokenN, int x, int y){
 		
