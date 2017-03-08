@@ -119,7 +119,7 @@ public class XmlInputOutput {
 			rootElement.appendChild(places);
 
 			// add each place element
-			for (Place pla : p.getPlaces().values()) {
+			for (Place pla : p.getPlaces()) {
 				Element placeE = doc.createElement("place");
 				placeE.setAttribute("id", String.valueOf(pla.getID()));
 				placeE.setAttribute("name", pla.getName());
@@ -135,7 +135,7 @@ public class XmlInputOutput {
 			rootElement.appendChild(transitions);
 
 			// add each transition element
-			for (Transition tran : p.getTransitions().values()) {
+			for (Transition tran : p.getTransitions()) {
 				Element transitionE = doc.createElement("transition");
 				transitionE.setAttribute("id", String.valueOf(tran.getID()));
 				transitionE.setAttribute("name", tran.getName());
@@ -151,7 +151,7 @@ public class XmlInputOutput {
 			rootElement.appendChild(arcs);
 
 			// add each place element
-			for (Arc ar : p.getArcs().values()) {
+			for (Arc ar : p.getArcs()) {
 				Element arcE = doc.createElement("arc");
 				arcE.setAttribute("id", String.valueOf(ar.getID()));
 				arcE.setAttribute("name", ar.getName());

@@ -27,23 +27,7 @@ public class PetriNet
 		places.put(id,p);
 		return true;
 	}
-	
-	/*// TODO: why do we need this?
-	public Boolean addPlace(Place p){
-		places.put(IdGenerator.getUniqueIdentifier(),p);
-		return true;
-	}
-	
-	public Boolean addTransition(Transition t){
-		transitions.put(IdGenerator.getUniqueIdentifier(),t);
-		return true;
-	}
-	
-	public Boolean addArc(Arc a){
-		arcs.put(IdGenerator.getUniqueIdentifier(),a);
-		return true;
-	}*/
-		
+			
 	public Boolean createPlace(String name, int tokenN, int x, int y){
 		
 		return this.createPlace(IdGenerator.getUniqueIdentifier(), name, tokenN, x, y);
@@ -101,7 +85,7 @@ public class PetriNet
     
     public boolean setArcWeight(int id, int weight)
     {
-    	if(arcs.get(id) != null){
+    	if(arcs.containsKey(id)){
     		arcs.get(id).setWeight(weight);
     		return true;
     	} else {
@@ -111,7 +95,7 @@ public class PetriNet
     
     public boolean setPlaceTokenNumber(int id, int tokenNumber)
     {
-    	if(places.get(id) != null){
+    	if(places.containsKey(id)){
     		places.get(id).setNumberOfTokens(tokenNumber);
     		return true;
     	} else {
@@ -144,7 +128,7 @@ public class PetriNet
     
     public boolean fire(int id)
     {
-    	if(transitions.get(id) != null){	
+    	if(transitions.containsKey(id)){	
     		return transitions.get(id).fire();
     	} else {
     		return false;
@@ -154,18 +138,74 @@ public class PetriNet
     
     public boolean delete(int id)
     {
-    	//TODO
-    	return true;
+    	GraphElement gE = getGraphElementById(id);
+    	if(gE != null){
+    		if(gE.getClass() == Arc.class){
+    			return deleteArc((Arc)gE);
+    		} else if(gE.getClass() == Transition.class){
+    			return deleteTransition((Transition)gE);
+    		} else if(gE.getClass() == Place.class){ 
+    			return deletePlace((Place)gE);
+    		}    	
+    	}
+    	
+    	return false;
+    }
+    
+    private boolean deleteArc(Arc a){
+    	
+    	boolean result = true;
+    	result = result && a.getSource().removeArc(a.getID());
+    	result = result && a.getTarget().removeArc(a.getID());
+    	result = result && arcs.containsKey(a.getID());
+    	
+    	if(arcs.containsKey(a.getID())){
+    		arcs.remove(a.getID());
+    	}
+    	
+    	return result;
+    }
+    
+    private boolean deleteTransition(Transition t){
+    	boolean result = true;
+    	
+    	for(Arc a: t.getArcs()){
+    		result = result && deleteArc(a);
+    	}
+    	
+    	result = result && transitions.containsKey(t.getID());
+    	
+    	if(transitions.containsKey(t.getID())){
+    		transitions.remove(t.getID());
+    	}
+    	
+    	return result;
+    }
+    
+    private boolean deletePlace(Place p){
+    	boolean result = true;
+    	
+    	for(Arc a: p.getArcs()){
+    		result = result && deleteArc(a);
+    	}
+    	
+    	result = result && places.containsKey(p.getID());
+    	
+    	if(places.containsKey(p.getID())){
+    		places.remove(p.getID());
+    	}
+    	
+    	return result;
     }
     
     public GraphElement getGraphElementById(int id){
     	
     	GraphElement gE = null;
-    	if(places.get(id) != null){
+    	if(places.containsKey(id)){
     		gE = places.get(id);
-    	} else if(transitions.get(id) != null){
+    	} else if(transitions.containsKey(id)){
     		gE = transitions.get(id);
-    	} else if(arcs.get(id) != null){
+    	} else if(arcs.containsKey(id)){
     		gE = arcs.get(id);
     	}
     	return gE;
@@ -173,24 +213,29 @@ public class PetriNet
     
 	public PetriNet getDeepCopy()
 	{
-		PetriNet newNet = this;
-		//TODO
+		String fileName = "tmp.xml.tmp";
+		XmlInputOutput.printModel(this, fileName);
+		PetriNet newNet = XmlInputOutput.readModel(fileName);
+		
 		return newNet;
 	}
-	public HashMap<Integer,Arc> getArcs()
+	public ArrayList<Arc> getArcs()
 	{
-		return this.arcs;
+		ArrayList<Arc> tmp = new ArrayList<>(arcs.values());
+		return tmp;
 	}
 	
-	public HashMap<Integer,Place> getPlaces()
+	public ArrayList<Place> getPlaces()
 	{
-		return this.places;
+		ArrayList<Place> tmp = new ArrayList<>(places.values());
+		return tmp;
 	}
 	
 	
-	public HashMap<Integer,Transition> getTransitions()
+	public ArrayList<Transition> getTransitions()
 	{
-		return this.transitions;
+		ArrayList<Transition> tmp = new ArrayList<>(transitions.values());
+		return tmp;
 	}
 	
 	public List<AbstractTransition> getAbstractTransitions()

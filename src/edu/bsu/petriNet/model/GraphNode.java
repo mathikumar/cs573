@@ -1,6 +1,7 @@
 package edu.bsu.petriNet.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public abstract class GraphNode extends GraphElement
@@ -9,7 +10,7 @@ public abstract class GraphNode extends GraphElement
 	private Integer x = 0;
 	private Integer y = 0;
 
-	private HashSet<Arc> arcs;
+	private HashMap<Integer,Arc> arcs;
 	
 	//Should never be instantiated
 	public GraphNode(int id, String name, int x, int y)
@@ -17,7 +18,7 @@ public abstract class GraphNode extends GraphElement
 		super(id, name);
 		setX(x);
 		setY(y);
-		this.arcs =((new HashSet<Arc>()));
+		this.arcs =((new HashMap<>()));
 	}
 		
 	public Integer getX()
@@ -42,19 +43,28 @@ public abstract class GraphNode extends GraphElement
 
 	public void addArc(Arc a)
 	{
-		this.arcs.add(a);
+		this.arcs.put(a.getID(), a);
 	}
 	
 	
-	public HashSet<Arc> getArcs()
+	public ArrayList<Arc> getArcs()
 	{
-		return arcs;
+		ArrayList<Arc> tmp = new ArrayList<>(arcs.values());
+		return tmp;
 	}
 
-
-	public HashSet<Arc> getIncomingArcs()
+	public boolean removeArc(int id)
 	{
-		HashSet<Arc> result = new HashSet<>();
+		if(arcs.containsKey(id)){
+			arcs.remove(id);
+			return true;
+		}
+		return false;
+	}
+
+	public ArrayList<Arc> getIncomingArcs()
+	{
+		ArrayList<Arc> result = new ArrayList<>();
 		
 		for(Arc a : this.getArcs())
 		{
@@ -63,9 +73,9 @@ public abstract class GraphNode extends GraphElement
 		return result;
 	}
 	
-	public HashSet<Arc> getOutGoingArcs()
+	public ArrayList<Arc> getOutGoingArcs()
 	{
-		HashSet<Arc> result = new HashSet<>();
+		ArrayList<Arc> result = new ArrayList<>();
 		
 		for(Arc a : this.getArcs())
 		{
