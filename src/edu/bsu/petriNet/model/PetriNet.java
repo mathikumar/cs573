@@ -101,24 +101,45 @@ public class PetriNet
     
     public boolean setArcWeight(int id, int weight)
     {
-    	//TODO
-    	return true;
+    	if(arcs.get((Integer)id) != null){
+    		arcs.get((Integer)id).setWeight(weight);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
     public boolean setPlaceTokenNumber(int id, int tokenNumber)
     {
-    	//TODO
-    	return true;
+    	if(places.get((Integer)id) != null){
+    		places.get((Integer)id).setNumberOfTokens(tokenNumber);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
+    
     public boolean setName(int id , String name){
-    	//TODO
-    	return true;
+    	
+    	GraphElement gE = getGraphElementById(id);
+    	if(gE != null){
+    		gE.setName(name);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
     public boolean setPosition(int id, int x, int y)
     {
-    	//TODO
-    	return true;
+    	GraphNode gN = (GraphNode)getGraphElementById(id);
+    	if(gN != null){
+    		gN.setX(x);
+    		gN.setY(y);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
     public boolean fire(int transitionId)
@@ -132,6 +153,19 @@ public class PetriNet
     {
     	//TODO
     	return true;
+    }
+    
+    public GraphElement getGraphElementById(int id){
+    	
+    	GraphElement gE = null;
+    	if(places.get((Integer)id) != null){
+    		gE = places.get((Integer)id);
+    	} else if(transitions.get((Integer)id) != null){
+    		gE = transitions.get((Integer)id);
+    	} else if(arcs.get((Integer)id) != null){
+    		gE = arcs.get((Integer)id);
+    	}
+    	return gE;
     }
     
 	public PetriNet getDeepCopy()
