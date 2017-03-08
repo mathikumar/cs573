@@ -5,7 +5,7 @@ public class Place extends GraphNode
 {
 	private int	numberOfTokens;
 	
-	public Place(int id, String name, int numberofTokens, int x, int y)
+	protected Place(int id, String name, int numberofTokens, int x, int y)
 	{
 		super(id,name, x, y);
 		

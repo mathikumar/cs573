@@ -30,12 +30,16 @@ public class PetriNetUtil {
 			String name = (String)v.getValue();
 			if(v.getStyle()!=null && v.getStyle().equals("ellipse")){
 				mxGeometry geo = v.getGeometry();
-				Place place = new Place(Integer.parseInt(v.getId()),name,0,(int)geo.getX(),(int)geo.getY());
+				Place place = new Place(Integer.parseInt(v.getId()),name,0);
+				place.setX((int)geo.getX());
+				place.setY((int)geo.getY());
 				places.put(v.getId(),place);
 			} else{
 				mxGeometry geo = v.getGeometry();
 				
-				Transition transition = new Transition(Integer.parseInt(v.getId()),name,(int)geo.getX(),(int)geo.getY());
+				Transition transition = new Transition(Integer.parseInt(v.getId()),name);
+				transition.setX((int)geo.getX());
+				transition.setY((int)geo.getY());
 				transitions.put(v.getId(),transition);
 			}
 		}

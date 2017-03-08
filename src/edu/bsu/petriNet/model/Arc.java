@@ -6,7 +6,7 @@ public class Arc extends GraphElement
 	private GraphNode target;
 	private int weight=1;
 	
-	public Arc(int id, String name, GraphNode source, GraphNode target)
+	protected Arc(int id, String name, GraphNode source, GraphNode target)
 	{
 		super(id,name);
 		this.source = source;
