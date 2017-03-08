@@ -12,9 +12,11 @@ public abstract class GraphNode extends GraphElement
 	private HashSet<Arc> arcs;
 	
 	//Should never be instantiated
-	public GraphNode(int id, String name)
+	public GraphNode(int id, String name, int x, int y)
 	{
 		super(id, name);
+		setX(x);
+		setY(y);
 		this.arcs =((new HashSet<Arc>()));
 	}
 		

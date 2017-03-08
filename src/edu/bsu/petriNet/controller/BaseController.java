@@ -35,14 +35,14 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean addTransition(AbstractTransition t) {
-		petrinet.createTransition(t.getName());
+		petrinet.createTransition(t.getName(),t.getX(),t.getY());
 		notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean addPlace(AbstractPlace p) {
-		petrinet.createPlace(p.getName(), p.getTokens());
+		petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
 		notifyStateListeners();
 		return null;
 	}

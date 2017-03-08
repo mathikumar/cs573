@@ -47,8 +47,10 @@ public class XmlInputOutput {
 					int id = Integer.parseInt(eElement.getAttribute("id"));
 					String name = eElement.getAttribute("name");
 					int tokenN = Integer.parseInt(eElement.getAttribute("numberOfTokens"));
-
-					p.createPlace(id, name, tokenN);
+					int x = Integer.parseInt(eElement.getAttribute("x"));
+					int y = Integer.parseInt(eElement.getAttribute("y"));
+					
+					p.createPlace(id, name, tokenN, x, y);
 				}
 			}
 
@@ -63,8 +65,11 @@ public class XmlInputOutput {
 
 					int id = Integer.parseInt(eElement.getAttribute("id"));
 					String name = eElement.getAttribute("name");
+					int x = Integer.parseInt(eElement.getAttribute("x"));
+					int y = Integer.parseInt(eElement.getAttribute("y"));
 
-					p.createTransition(id, name);
+
+					p.createTransition(id, name, x, y);
 				}
 			}
 
@@ -119,7 +124,9 @@ public class XmlInputOutput {
 				placeE.setAttribute("id", String.valueOf(pla.getID()));
 				placeE.setAttribute("name", pla.getName());
 				placeE.setAttribute("numberOfTokens", String.valueOf(pla.getNumberOfTokens()));
-
+				placeE.setAttribute("x", String.valueOf(pla.getX()));
+				placeE.setAttribute("y", String.valueOf(pla.getX()));
+				
 				places.appendChild(placeE);
 			}
 
@@ -132,6 +139,9 @@ public class XmlInputOutput {
 				Element transitionE = doc.createElement("transition");
 				transitionE.setAttribute("id", String.valueOf(tran.getID()));
 				transitionE.setAttribute("name", tran.getName());
+				transitionE.setAttribute("x", String.valueOf(tran.getX()));
+				transitionE.setAttribute("y", String.valueOf(tran.getX()));
+				
 
 				transitions.appendChild(transitionE);
 			}

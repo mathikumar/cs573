@@ -21,13 +21,14 @@ public class PetriNet
 		transitions = new HashMap<>();
 	}
 	
-	protected Boolean createPlace(int id, String name, int tokenN){
+	protected Boolean createPlace(int id, String name, int tokenN, int x, int y){
 		
-		Place p = new Place(id, name, tokenN);
+		Place p = new Place(id, name, tokenN, x, y);
 		places.put(id,p);
 		return true;
 	}
 	
+	// TODO: why do we need this?
 	public Boolean addPlace(Place p){
 		places.put(IdGenerator.getUniqueIdentifier(),p);
 		return true;
@@ -43,21 +44,21 @@ public class PetriNet
 		return true;
 	}
 		
-	public Boolean createPlace(String name, int tokenN){
+	public Boolean createPlace(String name, int tokenN, int x, int y){
 		
-		return this.createPlace(IdGenerator.getUniqueIdentifier(), name, tokenN);
+		return this.createPlace(IdGenerator.getUniqueIdentifier(), name, tokenN, x, y);
 	}
 	
-	protected Boolean createTransition(int id, String name){
+	protected Boolean createTransition(int id, String name, int x, int y){
 		
-		Transition t = new Transition(id, name);
+		Transition t = new Transition(id, name, x, y);
 		transitions.put(id,t);
 		return true;
 	}
 	
-    public Boolean createTransition(String name){
+    public Boolean createTransition(String name, int x, int y){
 		
-		return this.createTransition(IdGenerator.getUniqueIdentifier(), name);
+		return this.createTransition(IdGenerator.getUniqueIdentifier(), name, x, y);
 	}
 	
     protected Boolean createArc(int id, String name, int sourceId, int targeId, int weight){

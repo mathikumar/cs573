@@ -29,16 +29,13 @@ public class PetriNetUtil {
 			mxCell v = (mxCell)vertex;
 			String name = (String)v.getValue();
 			if(v.getStyle()!=null && v.getStyle().equals("ellipse")){
-				Place place = new Place(Integer.parseInt(v.getId()),name,0);
 				mxGeometry geo = v.getGeometry();
-				place.setX((int)geo.getX());
-				place.setY((int)geo.getY());
+				Place place = new Place(Integer.parseInt(v.getId()),name,0,(int)geo.getX(),(int)geo.getY());
 				places.put(v.getId(),place);
 			} else{
-				Transition transition = new Transition(Integer.parseInt(v.getId()),name);
 				mxGeometry geo = v.getGeometry();
-				transition.setX((int)geo.getX());
-				transition.setY((int)geo.getY());
+				
+				Transition transition = new Transition(Integer.parseInt(v.getId()),name,(int)geo.getX(),(int)geo.getY());
 				transitions.put(v.getId(),transition);
 			}
 		}
