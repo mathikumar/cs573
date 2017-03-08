@@ -101,8 +101,8 @@ public class PetriNet
     
     public boolean setArcWeight(int id, int weight)
     {
-    	if(arcs.get((Integer)id) != null){
-    		arcs.get((Integer)id).setWeight(weight);
+    	if(arcs.get(id) != null){
+    		arcs.get(id).setWeight(weight);
     		return true;
     	} else {
     		return false;
@@ -111,8 +111,8 @@ public class PetriNet
     
     public boolean setPlaceTokenNumber(int id, int tokenNumber)
     {
-    	if(places.get((Integer)id) != null){
-    		places.get((Integer)id).setNumberOfTokens(tokenNumber);
+    	if(places.get(id) != null){
+    		places.get(id).setNumberOfTokens(tokenNumber);
     		return true;
     	} else {
     		return false;
@@ -142,10 +142,13 @@ public class PetriNet
     	}
     }
     
-    public boolean fire(int transitionId)
+    public boolean fire(int id)
     {
-    	//TODO
-    	return true;
+    	if(transitions.get(id) != null){	
+    		return transitions.get(id).fire();
+    	} else {
+    		return false;
+    	}
     }
     
     
@@ -158,12 +161,12 @@ public class PetriNet
     public GraphElement getGraphElementById(int id){
     	
     	GraphElement gE = null;
-    	if(places.get((Integer)id) != null){
-    		gE = places.get((Integer)id);
-    	} else if(transitions.get((Integer)id) != null){
-    		gE = transitions.get((Integer)id);
-    	} else if(arcs.get((Integer)id) != null){
-    		gE = arcs.get((Integer)id);
+    	if(places.get(id) != null){
+    		gE = places.get(id);
+    	} else if(transitions.get(id) != null){
+    		gE = transitions.get(id);
+    	} else if(arcs.get(id) != null){
+    		gE = arcs.get(id);
     	}
     	return gE;
     }
