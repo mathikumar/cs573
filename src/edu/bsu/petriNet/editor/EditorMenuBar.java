@@ -42,13 +42,13 @@ import edu.bsu.petriNet.editor.EditorActions.HistoryAction;
 import edu.bsu.petriNet.editor.EditorActions.ImportAction;
 import edu.bsu.petriNet.editor.EditorActions.KeyValueAction;
 import edu.bsu.petriNet.editor.EditorActions.NewAction;
-import edu.bsu.petriNet.controller.FileMenuController.OpenAction;
+import edu.bsu.petriNet.editor.EditorActions.OpenAction;
 import edu.bsu.petriNet.editor.EditorActions.PageBackgroundAction;
 import edu.bsu.petriNet.editor.EditorActions.PageSetupAction;
 import edu.bsu.petriNet.editor.EditorActions.PrintAction;
 import edu.bsu.petriNet.editor.EditorActions.PromptPropertyAction;
 import edu.bsu.petriNet.editor.EditorActions.PromptValueAction;
-import edu.bsu.petriNet.controller.FileMenuController.SaveAction;
+import edu.bsu.petriNet.editor.EditorActions.SaveAction;
 import edu.bsu.petriNet.editor.EditorActions.ScaleAction;
 import edu.bsu.petriNet.editor.EditorActions.SelectShortestPathAction;
 import edu.bsu.petriNet.editor.EditorActions.SelectSpanningTreeAction;
@@ -66,6 +66,12 @@ import edu.bsu.petriNet.editor.EditorActions.TogglePropertyItem;
 import edu.bsu.petriNet.editor.EditorActions.ToggleRulersItem;
 import edu.bsu.petriNet.editor.EditorActions.WarningAction;
 import edu.bsu.petriNet.editor.EditorActions.ZoomPolicyAction;
+import edu.bsu.petriNet.editor.EditorActions.LoadExamplesAction;
+import edu.bsu.petriNet.editor.EditorActions.SelectAction;
+import edu.bsu.petriNet.editor.EditorActions.ModifyAction;
+import edu.bsu.petriNet.editor.EditorActions.CheckAction;
+import edu.bsu.petriNet.editor.EditorActions.ViewAction;
+import edu.bsu.petriNet.editor.EditorActions.SimulateAction;
 
 public class EditorMenuBar extends JMenuBar
 {
@@ -94,19 +100,24 @@ public class EditorMenuBar extends JMenuBar
 
 		menu.add(editor.bind(mxResources.get("new"), new NewAction(), "/edu/bsu/petriNet/images/new.gif"));
 		menu.add(editor.bind(mxResources.get("openFile"), new OpenAction(), "/edu/bsu/petriNet/images/open.gif"));
-		menu.add(editor.bind(mxResources.get("importStencil"), new ImportAction(), "/edu/bsu/petriNet/images/open.gif"));
+		submenu = (JMenu) menu.add(new JMenu(mxResources.get("load")));
+		submenu.add(editor.bind("Vending Machine", new LoadExamplesAction(1)));
+		submenu.add(editor.bind("Dining Philosophers", new LoadExamplesAction(2)));
+		submenu.add(editor.bind("Communication Protocol", new LoadExamplesAction(3)));
+		submenu.add(editor.bind("Readers & Writers", new LoadExamplesAction(4)));
+		//menu.add(editor.bind(mxResources.get("importStencil"), new ImportAction(), "/edu/bsu/petriNet/images/open.gif"));
 
 		menu.addSeparator();
 
 		menu.add(editor.bind(mxResources.get("save"), new SaveAction(false), "/edu/bsu/petriNet/images/save.gif"));
-		menu.add(editor.bind(mxResources.get("saveAs"), new SaveAction(true), "/edu/bsu/petriNet/images/saveas.gif"));
+		//menu.add(editor.bind(mxResources.get("saveAs"), new SaveAction(true), "/edu/bsu/petriNet/images/saveas.gif"));
 
 		menu.addSeparator();
 
-		menu.add(editor.bind(mxResources.get("pageSetup"), new PageSetupAction(), "/edu/bsu/petriNet/images/pagesetup.gif"));
-		menu.add(editor.bind(mxResources.get("print"), new PrintAction(), "/edu/bsu/petriNet/images/print.gif"));
+		//menu.add(editor.bind(mxResources.get("pageSetup"), new PageSetupAction(), "/edu/bsu/petriNet/images/pagesetup.gif"));
+		//menu.add(editor.bind(mxResources.get("print"), new PrintAction(), "/edu/bsu/petriNet/images/print.gif"));
 
-		menu.addSeparator();
+		//menu.addSeparator();
 
 		menu.add(editor.bind(mxResources.get("exit"), new ExitAction()));
 
@@ -128,24 +139,44 @@ public class EditorMenuBar extends JMenuBar
 
 		menu.addSeparator();
 
-		menu.add(editor.bind(mxResources.get("selectAll"), mxGraphActions.getSelectAllAction()));
-		menu.add(editor.bind(mxResources.get("selectNone"), mxGraphActions.getSelectNoneAction()));
+		menu.add(editor.bind(mxResources.get("select"), new SelectAction()));
+		submenu = (JMenu) menu.add(new JMenu(mxResources.get("modify")));
+		submenu.add(editor.bind("Place", new ModifyAction(1)));
+		submenu.add(editor.bind("Transitions", new ModifyAction(2)));
+		submenu.add(editor.bind("Arcs", new ModifyAction(3)));
+		
+		// Creates the analysis menu
+		menu = add(new JMenu(mxResources.get("analysis")));
+		
+		submenu = (JMenu) menu.add(new JMenu(mxResources.get("check")));
+		submenu.add(editor.bind("Coverability Tree", new CheckAction(1)));
+		submenu.add(editor.bind("Bounded", new CheckAction(2)));
+		submenu.add(editor.bind("Dead Lock", new CheckAction(3)));
+		
+		submenu = (JMenu) menu.add(new JMenu(mxResources.get("view")));
+		submenu.add(editor.bind("Coverability Tree", new ViewAction()));
+		
+		menu.add(editor.bind(mxResources.get("simulate"), new SimulateAction()));
+		
+		
+		//menu.add(editor.bind(mxResources.get("selectAll"), mxGraphActions.getSelectAllAction()));
+		//menu.add(editor.bind(mxResources.get("selectNone"), mxGraphActions.getSelectNoneAction()));
 
-		menu.addSeparator();
+		//menu.addSeparator();
 
-		menu.add(editor.bind(mxResources.get("warning"), new WarningAction()));
-		menu.add(editor.bind(mxResources.get("edit"), mxGraphActions.getEditAction()));
+		//menu.add(editor.bind(mxResources.get("warning"), new WarningAction()));
+		//menu.add(editor.bind(mxResources.get("edit"), mxGraphActions.getEditAction()));
 
 		// Creates the view menu
-		menu = add(new JMenu(mxResources.get("view")));
+		//menu = add(new JMenu(mxResources.get("view")));
 
-		JMenuItem item = menu.add(new TogglePropertyItem(graphComponent, mxResources.get("pageLayout"), "PageVisible", true,
-				new ActionListener()
-				{
+		//JMenuItem item = menu.add(new TogglePropertyItem(graphComponent, mxResources.get("pageLayout"), "PageVisible", true,
+		//		new ActionListener()
+		//		{
 					/**
 					 * 
 					 */
-					public void actionPerformed(ActionEvent e)
+					/*public void actionPerformed(ActionEvent e)
 					{
 						if (graphComponent.isPageVisible() && graphComponent.isCenterPage())
 						{
@@ -156,31 +187,31 @@ public class EditorMenuBar extends JMenuBar
 							graphComponent.getGraphControl().updatePreferredSize();
 						}
 					}
-				}));
+				}));*/
 
-		item.addActionListener(new ActionListener()
-		{
+	//	item.addActionListener(new ActionListener()
+	//	{
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
-			public void actionPerformed(ActionEvent e)
-			{
-				if (e.getSource() instanceof TogglePropertyItem)
-				{
-					final mxGraphComponent graphComponent = editor.getGraphComponent();
-					TogglePropertyItem toggleItem = (TogglePropertyItem) e.getSource();
+	//		public void actionPerformed(ActionEvent e)
+	//		{
+	//			if (e.getSource() instanceof TogglePropertyItem)
+	//			{
+	//				final mxGraphComponent graphComponent = editor.getGraphComponent();
+	//				TogglePropertyItem toggleItem = (TogglePropertyItem) e.getSource();
 
-					if (toggleItem.isSelected())
-					{
+	//				if (toggleItem.isSelected())
+	//				{
 						// Scrolls the view to the center
-						SwingUtilities.invokeLater(new Runnable()
-						{
+	//					SwingUtilities.invokeLater(new Runnable()
+	//					{
 							/*
 							 * (non-Javadoc)
 							 * @see java.lang.Runnable#run()
 							 */
-							public void run()
+						/*	public void run()
 							{
 								graphComponent.scrollToCenter(true);
 								graphComponent.scrollToCenter(false);
@@ -199,11 +230,11 @@ public class EditorMenuBar extends JMenuBar
 					}
 				}
 			}
-		});
+		});*/
 
 		//menu.add(new TogglePropertyItem(graphComponent, mxResources.get("antialias"), "AntiAlias", true));
 
-		menu.addSeparator();
+		/*menu.addSeparator();
 
 		menu.add(new ToggleGridItem(editor, mxResources.get("grid")));
 		menu.add(new ToggleRulersItem(editor, mxResources.get("rulers")));
@@ -330,14 +361,14 @@ public class EditorMenuBar extends JMenuBar
 		menu = add(new JMenu(mxResources.get("options")));
 
 		submenu = (JMenu) menu.add(new JMenu(mxResources.get("display")));
-		submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("buffering"), "TripleBuffered", true));
+		submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("buffering"), "TripleBuffered", true)); */
 
-		submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("preferPageSize"), "PreferPageSize", true, new ActionListener()
-		{
+	//	submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("preferPageSize"), "PreferPageSize", true, new ActionListener()
+	//	{
 			/**
 			 * 
 			 */
-			public void actionPerformed(ActionEvent e)
+	/*		public void actionPerformed(ActionEvent e)
 			{
 				graphComponent.zoomAndCenter();
 			}
@@ -358,14 +389,14 @@ public class EditorMenuBar extends JMenuBar
 		submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("centerZoom"), "CenterZoom", true));
 		submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("zoomToSelection"), "KeepSelectionVisibleOnZoom", true));
 
-		submenu.addSeparator();
+		submenu.addSeparator();*/
 
-		submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("centerPage"), "CenterPage", true, new ActionListener()
-		{
+	//	submenu.add(new TogglePropertyItem(graphComponent, mxResources.get("centerPage"), "CenterPage", true, new ActionListener()
+	//	{
 			/**
 			 * 
 			 */
-			public void actionPerformed(ActionEvent e)
+			/*public void actionPerformed(ActionEvent e)
 			{
 				if (graphComponent.isPageVisible() && graphComponent.isCenterPage())
 				{
@@ -428,18 +459,18 @@ public class EditorMenuBar extends JMenuBar
 		// Creates the window menu
 		menu = add(new JMenu(mxResources.get("window")));
 
-		UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
+		UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels(); */
 
-		for (int i = 0; i < lafs.length; i++)
-		{
-			final String clazz = lafs[i].getClassName();
+	//	for (int i = 0; i < lafs.length; i++)
+	//	{
+	//		final String clazz = lafs[i].getClassName();
 			
-			menu.add(new AbstractAction(lafs[i].getName())
-			{
+	//		menu.add(new AbstractAction(lafs[i].getName())
+	//		{
 				/**
 				 * 
 				 */
-				private static final long serialVersionUID = 7588919504149148501L;
+	/*			private static final long serialVersionUID = 7588919504149148501L;
 
 				public void actionPerformed(ActionEvent e)
 				{
@@ -498,23 +529,23 @@ public class EditorMenuBar extends JMenuBar
 		menu.add(editor.bind("Get cut edges", new AnalyzeGraph(AnalyzeType.GET_CUT_EDGES, aGraph)));
 		menu.add(editor.bind("Get sources", new AnalyzeGraph(AnalyzeType.GET_SOURCES, aGraph)));
 		menu.add(editor.bind("Get sinks", new AnalyzeGraph(AnalyzeType.GET_SINKS, aGraph)));
-		menu.add(editor.bind("Is biconnected", new AnalyzeGraph(AnalyzeType.IS_BICONNECTED, aGraph)));
+		menu.add(editor.bind("Is biconnected", new AnalyzeGraph(AnalyzeType.IS_BICONNECTED, aGraph)));*/
 
 		// Creates the help menu
 		menu = add(new JMenu(mxResources.get("help")));
 
-		item = menu.add(new JMenuItem(mxResources.get("aboutGraphEditor")));
-		item.addActionListener(new ActionListener()
-		{
+	//	item = menu.add(new JMenuItem(mxResources.get("aboutGraphEditor")));
+	//	item.addActionListener(new ActionListener()
+	//	{
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
-			public void actionPerformed(ActionEvent e)
+	/*		public void actionPerformed(ActionEvent e)
 			{
 				editor.about();
 			}
-		});
+		});*/
 	}
 
 	/**
@@ -869,13 +900,13 @@ public class EditorMenuBar extends JMenuBar
 					dialogText = "Configure indegree analysis";
 				else if (graphType == GraphType.OUTDEGREE)
 					dialogText = "Configure outdegree analysis";
-				/*GraphConfigDialog dialog = new GraphConfigDialog(graphType, dialogText);
+				GraphConfigDialog dialog = new GraphConfigDialog(graphType, dialogText);
 				dialog.configureLayout(graph, graphType, aGraph);
 				dialog.setModal(true);
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				Dimension frameSize = dialog.getSize();
 				dialog.setLocation(screenSize.width / 2 - (frameSize.width / 2), screenSize.height / 2 - (frameSize.height / 2));
-				dialog.setVisible(true);*/
+				dialog.setVisible(true);
 			}
 		}
 	}
