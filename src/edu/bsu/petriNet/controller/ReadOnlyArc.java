@@ -33,4 +33,8 @@ public class ReadOnlyArc implements ReadOnlyGraphElement {
 	public Integer getId() {
 		return arc.getID();
 	}
+	
+	public String getName() {
+		return arc.getName();
+	}
 }

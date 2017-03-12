@@ -25,4 +25,8 @@ public class ReadOnlyTransition implements ReadOnlyGraphElement {
 	public Integer getY() {
 		return transition.getY();
 	}
+	
+	public String getName() {
+		return transition.getName();
+	}
 }

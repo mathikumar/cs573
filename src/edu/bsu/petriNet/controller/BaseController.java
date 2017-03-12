@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.mxgraph.swing.mxGraphComponent;
@@ -262,7 +263,34 @@ public class BaseController implements IController {
 	 * @return An mxGraph representing this controller's Petri net.
 	 */
 	public mxGraph convertToGraph() {
-		return PetriNetUtil.convertPetriNetToMxGraph(petrinet);
+		mxGraph graph = new mxGraph();
+		graph.getModel().beginUpdate();
+		Object parent = graph.getDefaultParent();
+		try
+		{
+			Map<Integer,Object> nodes = new HashMap<Integer,Object>();
+			for(ReadOnlyPlace place : viewPlaces()){
+				//TODO size
+				Object v = graph.insertVertex(parent, place.getId().toString(), place.getName(), place.getX(), place.getY(), 70, 70,"shape=ellipse;perimeter=ellipsePerimeter");	
+				nodes.put(place.getId(),v);
+			}
+			
+			for(ReadOnlyTransition transition : viewTransitions()){
+				//TODO size
+				Object t = graph.insertVertex(parent, transition.getId().toString(), transition.getName(), transition.getX(), transition.getY(), 40, 70);
+				nodes.put(transition.getId(), t);
+			}
+					
+			for(ReadOnlyArc arc: viewArcs()){
+				graph.insertEdge(parent, arc.getId().toString(), arc.getName(), nodes.get(arc.getOrigin()), nodes.get(arc.getTarget()));
+			}
+		}
+		finally
+		{
+			graph.getModel().endUpdate();
+			
+		}
+		return graph;
 	}
 	
 	/**

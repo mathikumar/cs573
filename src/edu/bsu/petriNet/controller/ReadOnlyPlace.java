@@ -29,4 +29,8 @@ public class ReadOnlyPlace implements ReadOnlyGraphElement {
 	public Integer getY() {
 		return place.getY();
 	}
+	
+	public String getName() {
+		return place.getName();
+	}
 }

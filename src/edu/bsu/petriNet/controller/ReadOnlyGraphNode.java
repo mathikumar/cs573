@@ -25,4 +25,8 @@ public class ReadOnlyGraphNode implements ReadOnlyGraphElement {
 	public Integer getY() {
 		return node.getY();
 	}
+	
+	public String getName() {
+		return node.getName();
+	}
 }
