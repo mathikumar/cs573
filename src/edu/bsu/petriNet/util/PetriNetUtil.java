@@ -18,6 +18,9 @@ import edu.bsu.petriNet.model.Place;
 import edu.bsu.petriNet.model.Transition;
 
 public class PetriNetUtil {
+	
+	// Disabled. Not needed and not working at the moment anyway.
+	/*
 	public static PetriNet convertMxGraphToPetriNet(mxGraph graph){
 		Object parent = graph.getDefaultParent();
 		Object[] vertices = graph.getChildVertices(parent);
@@ -72,6 +75,7 @@ public class PetriNetUtil {
 		
 		return petriNet;
 	}
+	*/
 	
 	public static mxGraph convertPetriNetToMxGraph(PetriNet petriNet){
 		mxGraph graph = new mxGraph();

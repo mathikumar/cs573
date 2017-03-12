@@ -13,6 +13,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -41,6 +42,9 @@ import com.mxgraph.layout.mxParallelEdgeLayout;
 import com.mxgraph.layout.mxPartitionLayout;
 import com.mxgraph.layout.mxStackLayout;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
+import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.mxGraphOutline;
 import com.mxgraph.swing.handler.mxKeyboardHandler;
@@ -56,6 +60,15 @@ import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxUndoableEdit.mxUndoableChange;
 import com.mxgraph.view.mxGraph;
 
+import edu.bsu.petriNet.controller.BaseController;
+import edu.bsu.petriNet.controller.ReadOnlyGraphElement;
+import edu.bsu.petriNet.controller.ReadOnlyGraphNode;
+import edu.bsu.petriNet.controller.ReadOnlyPlace;
+import edu.bsu.petriNet.helper.IdGenerator;
+import edu.bsu.petriNet.model.AbstractPlace;
+import edu.bsu.petriNet.model.AbstractTransition;
+import edu.bsu.petriNet.model.PetriNet;
+
 public class BasicGraphEditor extends JPanel
 {
 
@@ -63,6 +76,11 @@ public class BasicGraphEditor extends JPanel
 	 * 
 	 */
 	private static final long serialVersionUID = -6561623072112577140L;
+	
+	/**
+	 * The PetriNet currently being edited.
+	 */
+	private BaseController petriNetController;
 
 	/**
 	 * Adds required resources for i18n
@@ -147,8 +165,72 @@ public class BasicGraphEditor extends JPanel
 	protected mxIEventListener changeTracker = new mxIEventListener()
 	{
 		public void invoke(Object source, mxEventObject evt)
-		{
+		{			
+			// HACK: We want user operations to apply to the PetriNet
+			// immediately, not the graph representation of it. Because there
+			// are very few mxEvents that actually get fired, we use this
+			// listener to detect any change to the graph. Then we have to
+			// inspect the state of the graph to see what the change actually
+			// was...
+			mxGraphModel graph = (mxGraphModel)source;
+			
+			// First check for additions and movements
+			for (Entry<String, Object> entry : graph.getCells().entrySet()) {
+				mxCell cell = (mxCell)entry.getValue();
+				mxGeometry geom = cell.getGeometry();
+				if (geom != null) { // There are cells with no geometry, fortunately they're irrelevant
+					int cellX = (int)cell.getGeometry().getX();
+					int cellY = (int)cell.getGeometry().getY();
+					int id = Integer.parseInt(cell.getId());
+					ReadOnlyGraphNode node = petriNetController.viewNodeWithId(id);
+					if (node == null) {
+						// There's no node with this ID in the Petri net, so it must
+						// be a new node.
+						// HACK: there should be a better way to do this than
+						// checking the style.
+						String style = cell.getStyle();
+						if (style == null) {
+							// XXX: must be a transition, but should be able to check
+							// instead of defaulting...
+							petriNetController.addTransition(
+									new AbstractTransition(IdGenerator.getUniqueIdentifier(),
+											cellX,
+											cellY,
+											""));
+						} else if (style.equals("arrow")) {
+							// TODO: NYI: arcs
+							// (need a proper interface for adding them first...)
+							throw new UnsupportedOperationException("NYI: cannot add arcs via GUI");
+						} else if (style.equals("ellipse")) {
+							petriNetController.addPlace(
+									new AbstractPlace(IdGenerator.getUniqueIdentifier(),
+									cellX,
+									cellY,
+									0,""));
+						}
+					} else {
+						// A corresponding item exists in the Petri net, but it may
+						// have been moved
+						if ((int)node.getX() != cellX
+								|| (int)node.getY() != cellY) {
+							petriNetController.relocateNode(id,cellX,cellY);
+						}
+					}
+				}
+			}
+			
+			// Now we check for removed nodes: ones that exist in the Petri net
+			// but not the changed graph.
+			for (ReadOnlyGraphElement p : petriNetController.viewNodes()) {
+				if (graph.getCell(p.getId().toString()) == null) {
+					petriNetController.delete(p.getId());
+				}
+			}
+
+			// Now toss the graph!
+			resyncGraph();
 			setModified(true);
+
 		}
 	};
 
@@ -231,6 +313,27 @@ public class BasicGraphEditor extends JPanel
 		installHandlers();
 		installListeners();
 		updateTitle();
+		
+		// Create controller with an empty (new) Petri net
+		petriNetController = new BaseController();
+	}
+	
+	/**
+	 * Replaces the graph with a new one created from the Petri net, in order to
+	 * ensure consistency.
+	 */
+	private void resyncGraph() {
+		graphComponent.setGraph(petriNetController.convertToGraph());
+	}
+	
+	/**
+	 * Save the Petri net being edited under the specified filename.
+	 * 
+	 * @param filename
+	 * @throws java.io.IOException
+	 */
+	public void saveXml(String filename) throws java.io.IOException {
+		petriNetController.saveXml(filename);
 	}
 
 	/**

@@ -900,6 +900,7 @@ public class EditorMenuBar extends JMenuBar
 					dialogText = "Configure indegree analysis";
 				else if (graphType == GraphType.OUTDEGREE)
 					dialogText = "Configure outdegree analysis";
+				/*
 				GraphConfigDialog dialog = new GraphConfigDialog(graphType, dialogText);
 				dialog.configureLayout(graph, graphType, aGraph);
 				dialog.setModal(true);
@@ -907,6 +908,7 @@ public class EditorMenuBar extends JMenuBar
 				Dimension frameSize = dialog.getSize();
 				dialog.setLocation(screenSize.width / 2 - (frameSize.width / 2), screenSize.height / 2 - (frameSize.height / 2));
 				dialog.setVisible(true);
+				*/
 			}
 		}
 	}

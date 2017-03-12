@@ -62,10 +62,7 @@ public class FileMenuController {
 
 		protected void saveXml(BasicGraphEditor editor, String filename) throws IOException
 		{
-			mxGraphComponent graphComponent = editor.getGraphComponent();
-			mxGraph graph = graphComponent.getGraph();
-			PetriNet petriNet = PetriNetUtil.convertMxGraphToPetriNet(graph);
-			XmlInputOutput.printModel(petriNet, filename);
+			editor.saveXml(filename);
 		}
 
 		public void actionPerformed(ActionEvent e)
