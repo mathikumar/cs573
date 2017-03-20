@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
 
-import edu.bsu.petriNet.editor.BasicGraphEditor;
+import edu.bsu.petriNet.editor.BasicGraphEditorPanel;
 import edu.bsu.petriNet.helper.HistoryProvider;
 import edu.bsu.petriNet.model.AbstractArc;
 import edu.bsu.petriNet.model.AbstractGraphNode;
@@ -19,7 +17,6 @@ import edu.bsu.petriNet.model.AbstractTransition;
 import edu.bsu.petriNet.model.GraphNode;
 import edu.bsu.petriNet.model.PetriNet;
 import edu.bsu.petriNet.model.XmlInputOutput;
-import edu.bsu.petriNet.util.PetriNetUtil;
 
 public class BaseController implements IController {
 	private ArrayList<IStateListener> stateListeners;
@@ -136,9 +133,11 @@ public class BaseController implements IController {
 				}
 			}
 			//Fire one.
-			int target = this.random.nextInt(firables.keySet().size());
-			this.fire(firables.get(target));
-			notifyStateListeners();
+			if(firables.keySet().size() >0){
+				int target = this.random.nextInt(firables.keySet().size());
+				this.fire(firables.get(target));
+				notifyStateListeners();
+			}
 		}
 		return true;
 	}
@@ -184,123 +183,5 @@ public class BaseController implements IController {
 		}
 	}
 	
-	/**
-	 * Get a read-only view of the node in the Petri net with the specified
-	 * id (if it exists).
-	 * 
-	 * @param id The id of the element to view.
-	 * @return If an node with this id exists, a ReadOnlyGraphNode view of
-	 * 	that node is returned. If no node with this id exists, null is
-	 * 	returned.
-	 */
-	public ReadOnlyGraphNode viewNodeWithId(Integer id) {
-		GraphNode element = petrinet.getGraphNodeById(id);
-		if (element == null) {
-			return null;
-		} else {
-			return new ReadOnlyGraphNode(element);
-		}
-	}
 	
-	/**
-	 * Get a list of all nodes in the Petri net in read-only form.
-	 * 
-	 * @return A List of ReadOnlyGraphNodes in the Petri net.
-	 */
-	public List<ReadOnlyGraphElement> viewNodes() {
-		List<ReadOnlyGraphElement> rval = new ArrayList<ReadOnlyGraphElement>();
-		rval.addAll(viewArcs());
-		rval.addAll(viewPlaces());
-		rval.addAll(viewTransitions());
-		return rval;
-	}
-
-	/**
-	 * Get a list of all arcs in the Petri net in read-only form.
-	 * 
-	 * @return A List of ReadOnlyArcs in the Petri net.
-	 */
-	public List<ReadOnlyArc> viewArcs() {
-		List<AbstractArc> arcs = petrinet.getAbstractArcs();
-		List<ReadOnlyArc> rval = new ArrayList<ReadOnlyArc>(arcs.size());
-		for (AbstractArc a : arcs) {
-			rval.add(new ReadOnlyArc(a));
-		}
-		return rval;
-	}
-	
-	/**
-	 * Get a list of all places in the Petri net in read-only form.
-	 * 
-	 * @return A List of ReadOnlyPlaces in the Petri net.
-	 */
-	public List<ReadOnlyPlace> viewPlaces() {
-		List<AbstractPlace> places = petrinet.getAbstractPlaces();
-		List<ReadOnlyPlace> rval = new ArrayList<ReadOnlyPlace>(places.size());
-		for (AbstractPlace p : places) {
-			rval.add(new ReadOnlyPlace(p));
-		}
-		return rval;
-	}
-	
-	/**
-	 * Get a list of all transitions in the Petri net in read-only form.
-	 * 
-	 * @return A List of ReadOnlyTransitions in the Petri net.
-	 */
-	public List<ReadOnlyTransition> viewTransitions() {
-		List<AbstractTransition> transitions = petrinet.getAbstractTransitions();
-		List<ReadOnlyTransition> rval = new ArrayList<ReadOnlyTransition>(transitions.size());
-		for (AbstractTransition t : transitions) {
-			rval.add(new ReadOnlyTransition(t));
-		}
-		return rval;
-	}
-	
-	/**
-	 * Convert the Petri net to an mxGraph representation.
-	 * 
-	 * @return An mxGraph representing this controller's Petri net.
-	 */
-	public mxGraph convertToGraph() {
-		mxGraph graph = new mxGraph();
-		graph.getModel().beginUpdate();
-		Object parent = graph.getDefaultParent();
-		try
-		{
-			Map<Integer,Object> nodes = new HashMap<Integer,Object>();
-			for(ReadOnlyPlace place : viewPlaces()){
-				//TODO size
-				Object v = graph.insertVertex(parent, place.getId().toString(), place.getName(), place.getX(), place.getY(), 70, 70,"shape=ellipse;perimeter=ellipsePerimeter");	
-				nodes.put(place.getId(),v);
-			}
-			
-			for(ReadOnlyTransition transition : viewTransitions()){
-				//TODO size
-				Object t = graph.insertVertex(parent, transition.getId().toString(), transition.getName(), transition.getX(), transition.getY(), 40, 70);
-				nodes.put(transition.getId(), t);
-			}
-					
-			for(ReadOnlyArc arc: viewArcs()){
-				graph.insertEdge(parent, arc.getId().toString(), arc.getName(), nodes.get(arc.getOrigin()), nodes.get(arc.getTarget()));
-			}
-		}
-		finally
-		{
-			graph.getModel().endUpdate();
-			
-		}
-		return graph;
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param filename
-	 * @throws IOException
-	 */
-	public void saveXml(String filename) throws IOException
-	{
-		XmlInputOutput.printModel(petrinet, filename);
-	}
 }

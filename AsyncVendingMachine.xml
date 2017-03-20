@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="180" name="ZeroCents" numberOfTokens="1" x="0" y="0"/>
+        <place id="181" name="FiveCents" numberOfTokens="0" x="0" y="0"/>
+        <place id="182" name="TenCents" numberOfTokens="0" x="0" y="0"/>
+        <place id="183" name="FifteenCents" numberOfTokens="0" x="0" y="0"/>
+        <place id="184" name="TwentyCents" numberOfTokens="0" x="0" y="0"/>
+    </places>
+    <transitions>
+        <transition id="192" name="T8 Get15" x="0" y="0"/>
+        <transition id="193" name="T9 Get20" x="0" y="0"/>
+        <transition id="185" name="T1 Deposit5" x="0" y="0"/>
+        <transition id="186" name="T2 Deposit10" x="0" y="0"/>
+        <transition id="187" name="T3 Deposit5" x="0" y="0"/>
+        <transition id="188" name="T4 Deposit10" x="0" y="0"/>
+        <transition id="189" name="T5 Deposit5" x="0" y="0"/>
+        <transition id="190" name="T6 Deposit10" x="0" y="0"/>
+        <transition id="191" name="T7 Deposit5" x="0" y="0"/>
+    </transitions>
+    <arcs/>
+</petrinet>

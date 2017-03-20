@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="128" name="P1 Processes" numberOfTokens="2" x="0" y="0"/>
+        <place id="129" name="P2 Reading" numberOfTokens="0" x="0" y="0"/>
+        <place id="130" name="P3 SharedMemory" numberOfTokens="2" x="0" y="0"/>
+        <place id="131" name="P4 Writing" numberOfTokens="0" x="0" y="0"/>
+    </places>
+    <transitions>
+        <transition id="132" name="T1" x="0" y="0"/>
+        <transition id="133" name="T2" x="0" y="0"/>
+        <transition id="134" name="T3" x="0" y="0"/>
+        <transition id="135" name="T4" x="0" y="0"/>
+    </transitions>
+    <arcs/>
+</petrinet>

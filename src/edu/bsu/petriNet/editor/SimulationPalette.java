@@ -28,58 +28,73 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.TransferHandler;
 
+import edu.bsu.petriNet.controller.IController;
 
-public class EditorPalette extends JPanel implements ActionListener
+
+public class SimulationPalette extends JPanel implements ActionListener
 {
 
 	private static final long serialVersionUID = 7771113885935187066L;
 	protected JLabel selectedEntry = null;
 	protected Color gradientColor = new Color(117, 195, 173);
-	JToggleButton newPlaceButton;
-	JToggleButton newArcButton;
-	JToggleButton newTransitionButton;
 	CanvasPanel canvasPanel;
+	IController controller;
+	JToggleButton fireButton,fireRandomButton,fireNButton;
+	JTextField nField;
+
 	
 	@SuppressWarnings("serial")
-	public EditorPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel)
+	public SimulationPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel, IController controller)
 	{
 		setBackground(new Color(149, 230, 190));
 		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 		this.canvasPanel = canvasPanel;
+		this.controller = controller;
 		
 		add(new JLabel("Design"));
 		
-			
-		newPlaceButton = new JToggleButton("Place"); 
-		designChoicesGroup.add(newPlaceButton);
-		newPlaceButton.addActionListener(this);
-		add(newPlaceButton);
 		
-		newArcButton = new JToggleButton("Arc");
-		designChoicesGroup.add(newArcButton);
-		newArcButton.addActionListener(this);
-		add(newArcButton);
+		fireButton = new JToggleButton("Fire"); 
+		designChoicesGroup.add(fireButton);
+		fireButton.addActionListener(this);
+		add(fireButton);
 		
-		newTransitionButton = new JToggleButton("Transition");
-		designChoicesGroup.add(newTransitionButton);
-		newTransitionButton.addActionListener(this);
-		add(newTransitionButton);
+		fireRandomButton = new JToggleButton("Fire@Random");
+		designChoicesGroup.add(fireRandomButton);
+		fireRandomButton.addActionListener(this);
+		add(fireRandomButton);
+		
+		fireNButton = new JToggleButton("Fire@N");
+		designChoicesGroup.add(fireNButton);
+		fireNButton.addActionListener(this);
+		add(fireNButton);
+		
+		nField = new JTextField();
+		nField.setEditable(true);
+		nField.setText("5");
+		add(nField);
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource() == newPlaceButton){
-			this.canvasPanel.setNewPlaceState();
+		if(arg0.getSource() == fireButton){
+			canvasPanel.setFireBehavior();
 		}
-		if(arg0.getSource() == newArcButton){
-			this.canvasPanel.setNewArcState();
+		if(arg0.getSource() == fireRandomButton){
+			controller.simulate(1);
 		}
-		if(arg0.getSource() == newTransitionButton){
-			this.canvasPanel.setNewTransitionState();
+		if(arg0.getSource() == fireNButton){
+			try{
+				Integer n = Integer.valueOf(nField.getText());
+				controller.simulate(n);
+			}catch(NumberFormatException e){
+				nField.setText("1");
+			}
 		}
 		
 	}

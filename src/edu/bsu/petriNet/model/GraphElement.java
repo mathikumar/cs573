@@ -1,7 +1,7 @@
 package edu.bsu.petriNet.model;
 
 
-abstract class GraphElement
+public class GraphElement
 {
 	private Integer ID;
 	private String name;

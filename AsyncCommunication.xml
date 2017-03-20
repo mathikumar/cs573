@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="148" name="Ready to send" numberOfTokens="1" x="0" y="0"/>
+        <place id="149" name="Buffer full" numberOfTokens="1" x="0" y="0"/>
+        <place id="150" name="Ready to receive" numberOfTokens="1" x="0" y="0"/>
+        <place id="151" name="Wait for ack" numberOfTokens="1" x="0" y="0"/>
+        <place id="152" name="Message received" numberOfTokens="1" x="0" y="0"/>
+        <place id="153" name="Ack recieved" numberOfTokens="1" x="0" y="0"/>
+        <place id="154" name="Buffer full" numberOfTokens="1" x="0" y="0"/>
+        <place id="155" name="Ack sent" numberOfTokens="1" x="0" y="0"/>
+    </places>
+    <transitions>
+        <transition id="160" name="Receive Ack" x="0" y="0"/>
+        <transition id="161" name="Send Ack" x="0" y="0"/>
+        <transition id="156" name="Send Message" x="0" y="0"/>
+        <transition id="157" name="Receive message" x="0" y="0"/>
+        <transition id="158" name="Process 1" x="0" y="0"/>
+        <transition id="159" name="Process 2" x="0" y="0"/>
+    </transitions>
+    <arcs/>
+</petrinet>

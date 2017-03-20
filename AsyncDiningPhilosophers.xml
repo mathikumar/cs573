@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="224" name="P12 Eating" numberOfTokens="0" x="0" y="0"/>
+        <place id="225" name="P13 Eating" numberOfTokens="0" x="0" y="0"/>
+        <place id="226" name="P14 Eating" numberOfTokens="0" x="0" y="0"/>
+        <place id="212" name="P0 Fork" numberOfTokens="1" x="0" y="0"/>
+        <place id="213" name="P1 Thinking" numberOfTokens="1" x="0" y="0"/>
+        <place id="214" name="P2 Fork" numberOfTokens="1" x="0" y="0"/>
+        <place id="215" name="P3 Thinking" numberOfTokens="1" x="0" y="0"/>
+        <place id="216" name="P4 Fork" numberOfTokens="1" x="0" y="0"/>
+        <place id="217" name="P5 Thinking" numberOfTokens="1" x="0" y="0"/>
+        <place id="218" name="P6 Fork" numberOfTokens="1" x="0" y="0"/>
+        <place id="219" name="P7 Thinking" numberOfTokens="1" x="0" y="0"/>
+        <place id="220" name="P8 Fork" numberOfTokens="1" x="0" y="0"/>
+        <place id="221" name="P9 Thinking" numberOfTokens="1" x="0" y="0"/>
+        <place id="222" name="P10 Eating" numberOfTokens="0" x="0" y="0"/>
+        <place id="223" name="P11 Eating" numberOfTokens="0" x="0" y="0"/>
+    </places>
+    <transitions>
+        <transition id="227" name="T0" x="0" y="0"/>
+        <transition id="228" name="T1" x="0" y="0"/>
+        <transition id="229" name="T2" x="0" y="0"/>
+        <transition id="230" name="T3" x="0" y="0"/>
+        <transition id="231" name="T4" x="0" y="0"/>
+        <transition id="232" name="T5" x="0" y="0"/>
+        <transition id="233" name="T6" x="0" y="0"/>
+        <transition id="234" name="T7" x="0" y="0"/>
+        <transition id="235" name="T8" x="0" y="0"/>
+        <transition id="236" name="T9" x="0" y="0"/>
+    </transitions>
+    <arcs/>
+</petrinet>
