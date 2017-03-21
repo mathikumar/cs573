@@ -43,19 +43,20 @@ public class SimulationPalette extends JPanel implements ActionListener
 	protected Color gradientColor = new Color(117, 195, 173);
 	CanvasPanel canvasPanel;
 	IController controller;
-	JToggleButton fireButton,fireRandomButton,fireNButton;
+	JToggleButton fireButton;
+	JButton fireRandomButton,fireNButton;
 	JTextField nField;
 
 	
 	@SuppressWarnings("serial")
 	public SimulationPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel, IController controller)
 	{
-		setBackground(new Color(149, 230, 190));
+		setBackground(new Color(230, 180, 190));
 		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 		this.canvasPanel = canvasPanel;
 		this.controller = controller;
 		
-		add(new JLabel("Design"));
+		add(new JLabel("Simulate"));
 		
 		
 		fireButton = new JToggleButton("Fire"); 
@@ -63,13 +64,13 @@ public class SimulationPalette extends JPanel implements ActionListener
 		fireButton.addActionListener(this);
 		add(fireButton);
 		
-		fireRandomButton = new JToggleButton("Fire@Random");
-		designChoicesGroup.add(fireRandomButton);
+		fireRandomButton = new JButton("Fire@Random");
+		//designChoicesGroup.add(fireRandomButton);
 		fireRandomButton.addActionListener(this);
 		add(fireRandomButton);
 		
-		fireNButton = new JToggleButton("Fire@N");
-		designChoicesGroup.add(fireNButton);
+		fireNButton = new JButton("Fire@N");
+		//designChoicesGroup.add(fireNButton);
 		fireNButton.addActionListener(this);
 		add(fireNButton);
 		

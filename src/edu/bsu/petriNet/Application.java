@@ -50,7 +50,7 @@ public class Application
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		BasicGraphEditorPanel mainPanel = new BasicGraphEditorPanel(controller);
-		frame.setJMenuBar(new EditorMenuBar(mainPanel));
+		frame.setJMenuBar(new EditorMenuBar(mainPanel,controller));
 		frame.getContentPane().add(mainPanel);
 		//UIManager.setLookAndFeel(clazz);
 		SwingUtilities.updateComponentTreeUI(frame);

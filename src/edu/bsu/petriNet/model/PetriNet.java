@@ -50,7 +50,7 @@ public class PetriNet
     	GraphNode source = getGraphNodeById(sourceId);
     	GraphNode target = getGraphNodeById(targeId);
     	
-    	if(source != null && target != null){
+    	if(source != null && target != null && !source.getClass().equals(target.getClass())){
     		Arc a = new Arc(id, name, source, target);
     		
     		source.addArc(a);

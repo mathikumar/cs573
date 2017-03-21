@@ -83,7 +83,7 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean setName(AbstractGraphNode n) {
-		// TODO Auto-generated method stub
+		petrinet.setName(n.getID(), n.getName());
 		notifyStateListeners();
 		return null;
 	}

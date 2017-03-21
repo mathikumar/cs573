@@ -66,6 +66,11 @@ public class BasicGraphEditorPanel extends JPanel
 		// Creates the library pane that contains the tabs with the palettes
 		setLayout(new BorderLayout());
 		
+		add(new JLabel("<html>Place: Left click to place.  Right click to modify. Right drag to move.<br>"
+					+ "Transition: Left click to place.  Right click to modify. Right drag to move.<br>"
+				    + "Arc: Left drag to create. Right click to modify.<br>"
+				    + "Fire: Left click firable transition to fire.</html>"), BorderLayout.NORTH);
+		
 		displayPane = new JTabbedPane();
 		add(displayPane, BorderLayout.CENTER);
 		canvasPanel = new CanvasPanel(this, petriNetController);
@@ -77,7 +82,7 @@ public class BasicGraphEditorPanel extends JPanel
 		designPanel = new EditorPalette(modesGroup, canvasPanel);
 		simulatePanel = new SimulationPalette(modesGroup, canvasPanel, controller);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,designPanel, simulatePanel);
-		splitPane.setDividerLocation(240);
+		splitPane.setDividerLocation(120);
 		splitPane.setResizeWeight(1);
 		splitPane.setDividerSize(6);
 		splitPane.setBorder(null);

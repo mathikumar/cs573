@@ -7,6 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
+import edu.bsu.petriNet.controller.IController;
 import edu.bsu.petriNet.model.AbstractPlace;
 import edu.bsu.petriNet.model.AbstractTransition;
 import edu.bsu.petriNet.model.GraphElement;
@@ -45,6 +48,12 @@ public class GTransition implements GElement {
 	public GPoint getExitPoint(Vector vector) {
 		Vector v = new Vector(abstractTransition.getX(), abstractTransition.getY());
 		return new GPoint(v.add(vector.unit().mul(W)));	
+	}
+
+	@Override
+	public void editDialog(JFrame frame, IController controller) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -7,6 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
+import edu.bsu.petriNet.controller.IController;
 import edu.bsu.petriNet.model.AbstractArc;
 import edu.bsu.petriNet.model.AbstractGraphNode;
 import edu.bsu.petriNet.model.AbstractTransition;
@@ -54,6 +57,12 @@ public class GArc implements GElement {
 	@Override
 	public GPoint getExitPoint(Vector vector) {
 		return null;
+	}
+
+	@Override
+	public void editDialog(JFrame frame, IController controller) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

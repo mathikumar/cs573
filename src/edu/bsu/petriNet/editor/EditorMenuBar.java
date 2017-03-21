@@ -4,15 +4,20 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
+
+
+import edu.bsu.petriNet.controller.IController;
 
 
 
@@ -29,7 +34,7 @@ public class EditorMenuBar extends JMenuBar
 		IS_CONNECTED, IS_SIMPLE, IS_CYCLIC_DIRECTED, IS_CYCLIC_UNDIRECTED, COMPLEMENTARY, REGULARITY, COMPONENTS, MAKE_CONNECTED, MAKE_SIMPLE, IS_TREE, ONE_SPANNING_TREE, IS_DIRECTED, GET_CUT_VERTEXES, GET_CUT_EDGES, GET_SOURCES, GET_SINKS, PLANARITY, IS_BICONNECTED, GET_BICONNECTED, SPANNING_TREE, FLOYD_ROY_WARSHALL
 	}
 
-	public EditorMenuBar(final BasicGraphEditorPanel editor)
+	public EditorMenuBar(final BasicGraphEditorPanel editor, IController controller)
 	{
 
 		JMenu menu = null;
@@ -38,8 +43,28 @@ public class EditorMenuBar extends JMenuBar
 		// Creates the file menu
 		menu = add(new JMenu("File"));
 		JMenuItem newMenuItem = new JMenuItem("New");
-		newMenuItem.addActionListener(null);
+		newMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	controller.newNet();}
+		});
 		menu.add(newMenuItem);
+		
+		JMenuItem loadItem = new JMenuItem("load");
+		loadItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+		            java.io.File file = fc.getSelectedFile();
+		            try {
+						controller.load(file.getCanonicalPath());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}		        
+		        } 
+			}
+		});
+		menu.add(loadItem);
 /*		
 		menu.add(editor.bind(mxResources.get("openFile"), new OpenAction(), "/edu/bsu/petriNet/images/open.gif"));
 		submenu = (JMenu) menu.add(new JMenu(mxResources.get("load")));

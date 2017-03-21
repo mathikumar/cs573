@@ -17,7 +17,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import edu.bsu.petriNet.controller.IController;
 import edu.bsu.petriNet.controller.IStateListener;
@@ -40,6 +42,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 	MouseListener newTransitionBehavior;
 	MouseListener newArcBehavior;
 	MouseListener fireTransitionBehavior;
+	MouseListener editBehavior;
 	Boolean isRecentering;
 	
 	public CanvasPanel(BasicGraphEditorPanel p, IController c){
@@ -83,15 +86,37 @@ public class CanvasPanel extends JPanel implements IStateListener {
 					if(!overlap){
 						controller.setLocation(new AbstractGraphNode(origin.getID(),pt.x, pt.y, origin.getName()));
 					}
+					origin = null;
 				}
 			}
+		};
+		
+		
+		this.editBehavior = new MouseListener(){
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() != MouseEvent.BUTTON1){
+					Point pt = e.getPoint();
+					for(Map.Entry<Integer, GElement> el: elements.entrySet()){
+						if (el.getValue().containsPoint(pt)){
+							el.getValue().editDialog((JFrame) SwingUtilities.getWindowAncestor(CanvasPanel.this), controller);
+						}
+					}
+				}
+			}
+			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {}
+			public void mousePressed(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
+			
 		};
 		
 		this.newPlaceBehavior = new MouseListener(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Point p  = e.getPoint();
-				controller.addPlace(new AbstractPlace(p.x, p.y,1));
+				if(e.getButton() == MouseEvent.BUTTON1){
+					Point p  = e.getPoint();
+					controller.addPlace(new AbstractPlace(p.x, p.y,1));
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {}
@@ -108,8 +133,10 @@ public class CanvasPanel extends JPanel implements IStateListener {
 		this.newTransitionBehavior = new MouseListener(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Point p  = e.getPoint();
-				controller.addTransition(new AbstractTransition(p.x, p.y));
+				if(e.getButton() == MouseEvent.BUTTON1){
+					Point p  = e.getPoint();
+					controller.addTransition(new AbstractTransition(p.x, p.y));
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {}
@@ -151,6 +178,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 						controller.addArc(new AbstractArc(1, origin.getID(), target.getID()));
 					}
 				}
+				origin = null;
 				
 			}
 		};
@@ -187,18 +215,21 @@ public class CanvasPanel extends JPanel implements IStateListener {
 	public void setNewPlaceState(){
 		purgeMouseListeners();
 		this.addMouseListener(this.newPlaceBehavior);
+		this.addMouseListener(this.editBehavior);
 		this.addMouseListener(this.moveBehavior);
 	}
 	
 	public void setNewTransitionState(){
 		purgeMouseListeners();
 		this.addMouseListener(this.newTransitionBehavior);
+		this.addMouseListener(this.editBehavior);		
 		this.addMouseListener(this.moveBehavior);
 	}
 	
 	public void setNewArcState(){
 		purgeMouseListeners();
 		this.addMouseListener(this.newArcBehavior);
+		this.addMouseListener(this.editBehavior);
 		this.addMouseListener(this.moveBehavior);
 	}
 	
@@ -226,6 +257,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 			g2.fill(rect);
 			g2.setColor(Color.BLACK);
 			for(GElement e: elements.values()){
+				System.out.println(e);
 				e.draw(g2, elements);
 			}
 			
@@ -233,11 +265,11 @@ public class CanvasPanel extends JPanel implements IStateListener {
 
 	@Override
 	public void newState(StateSet ss) {
-		System.out.println("New State Set recieved");
 		int maxX=0;
 		int maxY=0;
 		int minX=0;
 		int minY=0;
+		elements.clear();
 		for(AbstractPlace p: ss.getPlaces()){
 			elements.put(p.getID(),new GPlace(p));
 			maxX = Math.max(maxX,p.getX()+BUFFER);
