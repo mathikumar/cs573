@@ -1,5 +1,7 @@
 package edu.bsu.petriNet.editor;
 
+import java.awt.Point;
+
 public class Vector {
 	double x,y;
 	
@@ -41,5 +43,8 @@ public class Vector {
 		return new Vector(this.x+v.x, this.y+v.y);
 	}
 	
-
+	public double angle(){
+		return Math.atan2(y, x);
+	}
+	
 }

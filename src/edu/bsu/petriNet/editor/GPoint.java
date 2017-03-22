@@ -2,8 +2,8 @@ package edu.bsu.petriNet.editor;
 
 import java.awt.Point;
 
-public class GPoint {
-	int x,y;
+public class GPoint extends Point {
+	//int x,y;
 	
 	public GPoint(int x, int y){
 		this.x = x;
@@ -29,6 +29,11 @@ public class GPoint {
 	
 	public GPoint add(Vector v){
 		return new GPoint(this.x+v.x, this.y+v.y);
+	}
+	
+	@Override
+	public String toString(){
+		return "GPoint("+x+","+y+")";
 	}
 
 }

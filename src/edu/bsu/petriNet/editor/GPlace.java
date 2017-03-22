@@ -3,6 +3,7 @@ package edu.bsu.petriNet.editor;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -32,7 +33,11 @@ public class GPlace implements GElement{
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
-		g.drawString(String.valueOf(abstractPlace.getTokens()), abstractPlace.getX(), abstractPlace.getY());
+		FontMetrics metrics = g.getFontMetrics(g.getFont());
+		String str = String.valueOf(abstractPlace.getTokens());
+		g.drawString(str, 
+				abstractPlace.getX()-metrics.stringWidth(str)/2, 
+				abstractPlace.getY()- metrics.getHeight()/2 + metrics.getAscent());
 		g.drawString(""+abstractPlace.getName(), abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS);
 	}
 
@@ -76,8 +81,6 @@ public class GPlace implements GElement{
 		}
 		controller.setName(abstractPlace);
 		controller.setPlaceTokenCount(abstractPlace);
-		
-		
 	}
 
 }

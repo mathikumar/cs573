@@ -2,12 +2,17 @@ package edu.bsu.petriNet.editor;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Map;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.bsu.petriNet.controller.IController;
 import edu.bsu.petriNet.model.AbstractPlace;
@@ -32,6 +37,7 @@ public class GTransition implements GElement {
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawRect(abstractTransition.getX()-W/2, abstractTransition.getY()-H/2, W, H);
+		g.drawString(""+abstractTransition.getName(), abstractTransition.getX()-W/2, abstractTransition.getY()-H/2);
 	}
 
 	@Override
@@ -47,12 +53,36 @@ public class GTransition implements GElement {
 	@Override
 	public GPoint getExitPoint(Vector vector) {
 		Vector v = new Vector(abstractTransition.getX(), abstractTransition.getY());
-		return new GPoint(v.add(vector.unit().mul(W)));	
+		Double angle = vector.angle();
+		//Right
+		if(angle < Math.atan2(H/2.0, W/2.0) && angle > Math.atan2(-H/2.0, W/2.0)){
+			return Geometry.intersection(v, vector, v.add(new Vector(W/2.0, -H/2.0)), new Vector(0,1));
+		}
+		//Top
+		if(angle < Math.atan2(H/2.0, -W/2.0) && angle > Math.atan2(H/2.0, W/2.0)){
+			return Geometry.intersection(v, vector, v.add(new Vector(-W/2.0, H/2.0)), new Vector(1,0));
+		}
+		//Bottom
+		if(angle < Math.atan2(-H/2.0, W/2.0) && angle > Math.atan2(-H/2.0, -W/2.0)){
+			return Geometry.intersection(v, vector, v.add(new Vector(-W/2.0, -H/2.0)), new Vector(1,0));
+		}
+		//Left
+		return Geometry.intersection(v, vector, v.add(new Vector(-W/2.0, -H/2.0)), new Vector(0,1));
 	}
 
 	@Override
 	public void editDialog(JFrame frame, IController controller) {
-		// TODO Auto-generated method stub
+		JDialog dialog = new JDialog(frame,"Click a button", true);
+		JTextField nameField = new JTextField(this.abstractTransition.getName());
+		nameField.setPreferredSize(new Dimension(100,35));
+		JPanel contentPane = new JPanel();
+		contentPane.add(new JLabel("Name:"));
+		contentPane.add(nameField);
+		dialog.setContentPane(contentPane);
+		dialog.pack();
+		dialog.setVisible(true);
+		abstractTransition.setName(nameField.getText());
+		controller.setName(abstractTransition);
 		
 	}
 	
