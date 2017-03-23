@@ -125,7 +125,7 @@ public class XmlInputOutput {
 				placeE.setAttribute("name", pla.getName());
 				placeE.setAttribute("numberOfTokens", String.valueOf(pla.getNumberOfTokens()));
 				placeE.setAttribute("x", String.valueOf(pla.getX()));
-				placeE.setAttribute("y", String.valueOf(pla.getX()));
+				placeE.setAttribute("y", String.valueOf(pla.getY()));
 				
 				places.appendChild(placeE);
 			}
@@ -140,7 +140,7 @@ public class XmlInputOutput {
 				transitionE.setAttribute("id", String.valueOf(tran.getID()));
 				transitionE.setAttribute("name", tran.getName());
 				transitionE.setAttribute("x", String.valueOf(tran.getX()));
-				transitionE.setAttribute("y", String.valueOf(tran.getX()));
+				transitionE.setAttribute("y", String.valueOf(tran.getY()));
 				
 
 				transitions.appendChild(transitionE);
