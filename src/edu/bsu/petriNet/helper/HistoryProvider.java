@@ -7,57 +7,56 @@ import edu.bsu.petriNet.model.PetriNet;
 public class HistoryProvider
 {
 
-	private static ArrayList<PetriNet> checkpoints;
-	private static int currentCheckPoint; 
+	private ArrayList<PetriNet> checkpoints;
+	private int currentCheckPoint; 
 	
-	public static void init()
-	{
-		HistoryProvider.checkpoints = new ArrayList<PetriNet>();
-		HistoryProvider.checkpoints.add(new PetriNet());
-		HistoryProvider.currentCheckPoint = 0;
+	public HistoryProvider(){
+		this.reset();
 	}
 	
-	public static void reset()
+	public void reset()
 	{
-		HistoryProvider.init();
+		this.checkpoints = new ArrayList<PetriNet>();
+		this.checkpoints.add(new PetriNet());
+		this.currentCheckPoint = 0;
 	}
 	
-	public static PetriNet getCurretPetriNet()
+	public PetriNet getCurretPetriNet()
 	{
-		return HistoryProvider.checkpoints.get(HistoryProvider.currentCheckPoint);
+		return this.checkpoints.get(this.currentCheckPoint);
 	}
 		
-	public static void savePetriNetCheckPoint(PetriNet net)
+	public void savePetriNetCheckPoint(PetriNet net)
 	{
-		HistoryProvider.checkpoints.add(net.getDeepCopy());
-		HistoryProvider.currentCheckPoint++;
+		this.checkpoints.add(net.getDeepCopy());
+		this.currentCheckPoint++;
 	}
 		
-	public static boolean isUndoPossible()
+	public boolean isUndoPossible()
 	{
-		return HistoryProvider.currentCheckPoint>0;
+		return this.currentCheckPoint>0;
 	}
 	
-	public static boolean isRedoPossible()
+	public boolean isRedoPossible()
 	{
-		return HistoryProvider.currentCheckPoint<HistoryProvider.checkpoints.size()-1;
+		return this.currentCheckPoint<this.checkpoints.size()-1;
 	}
 	
-	public static boolean undo()
+	public boolean undo()
 	{
-		if(HistoryProvider.isUndoPossible())
+		if(this.isUndoPossible())
 		{
-			HistoryProvider.currentCheckPoint--;
+			this.currentCheckPoint--;
 			return true;
 		}
 		return false;
 	}
 	
-	public static boolean redo()
+	public boolean redo()
 	{
-		if(HistoryProvider.isRedoPossible())
+		if(this.isRedoPossible())
 		{
-			HistoryProvider.currentCheckPoint++;
+			this.currentCheckPoint++;
 			return true;
 		}
 		return false;

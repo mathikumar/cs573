@@ -22,19 +22,22 @@ public class BaseController implements IController {
 	private ArrayList<IStateListener> stateListeners;
 	private PetriNet petrinet;
 	private Random random;
+	private HistoryProvider m0History, simHistory;
 	
 
 	public BaseController(){
 		this.stateListeners = new ArrayList<>();
 		this.petrinet = new PetriNet();
-		HistoryProvider.init();
+		this.m0History = new HistoryProvider();
+		this.simHistory = new HistoryProvider();
 		this.random = new Random();
 	}
 
 	@Override
 	public Boolean newNet() {
 		this.petrinet = new PetriNet();
-		HistoryProvider.reset();
+		this.m0History.reset();
+		this.simHistory.reset();
 		notifyStateListeners();
 		return true;
 	}
@@ -117,7 +120,7 @@ public class BaseController implements IController {
 	@Override
 	public Boolean fire(AbstractTransition t) {
 		Boolean r = petrinet.fire(t.getID());
-		notifyStateListeners();
+		notifyStateListeners(true, false);
 		return r;
 	}
 
@@ -136,7 +139,6 @@ public class BaseController implements IController {
 			if(firables.keySet().size() >0){
 				int target = this.random.nextInt(firables.keySet().size());
 				this.fire(firables.get(target));
-				notifyStateListeners();
 			}
 		}
 		return true;
@@ -144,18 +146,44 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean undo() {
-		if(HistoryProvider.isUndoPossible()){
-			HistoryProvider.undo();
-			this.petrinet = HistoryProvider.getCurretPetriNet();
-			notifyStateListeners();
+		if(this.simHistory.isUndoPossible()){
+			this.simHistory.undo();
+			this.petrinet = this.simHistory.getCurretPetriNet();
+			notifyStateListeners(true, true);
+			return true;
+		}else if(this.m0History.isUndoPossible()){
+			this.m0History.undo();
+			this.petrinet = this.m0History.getCurretPetriNet();
+			notifyStateListeners(false, true);
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
+	@Override
+	public Boolean undoSimulation() {
+		this.petrinet = this.m0History.getCurretPetriNet();
+		this.simHistory.reset();
+		notifyStateListeners(false, true);
+		return true;
+	}
+	
 	private void notifyStateListeners(){
-		HistoryProvider.savePetriNetCheckPoint(this.petrinet);
+		notifyStateListeners(false, false);
+	}
+	
+	private void notifyStateListeners(Boolean isSimulation, Boolean isUndoChange){
+		// We have two HistoryProviders.  One for M0 changes, One for Simulation changes.
+		// For every M0 change we can clear the Simulation change history
+		if(!isUndoChange){
+			if(isSimulation){
+				this.simHistory.savePetriNetCheckPoint(this.petrinet);
+			}else{
+				this.m0History.savePetriNetCheckPoint(this.petrinet);
+				this.simHistory.reset();
+			}
+		}
 		for(IStateListener l : this.stateListeners){
 			StateSet newstate = new StateSet();
 			for(AbstractArc arc: this.petrinet.getAbstractArcs()){
@@ -170,18 +198,8 @@ public class BaseController implements IController {
 			l.newState(newstate);
 		}
 	}
+
 	
-	public Boolean relocateNode(int id, int newX, int newY) {
-		GraphNode element = petrinet.getGraphNodeById(id);
-		if (element == null) {
-			throw new NullPointerException("no node exists with id "+id);
-		} else {
-			element.setX(newX);
-			element.setY(newY);
-			notifyStateListeners();
-			return true;
-		}
-	}
 	
 	
 }
