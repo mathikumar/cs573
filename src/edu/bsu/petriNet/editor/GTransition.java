@@ -65,7 +65,25 @@ public class GTransition implements GElement {
 		int y = abstractTransition.getY();
 		return x >= startX && y >= startY && x <= endX && y <= endY;
 	}
+	
+	public Point getUpperLeftVisualCorner() {
+		return new Point(abstractTransition.getX()-W/2,abstractTransition.getY()-H/2);
+	}
+	
+	public Boolean isArc() {
+		return false;
+	}
+	public Boolean isPlace() {
+		return false;
+	}
+	public Boolean isTransition() {
+		return true;
+	}
 
+	public GraphElement getAbstractCopy(int translateX, int translateY) {
+		return new AbstractTransition(abstractTransition.getX()+translateX,abstractTransition.getY()+translateY,abstractTransition.getName());
+	}
+	
 	@Override
 	public GPoint getExitPoint(Vector vector) {
 		Vector v = new Vector(abstractTransition.getX(), abstractTransition.getY());

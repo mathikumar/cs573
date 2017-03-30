@@ -63,11 +63,29 @@ public class GPlace implements GElement{
 		int y = abstractPlace.getY();
 		return x >= startX && y >= startY && x <= endX && y <= endY;
 	}
+	
+	public Point getUpperLeftVisualCorner() {
+		return new Point(abstractPlace.getX()-RADIUS,abstractPlace.getY()-RADIUS);
+	}
 
 	@Override
 	public GPoint getExitPoint(Vector vector) {
 		Vector v = new Vector(abstractPlace.getX(), abstractPlace.getY());
 		return new GPoint(v.add(vector.unit().mul(RADIUS)));
+	}
+	
+	public Boolean isArc() {
+		return false;
+	}
+	public Boolean isPlace() {
+		return true;
+	}
+	public Boolean isTransition() {
+		return false;
+	}
+	
+	public GraphElement getAbstractCopy(int translateX, int translateY) {
+		return new AbstractPlace(abstractPlace.getX()+translateX,abstractPlace.getY()+translateY,abstractPlace.getTokens(),abstractPlace.getName());
 	}
 
 	@Override

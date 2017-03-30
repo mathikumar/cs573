@@ -74,6 +74,24 @@ public class GArc implements GElement {
 		return originExit.x >= startX && originExit.y >= startY && originExit.x <= endX && originExit.y <= endY
 				&& targetExit.x >= startX && targetExit.y >= startY && targetExit.x <= endX && targetExit.y <= endY;
 	}
+	
+	public Point getUpperLeftVisualCorner() {
+		return new Point(Math.min(originExit.x,targetExit.x),Math.min(originExit.y, targetExit.y));
+	}
+	
+	public Boolean isArc() {
+		return true;
+	}
+	public Boolean isPlace() {
+		return false;
+	}
+	public Boolean isTransition() {
+		return false;
+	}
+	
+	public GraphElement getAbstractCopy(int translateX, int translateY) {
+		throw new UnsupportedOperationException("cannot copy arc"); 
+	}
 
 	@Override
 	public GPoint getExitPoint(Vector vector) {

@@ -19,5 +19,11 @@ public interface GElement {
 	public Boolean withinRectangle(int startX, int startY, int endX, int endY);
 	public GPoint getExitPoint(Vector vector);
 	public void editDialog(JFrame frame, IController controller);
-
+	public Point getUpperLeftVisualCorner();
+	
+	public Boolean isArc();
+	public Boolean isPlace();
+	public Boolean isTransition();
+	
+	public GraphElement getAbstractCopy(int translateX, int translateY);
 }

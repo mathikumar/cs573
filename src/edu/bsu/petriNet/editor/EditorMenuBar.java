@@ -34,7 +34,7 @@ public class EditorMenuBar extends JMenuBar
 		IS_CONNECTED, IS_SIMPLE, IS_CYCLIC_DIRECTED, IS_CYCLIC_UNDIRECTED, COMPLEMENTARY, REGULARITY, COMPONENTS, MAKE_CONNECTED, MAKE_SIMPLE, IS_TREE, ONE_SPANNING_TREE, IS_DIRECTED, GET_CUT_VERTEXES, GET_CUT_EDGES, GET_SOURCES, GET_SINKS, PLANARITY, IS_BICONNECTED, GET_BICONNECTED, SPANNING_TREE, FLOYD_ROY_WARSHALL
 	}
 
-	public EditorMenuBar(final BasicGraphEditorPanel editor, IController controller)
+	public EditorMenuBar(final BasicGraphEditorPanel editor, final IController controller)
 	{
 
 		JMenu menu = null;
@@ -65,6 +65,25 @@ public class EditorMenuBar extends JMenuBar
 			}
 		});
 		menu.add(loadItem);
+		
+		JMenu editMenu = add(new JMenu("Edit"));
+		newMenuItem = new JMenuItem("Cut");
+		newMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	editor.cut();}
+		});
+		editMenu.add(newMenuItem);
+		
+		newMenuItem = new JMenuItem("Copy");
+		newMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	editor.copy();}
+		});
+		editMenu.add(newMenuItem);
+		
+		newMenuItem = new JMenuItem("Paste");
+		newMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	editor.paste();}
+		});
+		editMenu.add(newMenuItem);
 /*		
 		menu.add(editor.bind(mxResources.get("openFile"), new OpenAction(), "/edu/bsu/petriNet/images/open.gif"));
 		submenu = (JMenu) menu.add(new JMenu(mxResources.get("load")));

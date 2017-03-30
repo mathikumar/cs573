@@ -50,6 +50,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 	ElementSelection selection;
 	
 	Point lastMousePos;
+	CopyBuffer clipboard;
 	
 	public CanvasPanel(BasicGraphEditorPanel p, IController c){
 		elements = new ConcurrentHashMap<>();
@@ -414,6 +415,22 @@ public class CanvasPanel extends JPanel implements IStateListener {
 		}
 	}
 
-
-
+	public void cut() {
+		copy();
+		for (Integer id : selection) {
+			controller.delete(id);
+		}
+		selection.clear();
+	}
+	
+	public void copy() {
+		clipboard = new CopyBuffer(selection,elements);
+	}
+	
+	public void paste() {
+		if (clipboard != null) {
+			clipboard.paste(controller, getMousePosition());
+			clipboard = null;
+		}
+	}
 }
