@@ -84,7 +84,9 @@ public class CanvasPanel extends JPanel implements IStateListener {
 						}
 					}
 					if(!overlap){
-						controller.setLocation(new AbstractGraphNode(origin.getID(),pt.x, pt.y, origin.getName()));
+						origin.setX(pt.x);
+						origin.setY(pt.y);
+						controller.setLocation(origin);
 					}
 					origin = null;
 				}
@@ -309,7 +311,9 @@ public class CanvasPanel extends JPanel implements IStateListener {
 			}
 		}
 		for(AbstractGraphNode e: workingset){
-			controller.setLocation(new AbstractGraphNode(e.getID(), e.getX()-minX, e.getY()-minY,e.getName()));
+			e.setX(e.getX()-minX);
+			e.setY(e.getY()-minY);
+			controller.setLocation(e);
 		}
 	}
 

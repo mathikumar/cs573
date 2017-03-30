@@ -5,10 +5,10 @@ import edu.bsu.petriNet.model.AbstractGraphNode;
 public class AbstractTransition extends AbstractGraphNode {
 	private Boolean firable;
 
-	public AbstractTransition(Integer id, Integer x, Integer y, String name) {
+	/*public AbstractTransition(Integer id, Integer x, Integer y, String name) {
 		super(id, x, y, name);
 	}
-	
+	*/
 	public AbstractTransition(Integer x, Integer y) {
 		super(x, y);
 	}

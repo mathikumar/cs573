@@ -7,7 +7,7 @@ public class AbstractArc extends GraphElement{
 	private Integer origin;
 	private Integer target;
 
-	public AbstractArc(Integer id, Integer weight, Integer originID, Integer targetID, String name) {
+	/*public AbstractArc(Integer id, Integer weight, Integer originID, Integer targetID, String name) {
 		super(id,name);
 		this.weight = weight;
 		this.origin = originID;
@@ -20,7 +20,7 @@ public class AbstractArc extends GraphElement{
 		this.origin = originID;
 		this.target = targetID;
 	}
-	
+	*/
 	public AbstractArc(Integer weight, Integer originID, Integer targetID, String name) {
 		super(name);
 		this.weight = weight;
