@@ -81,8 +81,8 @@ public class ControllerTest {
 	@Test
 	public final void testAddArc() {
 		controller.addPlace(new AbstractPlace(1,0,0,"Some Place"));
-		controller.addTransition(new AbstractTransition(2,0,3,"Some Transition"));
-		controller.addArc(new AbstractArc(3,1,1,2,"Some Arc"));
+		controller.addTransition(new AbstractTransition(0,3,"Some Transition"));
+		controller.addArc(new AbstractArc(1,1,2,"Some Arc"));
 		assertEquals(1, stateset.getArcs().size());
 		assertTrue(stateset.getArcs().get(0).getName().equals("Some Arc"));
 		assertEquals((Integer)1, stateset.getArcs().get(0).getWeight());
@@ -147,8 +147,13 @@ public class ControllerTest {
 
 	public final StateSet setupAsyncCommunicationNet() {
 
-
-		int id = 1;
+		try {
+			setUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//places
 		ArrayList<AbstractPlace> places = new ArrayList<>();
 		String[] placenames = {"Ready to send",
@@ -159,8 +164,9 @@ public class ControllerTest {
 								"Ack recieved",
 								"Buffer full",
 								"Ack sent"};
+		
 		for(String name: placenames){
-			AbstractPlace p = new AbstractPlace(id++,0,0,1,name);
+			AbstractPlace p = new AbstractPlace(0,0,1,name);
 			controller.addPlace(p);
 			places.add(p);
 		}
@@ -174,11 +180,13 @@ public class ControllerTest {
 									"Receive Ack",
 									"Send Ack"
 		};
+		
 		for(String name: transitionnames){
-			AbstractTransition t = new AbstractTransition(id++,0,0,name);
+			AbstractTransition t = new AbstractTransition(0,0,name);
 			controller.addTransition(t);
 			transitions.add(t);
 		}
+		
 		//Arcs
 		ArrayList<AbstractArc> arcs = new ArrayList<>();
 		Integer[] originplaces = 			{0,1,2,3,4,5,6,7};
@@ -186,7 +194,7 @@ public class ControllerTest {
 		for(int i=0; i < originplaces.length; i++){
 			Integer originID = originplaces[i]+1;
 			Integer destinationID = placenames.length + destinationtransitions[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -195,7 +203,7 @@ public class ControllerTest {
 		for(int i=0; i < origintransitions.length; i++){
 			Integer originID = placenames.length + origintransitions[i]+1;
 			Integer destinationID = destinationplaces[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -246,8 +254,13 @@ public class ControllerTest {
 	
 	public final StateSet setupAsyncVendingMachineNet() {
 
-
-		int id = 1;
+		try {
+			setUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//places
 		ArrayList<AbstractPlace> places = new ArrayList<>();
 		String[] placenames = {"ZeroCents",
@@ -261,9 +274,10 @@ public class ControllerTest {
 		int index = 0;
 		
 		for(String name: placenames){
-			AbstractPlace p = new AbstractPlace(id++,0,0,tokens[index],name);
+			AbstractPlace p = new AbstractPlace(0,0,tokens[index],name);
 			controller.addPlace(p);
 			places.add(p);
+		
 			index++;
 		}
 	
@@ -279,8 +293,9 @@ public class ControllerTest {
 									"T8 Get15",
 									"T9 Get20"
 		};
+		
 		for(String name: transitionnames){
-			AbstractTransition t = new AbstractTransition(id++,0,0,name);
+			AbstractTransition t = new AbstractTransition(0,0,name);
 			controller.addTransition(t);
 			transitions.add(t);
 		}
@@ -291,7 +306,7 @@ public class ControllerTest {
 		for(int i=0; i < originplaces.length; i++){
 			Integer originID = originplaces[i]+1;
 			Integer destinationID = placenames.length + destinationtransitions[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -300,7 +315,7 @@ public class ControllerTest {
 		for(int i=0; i < origintransitions.length; i++){
 			Integer originID = placenames.length + origintransitions[i]+1;
 			Integer destinationID = destinationplaces[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -351,8 +366,13 @@ public class ControllerTest {
 	
 	public final StateSet setupAsyncDiningPhilosophersNet() {
 
-
-		int id = 1;
+		try {
+			setUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//places
 		ArrayList<AbstractPlace> places = new ArrayList<>();
 		String[] placenames = {"P0 Fork",
@@ -376,9 +396,10 @@ public class ControllerTest {
 		int index = 0;
 		
 		for(String name: placenames){
-			AbstractPlace p = new AbstractPlace(id++,0,0,tokens[index],name);
+			AbstractPlace p = new AbstractPlace(0,0,tokens[index],name);
 			controller.addPlace(p);
 			places.add(p);
+			
 			index++;
 		}
 	
@@ -395,10 +416,12 @@ public class ControllerTest {
 									"T8",
 									"T9"
 		};
+		
 		for(String name: transitionnames){
-			AbstractTransition t = new AbstractTransition(id++,0,0,name);
+			AbstractTransition t = new AbstractTransition(0,0,name);
 			controller.addTransition(t);
 			transitions.add(t);
+
 		}
 		//Arcs
 		ArrayList<AbstractArc> arcs = new ArrayList<>();
@@ -407,7 +430,7 @@ public class ControllerTest {
 		for(int i=0; i < originplaces.length; i++){
 			Integer originID = originplaces[i]+1;
 			Integer destinationID = placenames.length + destinationtransitions[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -416,7 +439,7 @@ public class ControllerTest {
 		for(int i=0; i < origintransitions.length; i++){
 			Integer originID = placenames.length + origintransitions[i]+1;
 			Integer destinationID = destinationplaces[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -467,8 +490,13 @@ public class ControllerTest {
 	
 	public final StateSet setupAsyncReadersWriterNet(int k) {
 
+		try {
+			setUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		int id = 1;
 		//places
 		ArrayList<AbstractPlace> places = new ArrayList<>();
 		String[] placenames = {"P1 Processes",
@@ -481,9 +509,10 @@ public class ControllerTest {
 		int index = 0;
 		
 		for(String name: placenames){
-			AbstractPlace p = new AbstractPlace(id++,0,0,tokens[index],name);
+			AbstractPlace p = new AbstractPlace(0,0,tokens[index],name);
 			controller.addPlace(p);
 			places.add(p);
+			
 			index++;
 		}
 	
@@ -492,7 +521,7 @@ public class ControllerTest {
 		String[] transitionnames = {"T1","T2","T3","T4"};
 		
 		for(String name: transitionnames){
-			AbstractTransition t = new AbstractTransition(id++,0,0,name);
+			AbstractTransition t = new AbstractTransition(0,0,name);
 			controller.addTransition(t);
 			transitions.add(t);
 		}
@@ -503,7 +532,7 @@ public class ControllerTest {
 		for(int i=0; i < originplaces.length; i++){
 			Integer originID = originplaces[i]+1;
 			Integer destinationID = placenames.length + destinationtransitions[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}
@@ -512,7 +541,7 @@ public class ControllerTest {
 		for(int i=0; i < origintransitions.length; i++){
 			Integer originID = placenames.length + origintransitions[i]+1;
 			Integer destinationID = destinationplaces[i] + 1;
-			AbstractArc a  = new AbstractArc(id++,1,originID, destinationID );
+			AbstractArc a  = new AbstractArc(1,originID, destinationID );
 			arcs.add(a);
 			controller.addArc(a);
 		}

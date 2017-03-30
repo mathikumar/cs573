@@ -13,12 +13,14 @@ public class PetriNet
 	private HashMap<Integer,Arc> arcs;
 	private HashMap<Integer,Place> places;
 	private HashMap<Integer,Transition> transitions;
+	private IdGenerator idGen;
 	
 	public PetriNet()
 	{
 		arcs = new HashMap<>();
 		places = new HashMap<>();
 		transitions = new HashMap<>();
+		idGen = new IdGenerator();
 	}
 	
 	protected Boolean createPlace(int id, String name, int tokenN, int x, int y){
@@ -30,7 +32,7 @@ public class PetriNet
 			
 	public Boolean createPlace(String name, int tokenN, int x, int y){
 		
-		return this.createPlace(IdGenerator.getUniqueIdentifier(), name, tokenN, x, y);
+		return this.createPlace(idGen.getUniqueIdentifier(), name, tokenN, x, y);
 	}
 	
 	protected Boolean createTransition(int id, String name, int x, int y){
@@ -42,7 +44,7 @@ public class PetriNet
 	
     public Boolean createTransition(String name, int x, int y){
 		
-		return this.createTransition(IdGenerator.getUniqueIdentifier(), name, x, y);
+		return this.createTransition(idGen.getUniqueIdentifier(), name, x, y);
 	}
 	
     protected Boolean createArc(int id, String name, int sourceId, int targeId, int weight){
@@ -64,7 +66,7 @@ public class PetriNet
 	
     public Boolean createArc(String name, int sourceId, int targeId, int weight){
 		
-		return this.createArc(IdGenerator.getUniqueIdentifier(), name, sourceId, targeId, weight);
+		return this.createArc(idGen.getUniqueIdentifier(), name, sourceId, targeId, weight);
 	}
     
    /* private boolean deletePlace(int id)
@@ -308,6 +310,6 @@ public class PetriNet
 			maxID = Math.max(id, maxID);
 		}
 		
-		IdGenerator.updateId(maxID);
+		idGen.updateId(maxID);
 	}
 }

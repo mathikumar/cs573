@@ -2,20 +2,24 @@ package edu.bsu.petriNet.helper;
 
 public class IdGenerator
 {
-
+	private int lastId;
 	
-	private static int lastId =0;
-	
-	public static int getUniqueIdentifier()
+	public IdGenerator()
 	{
-		IdGenerator.lastId++;
-		return IdGenerator.lastId;
+		lastId = 0;
+	}
+	
+	
+	public int getUniqueIdentifier()
+	{
+		this.lastId++;
+		return this.lastId;
 		
 	}
 	
-	public static void updateId(int id)
+	public void updateId(int id)
 	{
-		 IdGenerator.lastId=Math.max(IdGenerator.lastId,id);
+		this.lastId=Math.max(this.lastId,id);
 	}
 	
 }
