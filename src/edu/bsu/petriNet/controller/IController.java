@@ -78,6 +78,15 @@ public interface IController {
 	public Boolean setLocation(AbstractGraphNode n);
 	
 	/**
+	 * Translate the x,y coordinates of a node
+	 * 
+	 * @param id the id of the node to move
+	 * @param dx delta x
+	 * @param dy delta y
+	 */
+	public Boolean translate(Integer id, Integer dx, Integer dy);
+	
+	/**
 	 * Saves the initial state of the net to the specified filename
 	 * @param filename
 	 * @return
@@ -116,7 +125,4 @@ public interface IController {
 	 * @return
 	 */
 	public Boolean undoSimulation();
-
-
-
 }

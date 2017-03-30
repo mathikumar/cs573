@@ -104,6 +104,13 @@ public class BaseController implements IController {
 		notifyStateListeners();
 		return null;
 	}
+	
+	public Boolean translate(Integer id, Integer dx, Integer dy) {
+		GraphNode node = petrinet.getGraphNodeById(id);
+		petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
+		notifyStateListeners();
+		return null;
+	}
 
 	@Override
 	public Boolean save(String filename) {

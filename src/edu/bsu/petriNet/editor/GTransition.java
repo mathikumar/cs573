@@ -25,11 +25,13 @@ public class GTransition implements GElement {
 	private int W = 25;
 	private int H = 50;
 	
+	private final int SELECTION_PADDING = 4;
+	
 	public GTransition(AbstractTransition p){
 		this.abstractTransition = p;
 	}
 	
-	public void draw(Graphics2D g, Map<Integer,GElement> elements){
+	public void draw(Graphics2D g, Map<Integer,GElement> elements, ElementSelection selection){
 		if(this.abstractTransition.isFirable()){
 			g.setColor(Color.RED);
 			g.fillRect(abstractTransition.getX()-W/2, abstractTransition.getY()-H/2, W, H);
@@ -38,6 +40,14 @@ public class GTransition implements GElement {
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawRect(abstractTransition.getX()-W/2, abstractTransition.getY()-H/2, W, H);
 		g.drawString(""+abstractTransition.getName(), abstractTransition.getX()-W/2, abstractTransition.getY()-H/2);
+		
+		// draw selection indicator
+		if (selection.contains(this)) {
+			g.setStroke(ElementSelection.SELECTION_STROKE);
+			g.drawRect(abstractTransition.getX()-W/2-SELECTION_PADDING,
+					abstractTransition.getY()-H/2-SELECTION_PADDING,
+					W+SELECTION_PADDING*2, H+SELECTION_PADDING*2);
+		}
 	}
 
 	@Override
@@ -48,6 +58,12 @@ public class GTransition implements GElement {
 	@Override
 	public Boolean containsPoint(Point p) {
 		return p.distance(new Point(abstractTransition.getX(), abstractTransition.getY())) < 10;
+	}
+	
+	public Boolean withinRectangle(int startX, int startY, int endX, int endY) {
+		int x = abstractTransition.getX();
+		int y = abstractTransition.getY();
+		return x >= startX && y >= startY && x <= endX && y <= endY;
 	}
 
 	@Override

@@ -13,9 +13,10 @@ import edu.bsu.petriNet.model.GraphElement;
 
 public interface GElement {
 	
-	public void draw(Graphics2D g, Map<Integer,GElement> elements);
+	public void draw(Graphics2D g, Map<Integer,GElement> elements, ElementSelection selection);
 	public GraphElement getAbstractElement();
 	public Boolean containsPoint(Point p);
+	public Boolean withinRectangle(int startX, int startY, int endX, int endY);
 	public GPoint getExitPoint(Vector vector);
 	public void editDialog(JFrame frame, IController controller);
 

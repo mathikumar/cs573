@@ -31,7 +31,7 @@ public class GArc implements GElement {
 		this.abstractArc = p;
 	}
 	
-	public void draw(Graphics2D g, Map<Integer,GElement> elements){
+	public void draw(Graphics2D g, Map<Integer,GElement> elements, ElementSelection selection){
 		AbstractGraphNode origin = (AbstractGraphNode)elements.get(abstractArc.getOrigin()).getAbstractElement();
 		AbstractGraphNode target = (AbstractGraphNode)elements.get(abstractArc.getTarget()).getAbstractElement();
 		Vector vec = new Vector( origin.getX(), target.getX(), origin.getY(), target.getY());
@@ -49,6 +49,11 @@ public class GArc implements GElement {
 		GPoint textLoc = originExit.add(new Vector(targetExit).add(new Vector(originExit).inv()).mul(0.1));
 		g.drawString(String.valueOf(abstractArc.getWeight()), textLoc.x, textLoc.y+4);
 		
+		// draw selection indicator
+		if (selection.contains(this)) {
+			g.setStroke(ElementSelection.SELECTION_STROKE);
+			g.drawRect(origin.getX(), origin.getY(), target.getX()-origin.getX(), target.getY()-origin.getY());
+		}
 	}
 
 	
@@ -63,6 +68,11 @@ public class GArc implements GElement {
 			return true;
 		}
 		return false;
+	}
+	
+	public Boolean withinRectangle(int startX, int startY, int endX, int endY) {
+		return originExit.x >= startX && originExit.y >= startY && originExit.x <= endX && originExit.y <= endY
+				&& targetExit.x >= startX && targetExit.y >= startY && targetExit.x <= endX && targetExit.y <= endY;
 	}
 
 	@Override
