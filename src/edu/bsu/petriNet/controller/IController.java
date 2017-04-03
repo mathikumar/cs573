@@ -16,21 +16,21 @@ public interface IController {
 	
 	/**
 	 * Adds a transition to the petrinet.\n
-	 * @return true on success, false on failure
+	 * @return id on success, null on failure
 	 */
-	public Boolean addTransition(AbstractTransition t);
+	public Integer addTransition(AbstractTransition t);
 	
 	/**
 	 * Adds a place to the petrinet
-	 * @return
+	 * @return id on success, null on failure
 	 */
-	public Boolean addPlace(AbstractPlace p);
+	public Integer addPlace(AbstractPlace p);
 	
 	/**
 	 * Adds an arc to the petrinet
-	 * @return true on success, false on failure
+	 * @return id on success, null on failure
 	 */
-	public Boolean addArc(AbstractArc a);
+	public Integer addArc(AbstractArc a);
 
 
 	

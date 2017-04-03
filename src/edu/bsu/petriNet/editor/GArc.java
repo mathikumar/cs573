@@ -64,7 +64,7 @@ public class GArc implements GElement {
 
 	@Override
 	public Boolean containsPoint(Point p) {
-		if(Geometry.distance(p, new Vector(originExit), new Vector(targetExit)) < 7 && Geometry.withinRect(p, originExit, targetExit)){
+		if(originExit != null && targetExit != null && Geometry.distance(p, new Vector(originExit), new Vector(targetExit)) < 7 && Geometry.withinRect(p, originExit, targetExit)){
 			return true;
 		}
 		return false;

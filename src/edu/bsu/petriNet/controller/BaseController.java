@@ -43,24 +43,24 @@ public class BaseController implements IController {
 	}
 
 	@Override
-	public Boolean addTransition(AbstractTransition t) {
-		petrinet.createTransition(t.getName(),t.getX(),t.getY());
+	public Integer addTransition(AbstractTransition t) {
+		Integer id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
 		notifyStateListeners();
-		return null;
+		return id;
 	}
 
 	@Override
-	public Boolean addPlace(AbstractPlace p) {
-		petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
+	public Integer addPlace(AbstractPlace p) {
+		Integer id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
 		notifyStateListeners();
-		return null;
+		return id;
 	}
 
 	@Override
-	public Boolean addArc(AbstractArc a) {
-		petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
+	public Integer addArc(AbstractArc a) {
+		Integer id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
 		notifyStateListeners();
-		return null;
+		return id;
 	}
 
 	@Override
