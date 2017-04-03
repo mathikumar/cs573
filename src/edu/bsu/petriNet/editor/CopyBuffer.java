@@ -56,8 +56,12 @@ public class CopyBuffer {
 		for (GElement element : elements) {
 			if (element.isArc()) {
 				AbstractArc arc = (AbstractArc)element.getAbstractElement();
-				controller.addArc(new AbstractArc(arc.getWeight(),
-						newIds.get(arc.getOrigin()),newIds.get(arc.getTarget())));
+				Integer newArcOrigin = newIds.get(arc.getOrigin());
+				Integer newArcTarget = newIds.get(arc.getTarget());
+				if (newArcOrigin != null && newArcTarget != null) {
+					controller.addArc(new AbstractArc(arc.getWeight(),
+							newArcOrigin,newArcTarget));
+				}
 			}
 		}
 	}
