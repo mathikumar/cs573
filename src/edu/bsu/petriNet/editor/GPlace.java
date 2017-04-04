@@ -33,6 +33,13 @@ public class GPlace implements GElement{
 	}
 	
 	public void draw(Graphics2D g, Map<Integer,GElement> elements){
+		if(abstractPlace.getTokens() == 1){
+			g.setColor(new Color(240,240,240));
+			g.fillOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
+		}else if(abstractPlace.getTokens() > 1){
+			g.setColor(new Color(220,220,220));
+			g.fillOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
+		}
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
