@@ -162,6 +162,23 @@ public class BaseController implements IController {
 	}
 	
 	@Override
+	public Boolean redo() {
+		if(this.simHistory.isRedoPossible()){
+			this.simHistory.redo();
+			this.petrinet = this.simHistory.getCurretPetriNet();
+			notifyStateListeners(true, true);
+			return true;
+		}else if(this.m0History.isRedoPossible()){
+			this.m0History.redo();
+			this.petrinet = this.m0History.getCurretPetriNet();
+			notifyStateListeners(false, true);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	@Override
 	public Boolean undoSimulation() {
 		this.petrinet = this.m0History.getCurretPetriNet();
 		this.simHistory.reset();

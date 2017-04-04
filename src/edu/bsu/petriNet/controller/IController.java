@@ -112,6 +112,12 @@ public interface IController {
 	public Boolean undo();
 	
 	/**
+	 * Redoes the last change in the net.
+	 * @return
+	 */
+	public Boolean redo();
+	
+	/**
 	 * Undoes all simulation changes, reverting the net to the M0 state.
 	 * @return
 	 */
