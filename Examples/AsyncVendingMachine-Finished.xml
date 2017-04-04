@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="1" name="ZeroCents" numberOfTokens="1" x="198" y="294"/>
+        <place id="2" name="FiveCents" numberOfTokens="0" x="466" y="188"/>
+        <place id="3" name="TenCents" numberOfTokens="0" x="464" y="412"/>
+        <place id="4" name="FifteenCents" numberOfTokens="0" x="766" y="183"/>
+        <place id="5" name="TwentyCents" numberOfTokens="0" x="768" y="399"/>
+    </places>
+    <transitions>
+        <transition id="6" name="T1 Deposit5" x="349" y="223"/>
+        <transition id="7" name="T2 Deposit10" x="346" y="345"/>
+        <transition id="8" name="T3 Deposit5" x="468" y="303"/>
+        <transition id="9" name="T4 Deposit10" x="614" y="182"/>
+        <transition id="10" name="T5 Deposit5" x="622" y="305"/>
+        <transition id="11" name="T6 Deposit10" x="620" y="405"/>
+        <transition id="12" name="T7 Deposit5" x="768" y="296"/>
+        <transition id="13" name="T8 Get15" x="464" y="64"/>
+        <transition id="14" name="T9 Get20" x="460" y="522"/>
+    </transitions>
+    <arcs>
+        <arc id="32" name="" source="14" target="1" weight="1"/>
+        <arc id="15" name="" source="1" target="6" weight="1"/>
+        <arc id="17" name="" source="2" target="8" weight="1"/>
+        <arc id="16" name="" source="1" target="7" weight="1"/>
+        <arc id="19" name="" source="3" target="10" weight="1"/>
+        <arc id="18" name="" source="2" target="9" weight="1"/>
+        <arc id="21" name="" source="4" target="12" weight="1"/>
+        <arc id="20" name="" source="3" target="11" weight="1"/>
+        <arc id="23" name="" source="5" target="14" weight="1"/>
+        <arc id="22" name="" source="4" target="13" weight="1"/>
+        <arc id="25" name="" source="7" target="3" weight="1"/>
+        <arc id="24" name="" source="6" target="2" weight="1"/>
+        <arc id="27" name="" source="9" target="4" weight="1"/>
+        <arc id="26" name="" source="8" target="3" weight="1"/>
+        <arc id="29" name="" source="11" target="5" weight="1"/>
+        <arc id="28" name="" source="10" target="4" weight="1"/>
+        <arc id="31" name="" source="13" target="1" weight="1"/>
+        <arc id="30" name="" source="12" target="5" weight="1"/>
+    </arcs>
+</petrinet>

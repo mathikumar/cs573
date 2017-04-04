@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <petrinet>
     <places>
-        <place id="1" name="Ready to send" numberOfTokens="1" x="64" y="107"/>
-        <place id="2" name="Ready to recieve" numberOfTokens="1" x="644" y="108"/>
-        <place id="3" name="Buffer full" numberOfTokens="0" x="318" y="138"/>
-        <place id="4" name="Wait for ack" numberOfTokens="0" x="236" y="296"/>
-        <place id="5" name="Message received" numberOfTokens="0" x="474" y="274"/>
-        <place id="6" name="Ack recieved" numberOfTokens="0" x="78" y="445"/>
-        <place id="7" name="Buffer full" numberOfTokens="0" x="363" y="425"/>
-        <place id="8" name="Ack sent" numberOfTokens="0" x="575" y="406"/>
+        <place id="1" name="Ready to send" numberOfTokens="1" x="289" y="448"/>
+        <place id="2" name="Ready to recieve" numberOfTokens="1" x="85" y="297"/>
+        <place id="3" name="Buffer full" numberOfTokens="0" x="139" y="334"/>
+        <place id="4" name="Wait for ack" numberOfTokens="0" x="472" y="333"/>
+        <place id="5" name="Message received" numberOfTokens="0" x="192" y="243"/>
+        <place id="6" name="Ack recieved" numberOfTokens="0" x="153" y="69"/>
+        <place id="7" name="Buffer full" numberOfTokens="0" x="54" y="100"/>
+        <place id="8" name="Ack sent" numberOfTokens="0" x="71" y="161"/>
     </places>
     <transitions>
-        <transition id="9" name="Send Message" x="209" y="137"/>
-        <transition id="10" name="Receive message" x="462" y="123"/>
-        <transition id="11" name="Process 1" x="74" y="302"/>
-        <transition id="12" name="Process 2" x="663" y="403"/>
-        <transition id="13" name="Receive Ack" x="231" y="447"/>
-        <transition id="14" name="Send Ack" x="483" y="429"/>
+        <transition id="9" name="Send Message" x="427" y="366"/>
+        <transition id="10" name="Receive message" x="43" y="120"/>
+        <transition id="11" name="Process 1" x="165" y="67"/>
+        <transition id="12" name="Process 2" x="54" y="192"/>
+        <transition id="13" name="Receive Ack" x="110" y="288"/>
+        <transition id="14" name="Send Ack" x="232" y="458"/>
     </transitions>
     <arcs>
         <arc id="15" name="" source="1" target="9" weight="1"/>

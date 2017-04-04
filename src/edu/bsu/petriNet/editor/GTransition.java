@@ -6,8 +6,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -105,13 +108,22 @@ public class GTransition implements GElement {
 	}
 
 	@Override
-	public void editDialog(JFrame frame, IController controller) {
-		JDialog dialog = new JDialog(frame,"Click a button", true);
+	public void editDialog(JFrame frame, final IController controller) {
+		final JDialog dialog = new JDialog(frame,"Click a button", true);
 		JTextField nameField = new JTextField(this.abstractTransition.getName());
 		nameField.setPreferredSize(new Dimension(100,35));
 		JPanel contentPane = new JPanel();
 		contentPane.add(new JLabel("Name:"));
 		contentPane.add(nameField);
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controller.delete(abstractTransition.getID());
+				dialog.dispose();
+			}
+		});
+		contentPane.add(deleteButton);
 		dialog.setContentPane(contentPane);
 		dialog.pack();
 		dialog.setVisible(true);
