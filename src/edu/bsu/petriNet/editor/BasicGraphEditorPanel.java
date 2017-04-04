@@ -190,7 +190,15 @@ public class BasicGraphEditorPanel extends JPanel
 		return modified;
 	}
 
-	
+	public void cut() {
+		canvasPanel.cut();
+	}
+	public void copy() {
+		canvasPanel.copy();
+	}
+	public void paste() {
+		canvasPanel.paste();
+	}
 
 
 

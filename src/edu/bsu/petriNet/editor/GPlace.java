@@ -29,7 +29,7 @@ public class GPlace implements GElement{
 		this.abstractPlace = p;
 	}
 	
-	public void draw(Graphics2D g, Map<Integer,GElement> elements){
+	public void draw(Graphics2D g, Map<Integer,GElement> elements, ElementSelection selection){
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
@@ -39,6 +39,13 @@ public class GPlace implements GElement{
 				abstractPlace.getX()-metrics.stringWidth(str)/2, 
 				abstractPlace.getY()- metrics.getHeight()/2 + metrics.getAscent());
 		g.drawString(""+abstractPlace.getName(), abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS);
+		
+		// draw selection indicator
+		if (selection.contains(this)) {
+			g.setStroke(ElementSelection.SELECTION_STROKE);
+			g.drawRect(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS,
+					2*RADIUS, 2*RADIUS);
+		}
 	}
 
 	@Override
@@ -50,11 +57,35 @@ public class GPlace implements GElement{
 	public Boolean containsPoint(Point p) {
 		return p.distance(new Point(abstractPlace.getX(), abstractPlace.getY())) < RADIUS;
 	}
+	
+	public Boolean withinRectangle(int startX, int startY, int endX, int endY) {
+		int x = abstractPlace.getX();
+		int y = abstractPlace.getY();
+		return x >= startX && y >= startY && x <= endX && y <= endY;
+	}
+	
+	public Point getUpperLeftVisualCorner() {
+		return new Point(abstractPlace.getX()-RADIUS,abstractPlace.getY()-RADIUS);
+	}
 
 	@Override
 	public GPoint getExitPoint(Vector vector) {
 		Vector v = new Vector(abstractPlace.getX(), abstractPlace.getY());
 		return new GPoint(v.add(vector.unit().mul(RADIUS)));
+	}
+	
+	public Boolean isArc() {
+		return false;
+	}
+	public Boolean isPlace() {
+		return true;
+	}
+	public Boolean isTransition() {
+		return false;
+	}
+	
+	public GraphElement getAbstractCopy(int translateX, int translateY) {
+		return new AbstractPlace(abstractPlace.getX()+translateX,abstractPlace.getY()+translateY,abstractPlace.getTokens(),abstractPlace.getName());
 	}
 
 	@Override
