@@ -132,7 +132,7 @@ public class BaseController implements IController {
 	}
 
 	@Override
-	public Boolean simulate(int n_steps) {
+	public Boolean simulate(int n_steps, int delay_ms) {
 		for(int i = 0; i < n_steps; i++){
 			//Get available firable transitions.
 			HashMap<Integer,AbstractTransition> firables = new HashMap<>();
@@ -147,6 +147,9 @@ public class BaseController implements IController {
 				int target = this.random.nextInt(firables.keySet().size());
 				this.fire(firables.get(target));
 			}
+			try {
+				Thread.sleep(delay_ms);
+			} catch (InterruptedException e) {}
 		}
 		return true;
 	}

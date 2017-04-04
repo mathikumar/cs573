@@ -112,7 +112,7 @@ public interface IController {
 	 * @param n_steps
 	 * @return
 	 */
-	public Boolean simulate(int n_steps);
+	public Boolean simulate(int n_steps, int delay_ms);
 	
 	/**
 	 * Undoes the last change in the net.

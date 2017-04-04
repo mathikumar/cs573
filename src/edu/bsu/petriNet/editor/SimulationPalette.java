@@ -45,7 +45,7 @@ public class SimulationPalette extends JPanel implements ActionListener
 	IController controller;
 	JToggleButton fireButton;
 	JButton fireRandomButton,fireNButton;
-	JTextField nField;
+	JTextField nField, delayField;
 
 	
 	@SuppressWarnings("serial")
@@ -78,6 +78,11 @@ public class SimulationPalette extends JPanel implements ActionListener
 		nField.setEditable(true);
 		nField.setText("5");
 		add(nField);
+		
+		delayField = new JTextField();
+		delayField.setEditable(true);
+		delayField.setText("1");
+		add(delayField);
 	}
 
 
@@ -87,12 +92,12 @@ public class SimulationPalette extends JPanel implements ActionListener
 			canvasPanel.setFireBehavior();
 		}
 		if(arg0.getSource() == fireRandomButton){
-			controller.simulate(1);
+			controller.simulate(1, 0);
 		}
 		if(arg0.getSource() == fireNButton){
 			try{
 				Integer n = Integer.valueOf(nField.getText());
-				controller.simulate(n);
+				controller.simulate(n, 1000*Integer.valueOf(delayField.getText()));
 			}catch(NumberFormatException e){
 				nField.setText("1");
 			}

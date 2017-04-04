@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <petrinet>
-    <places/>
-    <transitions/>
-    <arcs/>
+    <places>
+        <place id="1" name="Ready to send" numberOfTokens="0" x="372" y="96"/>
+        <place id="2" name="Buffer full" numberOfTokens="0" x="550" y="201"/>
+        <place id="3" name="Ready to receive" numberOfTokens="1" x="728" y="74"/>
+        <place id="4" name="Wait for ack" numberOfTokens="0" x="372" y="318"/>
+        <place id="5" name="Message received" numberOfTokens="0" x="728" y="305"/>
+        <place id="6" name="Ack recieved" numberOfTokens="1" x="383" y="536"/>
+        <place id="7" name="Buffer full" numberOfTokens="0" x="536" y="434"/>
+        <place id="8" name="Ack sent" numberOfTokens="0" x="726" y="542"/>
+    </places>
+    <transitions>
+        <transition id="9" name="Send Message" x="371" y="216"/>
+        <transition id="10" name="Receive message" x="729" y="198"/>
+        <transition id="11" name="Process 1" x="147" y="295"/>
+        <transition id="12" name="Process 2" x="886" y="319"/>
+        <transition id="13" name="Receive Ack" x="375" y="430"/>
+        <transition id="14" name="Send Ack" x="728" y="425"/>
+    </transitions>
+    <arcs>
+        <arc id="15" name="" source="1" target="9" weight="1"/>
+        <arc id="16" name="" source="2" target="10" weight="1"/>
+        <arc id="17" name="" source="3" target="10" weight="1"/>
+        <arc id="18" name="" source="4" target="13" weight="1"/>
+        <arc id="19" name="" source="5" target="14" weight="1"/>
+        <arc id="20" name="" source="6" target="11" weight="1"/>
+        <arc id="21" name="" source="7" target="13" weight="1"/>
+        <arc id="22" name="" source="8" target="12" weight="1"/>
+        <arc id="23" name="" source="9" target="2" weight="1"/>
+        <arc id="24" name="" source="9" target="4" weight="1"/>
+        <arc id="25" name="" source="10" target="5" weight="1"/>
+        <arc id="26" name="" source="11" target="1" weight="1"/>
+        <arc id="27" name="" source="12" target="3" weight="1"/>
+        <arc id="28" name="" source="13" target="6" weight="1"/>
+        <arc id="29" name="" source="14" target="7" weight="1"/>
+        <arc id="30" name="" source="14" target="8" weight="1"/>
+    </arcs>
 </petrinet>

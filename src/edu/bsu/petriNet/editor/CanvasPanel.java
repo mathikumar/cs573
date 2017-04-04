@@ -403,6 +403,8 @@ public class CanvasPanel extends JPanel implements IStateListener {
 		setPreferredSize(new Dimension(maxX,maxY));
 		revalidate();
 		this.repaint();
+		Graphics g = this.getGraphics();
+		this.paint(g);
 	}
 	
 	private void reCenter(int minX, int minY){
