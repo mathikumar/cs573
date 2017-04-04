@@ -41,6 +41,9 @@ public class GPlace implements GElement{
 			g.setColor(new Color(220,220,220));
 			g.fillOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
 		}
+		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
+		g.drawOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		String str = String.valueOf(abstractPlace.getTokens());
 		g.drawString(str, 

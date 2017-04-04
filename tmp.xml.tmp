@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <petrinet>
-    <places>
-        <place id="1" name="" numberOfTokens="3" x="92" y="85"/>
-        <place id="2" name="" numberOfTokens="1" x="201" y="135"/>
-        <place id="3" name="" numberOfTokens="0" x="311" y="155"/>
-        <place id="4" name="" numberOfTokens="1" x="450" y="102"/>
-    </places>
+    <places/>
     <transitions/>
     <arcs/>
 </petrinet>

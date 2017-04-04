@@ -30,8 +30,8 @@ public class CopyBuffer {
 	
 	public void paste(IController controller, Point newOrigin) {
 		if (newOrigin == null) newOrigin = origin;
-		int dx = newOrigin.x-origin.x;
-		int dy = newOrigin.y-origin.y;
+		int dx = newOrigin.x-origin.x+35;
+		int dy = newOrigin.y-origin.y+35;
 				
 		// everything below this point sucks
 		// Start by pasting all the places and transitions, completely
