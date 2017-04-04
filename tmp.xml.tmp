@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="1" name="" numberOfTokens="1" x="64" y="120"/>
+    </places>
+    <transitions>
+        <transition id="2" name="" x="376" y="147"/>
+    </transitions>
+    <arcs/>
+</petrinet>

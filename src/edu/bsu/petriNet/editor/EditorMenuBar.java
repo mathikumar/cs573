@@ -157,7 +157,14 @@ public class EditorMenuBar extends JMenuBar
 		// Creates the edit menu
 		menu = add(new JMenu("Edit"));
 		JMenuItem undoItem = new JMenuItem("Undo");
+		undoItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+		            controller.undo();		        
+		        
+			}
+		});
 		menu.add(undoItem);
+		
 		JMenuItem redoItem = new JMenuItem("Redo");
 		menu.add(redoItem);
 		

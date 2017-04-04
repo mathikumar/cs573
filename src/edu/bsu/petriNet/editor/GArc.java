@@ -7,8 +7,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -80,6 +83,15 @@ public class GArc implements GElement {
 		JPanel contentPane = new JPanel();
 		contentPane.add(new JLabel("weight:"));
 		contentPane.add(weightField);
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controller.delete(abstractArc.getID());
+				dialog.dispose();
+			}
+		});
+		contentPane.add(deleteButton);
 		dialog.setContentPane(contentPane);
 		dialog.pack();
 		dialog.setVisible(true);
