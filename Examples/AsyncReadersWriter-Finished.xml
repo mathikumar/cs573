@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<petrinet>
+    <places>
+        <place id="1" name="P1 Processes" numberOfTokens="2" x="513" y="74"/>
+        <place id="2" name="P2 Reading" numberOfTokens="0" x="673" y="294"/>
+        <place id="3" name="P3 SharedMemory" numberOfTokens="2" x="500" y="286"/>
+        <place id="4" name="P4 Writing" numberOfTokens="0" x="332" y="286"/>
+    </places>
+    <transitions>
+        <transition id="5" name="T1" x="677" y="191"/>
+        <transition id="6" name="T2" x="329" y="173"/>
+        <transition id="7" name="T3" x="672" y="377"/>
+        <transition id="8" name="T4" x="328" y="375"/>
+    </transitions>
+    <arcs>
+        <arc id="17" name="" source="7" target="1" weight="1"/>
+        <arc id="16" name="" source="6" target="4" weight="1"/>
+        <arc id="19" name="" source="8" target="1" weight="1"/>
+        <arc id="18" name="" source="7" target="3" weight="1"/>
+        <arc id="20" name="" source="8" target="3" weight="1"/>
+        <arc id="9" name="" source="1" target="5" weight="1"/>
+        <arc id="10" name="" source="1" target="6" weight="1"/>
+        <arc id="11" name="" source="2" target="7" weight="1"/>
+        <arc id="12" name="" source="3" target="5" weight="1"/>
+        <arc id="13" name="" source="3" target="6" weight="1"/>
+        <arc id="14" name="" source="4" target="8" weight="1"/>
+        <arc id="15" name="" source="5" target="2" weight="1"/>
+    </arcs>
+</petrinet>
