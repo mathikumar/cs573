@@ -7,8 +7,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +34,7 @@ public class GArc implements GElement {
 		this.abstractArc = p;
 	}
 	
-	public void draw(Graphics2D g, Map<Integer,GElement> elements){
+	public void draw(Graphics2D g, Map<Integer,GElement> elements, ElementSelection selection){
 		AbstractGraphNode origin = (AbstractGraphNode)elements.get(abstractArc.getOrigin()).getAbstractElement();
 		AbstractGraphNode target = (AbstractGraphNode)elements.get(abstractArc.getTarget()).getAbstractElement();
 		Vector vec = new Vector( origin.getX(), target.getX(), origin.getY(), target.getY());
@@ -49,6 +52,11 @@ public class GArc implements GElement {
 		GPoint textLoc = originExit.add(new Vector(targetExit).add(new Vector(originExit).inv()).mul(0.1));
 		g.drawString(String.valueOf(abstractArc.getWeight()), textLoc.x, textLoc.y+4);
 		
+		// draw selection indicator
+		if (selection.contains(this)) {
+			g.setStroke(ElementSelection.SELECTION_STROKE);
+			g.drawRect(origin.getX(), origin.getY(), target.getX()-origin.getX(), target.getY()-origin.getY());
+		}
 	}
 
 	
@@ -59,10 +67,33 @@ public class GArc implements GElement {
 
 	@Override
 	public Boolean containsPoint(Point p) {
-		if(Geometry.distance(p, new Vector(originExit), new Vector(targetExit)) < 7 && Geometry.withinRect(p, originExit, targetExit)){
+		if(originExit != null && targetExit != null && Geometry.distance(p, new Vector(originExit), new Vector(targetExit)) < 7 && Geometry.withinRect(p, originExit, targetExit)){
 			return true;
 		}
 		return false;
+	}
+	
+	public Boolean withinRectangle(int startX, int startY, int endX, int endY) {
+		return originExit.x >= startX && originExit.y >= startY && originExit.x <= endX && originExit.y <= endY
+				&& targetExit.x >= startX && targetExit.y >= startY && targetExit.x <= endX && targetExit.y <= endY;
+	}
+	
+	public Point getUpperLeftVisualCorner() {
+		return new Point(Math.min(originExit.x,targetExit.x),Math.min(originExit.y, targetExit.y));
+	}
+	
+	public Boolean isArc() {
+		return true;
+	}
+	public Boolean isPlace() {
+		return false;
+	}
+	public Boolean isTransition() {
+		return false;
+	}
+	
+	public GraphElement getAbstractCopy(int translateX, int translateY) {
+		throw new UnsupportedOperationException("cannot copy arc"); 
 	}
 
 	@Override
@@ -71,8 +102,8 @@ public class GArc implements GElement {
 	}
 
 	@Override
-	public void editDialog(JFrame frame, IController controller) {
-		JDialog dialog = new JDialog(frame,"Click a button", true);
+	public void editDialog(JFrame frame, final IController controller) {
+		final JDialog dialog = new JDialog(frame,"Click a button", true);
 		//JTextField nameField = new JTextField(this.abstractArc.getName());
 		//nameField.setPreferredSize(new Dimension(100,35));
 		JTextField weightField = new JTextField(this.abstractArc.getWeight());
@@ -80,6 +111,15 @@ public class GArc implements GElement {
 		JPanel contentPane = new JPanel();
 		contentPane.add(new JLabel("weight:"));
 		contentPane.add(weightField);
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controller.delete(abstractArc.getID());
+				dialog.dispose();
+			}
+		});
+		contentPane.add(deleteButton);
 		dialog.setContentPane(contentPane);
 		dialog.pack();
 		dialog.setVisible(true);

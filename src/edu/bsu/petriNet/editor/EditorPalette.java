@@ -41,6 +41,7 @@ public class EditorPalette extends JPanel implements ActionListener
 	JToggleButton newPlaceButton;
 	JToggleButton newArcButton;
 	JToggleButton newTransitionButton;
+	JToggleButton selectButton;
 	CanvasPanel canvasPanel;
 	
 	@SuppressWarnings("serial")
@@ -67,6 +68,11 @@ public class EditorPalette extends JPanel implements ActionListener
 		designChoicesGroup.add(newTransitionButton);
 		newTransitionButton.addActionListener(this);
 		add(newTransitionButton);
+		
+		selectButton = new JToggleButton("Select");
+		designChoicesGroup.add(selectButton);
+		selectButton.addActionListener(this);
+		add(selectButton);
 	}
 
 
@@ -74,12 +80,12 @@ public class EditorPalette extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == newPlaceButton){
 			this.canvasPanel.setNewPlaceState();
-		}
-		if(arg0.getSource() == newArcButton){
+		} else if(arg0.getSource() == newArcButton){
 			this.canvasPanel.setNewArcState();
-		}
-		if(arg0.getSource() == newTransitionButton){
+		} else if(arg0.getSource() == newTransitionButton){
 			this.canvasPanel.setNewTransitionState();
+		} else if(arg0.getSource() == selectButton){
+			this.canvasPanel.setSelectState();
 		}
 		
 	}

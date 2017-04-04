@@ -159,12 +159,10 @@ public class EditorMenuBar extends JMenuBar
 		JMenuItem undoItem = new JMenuItem("Undo");
 		undoItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
-				
-		            controller.undo();	        
+				controller.undo();	        
 		        
 			}
 		});
-		
 		menu.add(undoItem);
 		
 		JMenuItem redoItem = new JMenuItem("Redo");
@@ -180,22 +178,27 @@ public class EditorMenuBar extends JMenuBar
 		menu.addSeparator();
 		
 		JMenuItem cutItem = new JMenuItem("Cut");
+		cutItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	editor.cut();}
+		});
 		menu.add(cutItem);
 		
 		JMenuItem copyItem = new JMenuItem("Copy");
+		copyItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	editor.copy();}
+		});
 		menu.add(copyItem);
 		
 		JMenuItem pasteItem = new JMenuItem("Paste");
+		pasteItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	editor.paste();}
+		});
 		menu.add(pasteItem);
 		
 		menu.addSeparator();
 		
-		JMenuItem deleteItem = new JMenuItem("Delete");
+		JMenuItem deleteItem = new JMenuItem("Delete (NYI)");
 		menu.add(deleteItem);
-		
-		JMenuItem selectItem = new JMenuItem("Select");
-		menu.add(selectItem);
-		
 		
 		// Creates the analysis menu
 		menu = add(new JMenu("Analysis"));

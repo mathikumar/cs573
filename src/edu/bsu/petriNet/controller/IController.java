@@ -16,21 +16,21 @@ public interface IController {
 	
 	/**
 	 * Adds a transition to the petrinet.\n
-	 * @return true on success, false on failure
+	 * @return id on success, null on failure
 	 */
-	public Boolean addTransition(AbstractTransition t);
+	public Integer addTransition(AbstractTransition t);
 	
 	/**
 	 * Adds a place to the petrinet
-	 * @return
+	 * @return id on success, null on failure
 	 */
-	public Boolean addPlace(AbstractPlace p);
+	public Integer addPlace(AbstractPlace p);
 	
 	/**
 	 * Adds an arc to the petrinet
-	 * @return true on success, false on failure
+	 * @return id on success, null on failure
 	 */
-	public Boolean addArc(AbstractArc a);
+	public Integer addArc(AbstractArc a);
 
 
 	
@@ -78,6 +78,15 @@ public interface IController {
 	public Boolean setLocation(AbstractGraphNode n);
 	
 	/**
+	 * Translate the x,y coordinates of a node
+	 * 
+	 * @param id the id of the node to move
+	 * @param dx delta x
+	 * @param dy delta y
+	 */
+	public Boolean translate(Integer id, Integer dx, Integer dy);
+	
+	/**
 	 * Saves the initial state of the net to the specified filename
 	 * @param filename
 	 * @return
@@ -122,7 +131,4 @@ public interface IController {
 	 * @return
 	 */
 	public Boolean undoSimulation();
-
-
-
 }

@@ -3,6 +3,7 @@ package test.controller;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +21,7 @@ import edu.bsu.petriNet.model.AbstractTransition;
 public class ControllerTest {
 	public BaseController controller;
 	public StateSet stateset;
+	public Random random;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -32,6 +34,7 @@ public class ControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		this.controller = new BaseController();
+		this.random = new Random();
 		//Register as listener
 		controller.registerStateListener(new IStateListener(){
 			
@@ -157,16 +160,17 @@ public class ControllerTest {
 		//places
 		ArrayList<AbstractPlace> places = new ArrayList<>();
 		String[] placenames = {"Ready to send",
+								"Ready to recieve", 
 								"Buffer full", 
-								"Ready to receive", 
 								"Wait for ack",	
 								"Message received",
 								"Ack recieved",
 								"Buffer full",
 								"Ack sent"};
+		Integer[] tokens = {1,1,0,0,0,0,0,0};
 		
-		for(String name: placenames){
-			AbstractPlace p = new AbstractPlace(0,0,1,name);
+		for(int i = 0; i <  placenames.length; i ++){
+			AbstractPlace p = new AbstractPlace(random.nextInt(500),random.nextInt(500),tokens[i],placenames[i]);
 			controller.addPlace(p);
 			places.add(p);
 		}
@@ -182,7 +186,7 @@ public class ControllerTest {
 		};
 		
 		for(String name: transitionnames){
-			AbstractTransition t = new AbstractTransition(0,0,name);
+			AbstractTransition t = new AbstractTransition(random.nextInt(500),random.nextInt(500),name);
 			controller.addTransition(t);
 			transitions.add(t);
 		}
@@ -190,7 +194,7 @@ public class ControllerTest {
 		//Arcs
 		ArrayList<AbstractArc> arcs = new ArrayList<>();
 		Integer[] originplaces = 			{0,1,2,3,4,5,6,7};
-		Integer[] destinationtransitions =	{0,1,1,4,5,4,2,3};
+		Integer[] destinationtransitions =	{0,1,1,4,5,2,4,3};
 		for(int i=0; i < originplaces.length; i++){
 			Integer originID = originplaces[i]+1;
 			Integer destinationID = placenames.length + destinationtransitions[i] + 1;
@@ -235,8 +239,8 @@ public class ControllerTest {
 	@Test
 	public final void testAsyncCommunicationNetIO(){
 		StateSet initial = setupAsyncCommunicationNet();
-		controller.save("AsyncCommunication.xml");
-		controller.load("AsyncCommunication.xml");
+		controller.save("AsyncCommunicationtest.xml");
+		controller.load("AsyncCommunicationtest.xml");
 		//Check the stateset
 		for(AbstractPlace p: initial.getPlaces()){
 			System.out.println(p);
@@ -347,8 +351,8 @@ public class ControllerTest {
 	@Test
 	public final void testAsyncVendingMachineNetIO(){
 		StateSet initial = setupAsyncVendingMachineNet();
-		controller.save("AsyncVendingMachine.xml");
-		controller.load("AsyncVendingMachine.xml");
+		controller.save("VendingMachinetest.xml");
+		controller.load("VendingMachinetest.xml");
 		//Check the stateset
 		for(AbstractPlace p: initial.getPlaces()){
 			System.out.println(p);
@@ -471,8 +475,8 @@ public class ControllerTest {
 	@Test
 	public final void testAsyncDiningPhilosophersIO(){
 		StateSet initial = setupAsyncDiningPhilosophersNet();
-		controller.save("AsyncDiningPhilosophers.xml");
-		controller.load("AsyncDiningPhilosophers.xml");
+		controller.save("DiningPhilosopherstest.xml");
+		controller.load("DiningPhilosopherstest.xml");
 		//Check the stateset
 		for(AbstractPlace p: initial.getPlaces()){
 			System.out.println(p);

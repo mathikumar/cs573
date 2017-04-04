@@ -6,8 +6,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,11 +28,13 @@ public class GTransition implements GElement {
 	private int W = 25;
 	private int H = 50;
 	
+	private final int SELECTION_PADDING = 4;
+	
 	public GTransition(AbstractTransition p){
 		this.abstractTransition = p;
 	}
 	
-	public void draw(Graphics2D g, Map<Integer,GElement> elements){
+	public void draw(Graphics2D g, Map<Integer,GElement> elements, ElementSelection selection){
 		if(this.abstractTransition.isFirable()){
 			g.setColor(Color.RED);
 			g.fillRect(abstractTransition.getX()-W/2, abstractTransition.getY()-H/2, W, H);
@@ -38,6 +43,14 @@ public class GTransition implements GElement {
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawRect(abstractTransition.getX()-W/2, abstractTransition.getY()-H/2, W, H);
 		g.drawString(""+abstractTransition.getName(), abstractTransition.getX()-W/2, abstractTransition.getY()-H/2);
+		
+		// draw selection indicator
+		if (selection.contains(this)) {
+			g.setStroke(ElementSelection.SELECTION_STROKE);
+			g.drawRect(abstractTransition.getX()-W/2-SELECTION_PADDING,
+					abstractTransition.getY()-H/2-SELECTION_PADDING,
+					W+SELECTION_PADDING*2, H+SELECTION_PADDING*2);
+		}
 	}
 
 	@Override
@@ -49,7 +62,31 @@ public class GTransition implements GElement {
 	public Boolean containsPoint(Point p) {
 		return p.distance(new Point(abstractTransition.getX(), abstractTransition.getY())) < 10;
 	}
+	
+	public Boolean withinRectangle(int startX, int startY, int endX, int endY) {
+		int x = abstractTransition.getX();
+		int y = abstractTransition.getY();
+		return x >= startX && y >= startY && x <= endX && y <= endY;
+	}
+	
+	public Point getUpperLeftVisualCorner() {
+		return new Point(abstractTransition.getX()-W/2,abstractTransition.getY()-H/2);
+	}
+	
+	public Boolean isArc() {
+		return false;
+	}
+	public Boolean isPlace() {
+		return false;
+	}
+	public Boolean isTransition() {
+		return true;
+	}
 
+	public GraphElement getAbstractCopy(int translateX, int translateY) {
+		return new AbstractTransition(abstractTransition.getX()+translateX,abstractTransition.getY()+translateY,abstractTransition.getName());
+	}
+	
 	@Override
 	public GPoint getExitPoint(Vector vector) {
 		Vector v = new Vector(abstractTransition.getX(), abstractTransition.getY());
@@ -71,13 +108,22 @@ public class GTransition implements GElement {
 	}
 
 	@Override
-	public void editDialog(JFrame frame, IController controller) {
-		JDialog dialog = new JDialog(frame,"Click a button", true);
+	public void editDialog(JFrame frame, final IController controller) {
+		final JDialog dialog = new JDialog(frame,"Click a button", true);
 		JTextField nameField = new JTextField(this.abstractTransition.getName());
 		nameField.setPreferredSize(new Dimension(100,35));
 		JPanel contentPane = new JPanel();
 		contentPane.add(new JLabel("Name:"));
 		contentPane.add(nameField);
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controller.delete(abstractTransition.getID());
+				dialog.dispose();
+			}
+		});
+		contentPane.add(deleteButton);
 		dialog.setContentPane(contentPane);
 		dialog.pack();
 		dialog.setVisible(true);

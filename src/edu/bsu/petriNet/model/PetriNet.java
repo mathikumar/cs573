@@ -29,10 +29,23 @@ public class PetriNet
 		places.put(id,p);
 		return true;
 	}
-			
-	public Boolean createPlace(String name, int tokenN, int x, int y){
-		
-		return this.createPlace(idGen.getUniqueIdentifier(), name, tokenN, x, y);
+	
+	/**
+	 * Creates a new place with an automatically generated unique identifier.
+	 * 
+	 * @param name
+	 * @param tokenN
+	 * @param x
+	 * @param y
+	 * @return the place's id on success, null on failure
+	 */
+	public Integer createPlace(String name, int tokenN, int x, int y){
+		Integer id = idGen.getUniqueIdentifier();
+		if (this.createPlace(id, name, tokenN, x, y)) {
+			return id;
+		} else {
+			return null;
+		}
 	}
 	
 	protected Boolean createTransition(int id, String name, int x, int y){
@@ -42,9 +55,13 @@ public class PetriNet
 		return true;
 	}
 	
-    public Boolean createTransition(String name, int x, int y){
-		
-		return this.createTransition(idGen.getUniqueIdentifier(), name, x, y);
+    public Integer createTransition(String name, int x, int y){
+    	Integer id = idGen.getUniqueIdentifier();
+		if (this.createTransition(id, name, x, y)) {
+			return id;
+		} else {
+			return null;
+		}
 	}
 	
     protected Boolean createArc(int id, String name, int sourceId, int targeId, int weight){
@@ -64,9 +81,13 @@ public class PetriNet
 		return false;
 	}
 	
-    public Boolean createArc(String name, int sourceId, int targeId, int weight){
-		
-		return this.createArc(idGen.getUniqueIdentifier(), name, sourceId, targeId, weight);
+    public Integer createArc(String name, int sourceId, int targeId, int weight){
+    	Integer id = idGen.getUniqueIdentifier();
+		if (this.createArc(id, name, sourceId, targeId, weight)) {
+			return id;
+		} else {
+			return null;
+		}
 	}
     
    /* private boolean deletePlace(int id)
