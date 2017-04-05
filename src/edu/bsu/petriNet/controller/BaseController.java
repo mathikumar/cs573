@@ -37,63 +37,79 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean newNet() {
-		this.petrinet = new PetriNet();
-		this.history.reset();
-		this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			this.petrinet = new PetriNet();
+			this.history.reset();
+			this.dispatch.notifyStateListeners();
+		}
 		return true;
 	}
 
 	@Override
 	public Integer addTransition(AbstractTransition t) {
-		Integer id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
-		this.dispatch.notifyStateListeners();
-		return id;
+		synchronized(this.petrinet){
+			Integer id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
+			this.dispatch.notifyStateListeners();
+			return id;
+		}
 	}
 
 	@Override
 	public Integer addPlace(AbstractPlace p) {
-		Integer id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
-		this.dispatch.notifyStateListeners();
-		return id;
+		synchronized(this.petrinet){
+			Integer id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
+			this.dispatch.notifyStateListeners();
+			return id;
+		}
 	}
 
 	@Override
 	public Integer addArc(AbstractArc a) {
-		Integer id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
-		this.dispatch.notifyStateListeners();
-		return id;
+		synchronized(this.petrinet){
+			Integer id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
+			this.dispatch.notifyStateListeners();
+			return id;
+		}
 	}
 
 	@Override
 	public Boolean delete(Integer ID) {
-		petrinet.delete(ID);
-		this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			petrinet.delete(ID);
+			this.dispatch.notifyStateListeners();
+		}
 		return null;
 	}
 
 	@Override
 	public Boolean setArcWeight(AbstractArc a, Boolean notify) {
-		Boolean r = petrinet.setArcWeight(a.getID(), a.getWeight());
-		if(notify){
-			this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			Boolean r = petrinet.setArcWeight(a.getID(), a.getWeight());
+			if(notify){
+				this.dispatch.notifyStateListeners();
+			}
+			return r;
 		}
-		return r;
 	}
 
 	@Override
 	public Boolean setPlaceTokenCount(AbstractPlace p, Boolean notify) {
-		Boolean r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
-		if(notify){
-			this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			Boolean r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
+			if(notify){
+				this.dispatch.notifyStateListeners();
+			}
+			return r;
 		}
-		return r;
 	}
 
 	@Override
 	public Boolean setName(AbstractGraphNode n, Boolean notify) {
-		petrinet.setName(n.getID(), n.getName());
-		if(notify){
-			this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			petrinet.setName(n.getID(), n.getName());
+			if(notify){
+				this.dispatch.notifyStateListeners();
+			}
 		}
 		return null;
 	}
@@ -107,61 +123,77 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean setLocation(AbstractGraphNode n, Boolean notify) {
-		petrinet.setPosition(n.getID(), n.getX(), n.getY());
-		if(notify){
-			this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			petrinet.setPosition(n.getID(), n.getX(), n.getY());
+			if(notify){
+				this.dispatch.notifyStateListeners();
+			}
 		}
 		return null;
 	}
 	
 	public Boolean translate(Integer id, Integer dx, Integer dy, Boolean notify) {
-		GraphNode node = petrinet.getGraphNodeById(id);
-		petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
-		if(notify){
-			this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			GraphNode node = petrinet.getGraphNodeById(id);
+			petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
+			if(notify){
+				this.dispatch.notifyStateListeners();
+			}
 		}
 		return null;
 	}
 
 	@Override
 	public Boolean save(String filename) {
-		return XmlInputOutput.printModel(petrinet, filename);
+		synchronized(this.petrinet){
+			return XmlInputOutput.printModel(petrinet, filename);
+		}
 	}
 
 	@Override
 	public Boolean load(String filename) {
-		petrinet = XmlInputOutput.readModel(filename);
-		this.dispatch.notifyStateListeners();
+		synchronized(this.petrinet){
+			petrinet = XmlInputOutput.readModel(filename);
+			this.dispatch.notifyStateListeners();
+		}
 		return null;
 	}
 
 	@Override
 	public Boolean fire(AbstractTransition t) {
-		Boolean r = petrinet.fire(t.getID());
-		this.dispatch.notifyStateListeners(true, false);
-		return r;
+		synchronized(this.petrinet){
+			Boolean r = petrinet.fire(t.getID());
+			this.dispatch.notifyStateListeners(true, false);
+			return r;
+		}
 	}
 
 	@Override
 	public Boolean simulate(int n_steps, int delay_ms) {
-		for(int i = 0; i < n_steps; i++){
-			//Get available firable transitions.
-			HashMap<Integer,AbstractTransition> firables = new HashMap<>();
-			int k = 0;
-			for(AbstractTransition t :this.petrinet.getAbstractTransitions()){
-				if(t.isFirable()){
-					firables.put(k++, t);
+		new Thread(){
+			public void run(){
+				synchronized(BaseController.this.petrinet){
+					for(int i = 0; i < n_steps; i++){
+						//Get available firable transitions.
+						HashMap<Integer,AbstractTransition> firables = new HashMap<>();
+						int k = 0;
+						for(AbstractTransition t :BaseController.this.petrinet.getAbstractTransitions()){
+							if(t.isFirable()){
+								firables.put(k++, t);
+							}
+						}
+						//Fire one.
+						if(firables.keySet().size() >0){
+							int target = BaseController.this.random.nextInt(firables.keySet().size());
+							BaseController.this.fire(firables.get(target));
+						}
+						try {
+							Thread.sleep(delay_ms);
+						} catch (InterruptedException e) {}
+					}
 				}
 			}
-			//Fire one.
-			if(firables.keySet().size() >0){
-				int target = this.random.nextInt(firables.keySet().size());
-				this.fire(firables.get(target));
-			}
-			try {
-				Thread.sleep(delay_ms);
-			} catch (InterruptedException e) {}
-		}
+		}.start();
 		return true;
 	}
 
@@ -169,8 +201,10 @@ public class BaseController implements IController {
 	public Boolean undo() {
 		if(this.history.isUndoPossible()){
 			this.history.undo();
-			this.petrinet = this.history.getCurrentPetriNet();
-			this.dispatch.notifyStateListeners(true, true);
+			synchronized(this.petrinet){
+				this.petrinet = this.history.getCurrentPetriNet();
+				this.dispatch.notifyStateListeners(true, true);
+			}
 			return true;
 		}
 		return false;
@@ -180,8 +214,10 @@ public class BaseController implements IController {
 	public Boolean redo() {
 		if(this.history.isRedoPossible()){
 			this.history.redo();
-			this.petrinet = this.history.getCurrentPetriNet();
-			this.dispatch.notifyStateListeners(true, true);
+			synchronized(this.petrinet){
+				this.petrinet = this.history.getCurrentPetriNet();
+				this.dispatch.notifyStateListeners(true, true);
+			}
 			return true;
 		}
 		return false;
@@ -190,8 +226,10 @@ public class BaseController implements IController {
 	@Override
 	public Boolean undoSimulation() {
 		this.history.undoBranch();
-		this.petrinet = this.history.getCurrentPetriNet();
-		this.dispatch.notifyStateListeners(false, true);
+		synchronized(this.petrinet){
+			this.petrinet = this.history.getCurrentPetriNet();
+			this.dispatch.notifyStateListeners(false, true);
+		}
 		return true;
 	}
 	
@@ -242,8 +280,5 @@ public class BaseController implements IController {
 			}
 		}
 	}
-
-	
-	
 	
 }
