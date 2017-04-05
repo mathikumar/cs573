@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
+import java.util.concurrent.LinkedBlockingQueue;
 
 import edu.bsu.petriNet.editor.BasicGraphEditorPanel;
+import edu.bsu.petriNet.helper.BranchedHistoryProvider;
 import edu.bsu.petriNet.helper.HistoryProvider;
 import edu.bsu.petriNet.model.AbstractArc;
 import edu.bsu.petriNet.model.AbstractGraphNode;
@@ -19,96 +20,106 @@ import edu.bsu.petriNet.model.PetriNet;
 import edu.bsu.petriNet.model.XmlInputOutput;
 
 public class BaseController implements IController {
-	private ArrayList<IStateListener> stateListeners;
+	private ChangeDispatch dispatch;
 	private PetriNet petrinet;
 	private Random random;
-	private HistoryProvider m0History, simHistory;
+	private BranchedHistoryProvider history;
 	
 
 	public BaseController(){
-		this.stateListeners = new ArrayList<>();
+		this.dispatch = new ChangeDispatch();
+		(new Thread(this.dispatch)).start();
 		this.petrinet = new PetriNet();
-		this.m0History = new HistoryProvider();
-		this.simHistory = new HistoryProvider();
+		this.history = new BranchedHistoryProvider();
 		this.random = new Random();
+		this.newNet();
 	}
 
 	@Override
 	public Boolean newNet() {
 		this.petrinet = new PetriNet();
-		this.m0History.reset();
-		this.simHistory.reset();
-		notifyStateListeners();
+		this.history.reset();
+		this.dispatch.notifyStateListeners();
 		return true;
 	}
 
 	@Override
 	public Integer addTransition(AbstractTransition t) {
 		Integer id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
-		notifyStateListeners();
+		this.dispatch.notifyStateListeners();
 		return id;
 	}
 
 	@Override
 	public Integer addPlace(AbstractPlace p) {
 		Integer id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
-		notifyStateListeners();
+		this.dispatch.notifyStateListeners();
 		return id;
 	}
 
 	@Override
 	public Integer addArc(AbstractArc a) {
 		Integer id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
-		notifyStateListeners();
+		this.dispatch.notifyStateListeners();
 		return id;
 	}
 
 	@Override
 	public Boolean delete(Integer ID) {
 		petrinet.delete(ID);
-		notifyStateListeners();
+		this.dispatch.notifyStateListeners();
 		return null;
 	}
 
 	@Override
-	public Boolean setArcWeight(AbstractArc a) {
+	public Boolean setArcWeight(AbstractArc a, Boolean notify) {
 		Boolean r = petrinet.setArcWeight(a.getID(), a.getWeight());
-		notifyStateListeners();
+		if(notify){
+			this.dispatch.notifyStateListeners();
+		}
 		return r;
 	}
 
 	@Override
-	public Boolean setPlaceTokenCount(AbstractPlace p) {
+	public Boolean setPlaceTokenCount(AbstractPlace p, Boolean notify) {
 		Boolean r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
-		notifyStateListeners();
+		if(notify){
+			this.dispatch.notifyStateListeners();
+		}
 		return r;
 	}
 
 	@Override
-	public Boolean setName(AbstractGraphNode n) {
+	public Boolean setName(AbstractGraphNode n, Boolean notify) {
 		petrinet.setName(n.getID(), n.getName());
-		notifyStateListeners();
+		if(notify){
+			this.dispatch.notifyStateListeners();
+		}
 		return null;
 	}
 
 
 	@Override
 	public Boolean registerStateListener(IStateListener l) {
-		this.stateListeners.add(l);
+		this.dispatch.registerStateListener(l);
 		return true;
 	}
 
 	@Override
-	public Boolean setLocation(AbstractGraphNode n) {
+	public Boolean setLocation(AbstractGraphNode n, Boolean notify) {
 		petrinet.setPosition(n.getID(), n.getX(), n.getY());
-		notifyStateListeners();
+		if(notify){
+			this.dispatch.notifyStateListeners();
+		}
 		return null;
 	}
 	
-	public Boolean translate(Integer id, Integer dx, Integer dy) {
+	public Boolean translate(Integer id, Integer dx, Integer dy, Boolean notify) {
 		GraphNode node = petrinet.getGraphNodeById(id);
 		petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
-		notifyStateListeners();
+		if(notify){
+			this.dispatch.notifyStateListeners();
+		}
 		return null;
 	}
 
@@ -120,14 +131,14 @@ public class BaseController implements IController {
 	@Override
 	public Boolean load(String filename) {
 		petrinet = XmlInputOutput.readModel(filename);
-		notifyStateListeners();
+		this.dispatch.notifyStateListeners();
 		return null;
 	}
 
 	@Override
 	public Boolean fire(AbstractTransition t) {
 		Boolean r = petrinet.fire(t.getID());
-		notifyStateListeners(true, false);
+		this.dispatch.notifyStateListeners(true, false);
 		return r;
 	}
 
@@ -156,73 +167,79 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean undo() {
-		if(this.simHistory.isUndoPossible()){
-			this.simHistory.undo();
-			this.petrinet = this.simHistory.getCurretPetriNet();
-			notifyStateListeners(true, true);
+		if(this.history.isUndoPossible()){
+			this.history.undo();
+			this.petrinet = this.history.getCurrentPetriNet();
+			this.dispatch.notifyStateListeners(true, true);
 			return true;
-		}else if(this.m0History.isUndoPossible()){
-			this.m0History.undo();
-			this.petrinet = this.m0History.getCurretPetriNet();
-			notifyStateListeners(false, true);
-			return true;
-		}else{
-			return false;
 		}
+		return false;
 	}
 	
 	@Override
 	public Boolean redo() {
-		if(this.simHistory.isRedoPossible()){
-			this.simHistory.redo();
-			this.petrinet = this.simHistory.getCurretPetriNet();
-			notifyStateListeners(true, true);
+		if(this.history.isRedoPossible()){
+			this.history.redo();
+			this.petrinet = this.history.getCurrentPetriNet();
+			this.dispatch.notifyStateListeners(true, true);
 			return true;
-		}else if(this.m0History.isRedoPossible()){
-			this.m0History.redo();
-			this.petrinet = this.m0History.getCurretPetriNet();
-			notifyStateListeners(false, true);
-			return true;
-		}else{
-			return false;
 		}
+		return false;
 	}
 	
 	@Override
 	public Boolean undoSimulation() {
-		this.petrinet = this.m0History.getCurretPetriNet();
-		this.simHistory.reset();
-		notifyStateListeners(false, true);
+		this.history.undoBranch();
+		this.petrinet = this.history.getCurrentPetriNet();
+		this.dispatch.notifyStateListeners(false, true);
 		return true;
 	}
 	
-	private void notifyStateListeners(){
-		notifyStateListeners(false, false);
-	}
-	
-	private void notifyStateListeners(Boolean isSimulation, Boolean isUndoChange){
-		// We have two HistoryProviders.  One for M0 changes, One for Simulation changes.
-		// For every M0 change we can clear the Simulation change history
-		if(!isUndoChange){
-			if(isSimulation){
-				this.simHistory.savePetriNetCheckPoint(this.petrinet);
-			}else{
-				this.m0History.savePetriNetCheckPoint(this.petrinet);
-				this.simHistory.reset();
-			}
+	private class ChangeDispatch implements Runnable{
+		private ArrayList<IStateListener> stateListeners;
+		private LinkedBlockingQueue<PetriNet> queue;
+		
+		public ChangeDispatch(){
+			this.stateListeners = new ArrayList<>();
+			this.queue = new LinkedBlockingQueue<>();
 		}
-		for(IStateListener l : this.stateListeners){
-			StateSet newstate = new StateSet();
-			for(AbstractArc arc: this.petrinet.getAbstractArcs()){
-				newstate.addArc(arc);
+		
+		public void registerStateListener(IStateListener l){
+			this.stateListeners.add(l);
+		}
+		
+		private void notifyStateListeners(){
+			notifyStateListeners(false, false);
+		}
+		
+		private void notifyStateListeners(Boolean isSimulation, Boolean isUndoChange){
+			// We have two HistoryProviders.  One for M0 changes, One for Simulation changes.
+			// For every M0 change we can clear the Simulation change history
+			if(!isUndoChange){
+				history.checkPoint(petrinet, isSimulation);
 			}
-			for(AbstractTransition trans: this.petrinet.getAbstractTransitions()){
-				newstate.addTransition(trans);
+			this.queue.add(petrinet.getDeepCopy());
+		}
+		
+		public void run(){
+			while(true){
+				if(!queue.isEmpty()){
+					PetriNet net = queue.poll();
+					for(IStateListener l : this.stateListeners){
+						StateSet newstate = new StateSet();
+						for(AbstractArc arc: net.getAbstractArcs()){
+							newstate.addArc(arc);
+						}
+						for(AbstractTransition trans: net.getAbstractTransitions()){
+							newstate.addTransition(trans);
+						}
+						for(AbstractPlace place: net.getAbstractPlaces()){
+							newstate.addPlace(place);
+						}
+						l.newState(newstate);
+					}
+				}
 			}
-			for(AbstractPlace place: this.petrinet.getAbstractPlaces()){
-				newstate.addPlace(place);
-			}
-			l.newState(newstate);
 		}
 	}
 

@@ -17,8 +17,8 @@ public class HistoryProvider
 	public void reset()
 	{
 		this.checkpoints = new ArrayList<PetriNet>();
-		this.checkpoints.add(new PetriNet());
-		this.currentCheckPoint = 0;
+		//this.checkpoints.add(new PetriNet());
+		this.currentCheckPoint = -1;
 	}
 	
 	public PetriNet getCurretPetriNet()
@@ -28,18 +28,27 @@ public class HistoryProvider
 		
 	public void savePetriNetCheckPoint(PetriNet net)
 	{
+		if(this.currentCheckPoint < this.checkpoints.size()-1){
+			this.checkpoints = new ArrayList<>(this.checkpoints.subList(0, this.currentCheckPoint+1));
+		}
 		this.checkpoints.add(net.getDeepCopy());
 		this.currentCheckPoint++;
+		System.out.println("Put: "+this+" checkpoints: "+this.checkpoints.size()+" i: "+this.currentCheckPoint);
 	}
 		
 	public boolean isUndoPossible()
 	{
+		System.out.println("Check: "+this+" checkpoints: "+this.checkpoints.size()+" i: "+this.currentCheckPoint);
 		return this.currentCheckPoint>0;
 	}
 	
 	public boolean isRedoPossible()
 	{
 		return this.currentCheckPoint<this.checkpoints.size()-1;
+	}
+	
+	public boolean hasState(){
+		return this.currentCheckPoint >=0 && this.currentCheckPoint < this.checkpoints.size();
 	}
 	
 	public boolean undo()

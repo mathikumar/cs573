@@ -46,14 +46,14 @@ public interface IController {
 	 * @param a
 	 * @return
 	 */
-	public Boolean setArcWeight(AbstractArc a);
+	public Boolean setArcWeight(AbstractArc a, Boolean notify);
 	
 	/**
 	 * 
 	 * @param p
 	 * @return
 	 */
-	public Boolean setPlaceTokenCount(AbstractPlace p);
+	public Boolean setPlaceTokenCount(AbstractPlace p, Boolean notify);
 	
 	/**
 	 * Changes the name of a node.
@@ -61,7 +61,7 @@ public interface IController {
 	 * @param n
 	 * @return
 	 */
-	public Boolean setName(AbstractGraphNode n);
+	public Boolean setName(AbstractGraphNode n, Boolean notify);
 	
 	/**
 	 * Adds the StateListener l to the list of objects that will be notified of changes in the net.
@@ -75,7 +75,7 @@ public interface IController {
 	 * @param n
 	 * @return
 	 */
-	public Boolean setLocation(AbstractGraphNode n);
+	public Boolean setLocation(AbstractGraphNode n, Boolean notify);
 	
 	/**
 	 * Translate the x,y coordinates of a node
@@ -84,7 +84,7 @@ public interface IController {
 	 * @param dx delta x
 	 * @param dy delta y
 	 */
-	public Boolean translate(Integer id, Integer dx, Integer dy);
+	public Boolean translate(Integer id, Integer dx, Integer dy, Boolean notify);
 	
 	/**
 	 * Saves the initial state of the net to the specified filename

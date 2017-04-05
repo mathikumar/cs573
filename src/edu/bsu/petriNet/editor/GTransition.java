@@ -128,7 +128,7 @@ public class GTransition implements GElement {
 		dialog.pack();
 		dialog.setVisible(true);
 		abstractTransition.setName(nameField.getText());
-		controller.setName(abstractTransition);
+		controller.setName(abstractTransition, true);
 		
 	}
 	

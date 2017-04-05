@@ -130,8 +130,8 @@ public class GPlace implements GElement{
 		}catch(NumberFormatException e){
 			
 		}
-		controller.setName(abstractPlace);
-		controller.setPlaceTokenCount(abstractPlace);
+		controller.setName(abstractPlace, false);
+		controller.setPlaceTokenCount(abstractPlace, true);
 	}
 
 }

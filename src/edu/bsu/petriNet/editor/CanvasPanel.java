@@ -94,7 +94,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 					if(!overlap){
 						origin.setX(pt.x);
 						origin.setY(pt.y);
-						controller.setLocation(origin);
+						controller.setLocation(origin, true);
 					}
 					origin = null;
 				}
@@ -125,7 +125,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1){
 					Point p  = e.getPoint();
-					controller.addPlace(new AbstractPlace(p.x, p.y,1));
+					controller.addPlace(new AbstractPlace(p.x, p.y,0));
 				}
 			}
 			@Override
@@ -171,18 +171,15 @@ public class CanvasPanel extends JPanel implements IStateListener {
 				for(Map.Entry<Integer, GElement> el: elements.entrySet()){
 					if (el.getValue().containsPoint(pt) && el.getValue().getAbstractElement() instanceof AbstractGraphNode){
 						origin = (AbstractGraphNode)el.getValue().getAbstractElement();
-						System.out.println(origin);
 					}
 				}
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				Point pt  = e.getPoint();
-				System.out.println(pt);
 				for(Map.Entry<Integer, GElement> el: elements.entrySet()){
 					if (el.getValue().containsPoint(pt) && el.getValue().getAbstractElement() instanceof AbstractGraphNode  && origin != null){
 						AbstractGraphNode target = (AbstractGraphNode)el.getValue().getAbstractElement();
-						System.out.println(target);
 						controller.addArc(new AbstractArc(1, origin.getID(), target.getID()));
 					}
 				}
@@ -263,7 +260,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 						Point moveEndpoint = e.getPoint();
 						Point delta = new Point(moveEndpoint.x-moveOrigin.x,moveEndpoint.y-moveOrigin.y);
 						for (Integer id : selection) {
-							controller.translate(id,delta.x,delta.y);
+							controller.translate(id,delta.x,delta.y, true);
 						}
 						
 						moveOrigin = null;
@@ -348,7 +345,6 @@ public class CanvasPanel extends JPanel implements IStateListener {
 			g2.fill(rect);
 			g2.setColor(Color.BLACK);
 			for(GElement e: elements.values()){
-				System.out.println(e);
 				e.draw(g2, elements, selection);
 			}
 			
@@ -401,10 +397,10 @@ public class CanvasPanel extends JPanel implements IStateListener {
 		}
 		isRecentering = false;
 		setPreferredSize(new Dimension(maxX,maxY));
+		//Graphics g = this.getGraphics();
+		//this.paint(g);
 		revalidate();
 		this.repaint();
-		Graphics g = this.getGraphics();
-		this.paint(g);
 	}
 	
 	private void reCenter(int minX, int minY){
@@ -417,7 +413,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 		for(AbstractGraphNode e: workingset){
 			e.setX(e.getX()-minX);
 			e.setY(e.getY()-minY);
-			controller.setLocation(e);
+			controller.setLocation(e, false);
 		}
 	}
 

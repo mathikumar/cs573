@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.TransferHandler;
 
+import edu.bsu.petriNet.controller.IController;
+
 
 public class EditorPalette extends JPanel implements ActionListener
 {
@@ -43,13 +45,15 @@ public class EditorPalette extends JPanel implements ActionListener
 	JToggleButton newTransitionButton;
 	JToggleButton selectButton;
 	CanvasPanel canvasPanel;
+	IController controller;
 	
 	@SuppressWarnings("serial")
-	public EditorPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel)
+	public EditorPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel, IController controller)
 	{
 		setBackground(new Color(149, 230, 190));
 		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 		this.canvasPanel = canvasPanel;
+		this.controller = controller;
 		
 		add(new JLabel("Design"));
 		
@@ -78,6 +82,7 @@ public class EditorPalette extends JPanel implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		controller.undoSimulation();
 		if(arg0.getSource() == newPlaceButton){
 			this.canvasPanel.setNewPlaceState();
 		} else if(arg0.getSource() == newArcButton){

@@ -129,7 +129,7 @@ public class GArc implements GElement {
 		}catch(NumberFormatException e){
 			
 		}
-		controller.setArcWeight(abstractArc);
+		controller.setArcWeight(abstractArc, true);
 		
 	}
 	

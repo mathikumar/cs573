@@ -79,7 +79,7 @@ public class BasicGraphEditorPanel extends JPanel
 
 		
 		ButtonGroup modesGroup = new ButtonGroup();
-		designPanel = new EditorPalette(modesGroup, canvasPanel);
+		designPanel = new EditorPalette(modesGroup, canvasPanel, controller);
 		simulatePanel = new SimulationPalette(modesGroup, canvasPanel, controller);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,designPanel, simulatePanel);
 		splitPane.setDividerLocation(120);
