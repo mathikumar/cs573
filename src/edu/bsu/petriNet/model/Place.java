@@ -19,7 +19,8 @@ public class Place extends GraphNode
 
 	public void setNumberOfTokens(int numberOfTokens)
 	{
-		this.numberOfTokens = numberOfTokens;
+		assert numberOfTokens>=0;
+		if(numberOfTokens>=0) this.numberOfTokens = numberOfTokens;
 	}
 
 	

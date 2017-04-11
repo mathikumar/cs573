@@ -260,7 +260,20 @@ public class PetriNet
 		ArrayList<Transition> tmp = new ArrayList<>(transitions.values());
 		return tmp;
 	}
-	
+
+
+	public ArrayList<Transition> getFirableTransitions()
+	{
+		ArrayList<Transition> tmp = new ArrayList<>();
+
+		for(Transition t: transitions.values())
+		{
+			if(t.isFirable()) tmp.add(t);
+		}
+
+		return tmp;
+	}
+
 	public List<AbstractTransition> getAbstractTransitions()
 	{
 		List<AbstractTransition> abstractTransitions = new ArrayList<>();
