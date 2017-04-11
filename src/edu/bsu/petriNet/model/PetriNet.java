@@ -1,12 +1,18 @@
 package edu.bsu.petriNet.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.bsu.petriNet.helper.IdGenerator;
 
-public class PetriNet
+public class PetriNet implements Serializable
 {
 
 	
@@ -239,7 +245,8 @@ public class PetriNet
 		String fileName = "tmp.xml.tmp";
 		XmlInputOutput.printModel(this, fileName);
 		PetriNet newNet = XmlInputOutput.readModel(fileName);
-		
+
+
 		return newNet;
 	}
 	public ArrayList<Arc> getArcs()

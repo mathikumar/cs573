@@ -21,29 +21,27 @@ public class CoverabilityTreeNode {
     private NODELABEL label = NODELABEL.ACTIVE;
 
 
-    public CoverabilityTreeNode(PetriNet petrinet)
-    {
-        this(petrinet,null,null);
-    }
 
 
-    private CoverabilityTreeNode(PetriNet petrinet,CoverabilityTreeNode parent,Transition transitionFromParent)
+
+    public CoverabilityTreeNode(PetriNet petrinet,CoverabilityTreeNode parent,Transition transitionFromParent)
     {
 
-        petrinet = petrinet.getDeepCopy();
+        this.petrinet = petrinet.getDeepCopy();
 
-        transitionFromParent = transitionFromParent;
-        parent = parent;
+        this.transitionFromParent = transitionFromParent;
+        this.parent = parent;
         label = this.calculateNodeLabel();
         if(label == NODELABEL.ACTIVE)
         {
             changeTokensToNIfNeeded();
-            generateChildren();
+            //generateChildren();
         }
     }
 
 
-    private NODELABEL calculateNodeLabel()
+
+    private  NODELABEL calculateNodeLabel()
     {
 
         for(CoverabilityTreeNode ancestor: this.getAllAncestors())
@@ -64,7 +62,7 @@ public class CoverabilityTreeNode {
         return NODELABEL.ACTIVE;
     }
 
-    private ArrayList<CoverabilityTreeNode> getAllAncestors()
+    public  ArrayList<CoverabilityTreeNode> getAllAncestors()
     {
         ArrayList<CoverabilityTreeNode> ancestors = new ArrayList<>();
         CoverabilityTreeNode ancestor = this.getParent();
@@ -73,13 +71,14 @@ public class CoverabilityTreeNode {
             ancestors.add(ancestor);
             ancestor = ancestor.getParent();
         }
+
         return ancestors;
     }
 
 
     private void  generateChildren()
     {
-        ArrayList<CoverabilityTreeNode> tmp = new ArrayList<>();
+        this.children = new ArrayList<>();
         for(Transition t: this.petrinet.getFirableTransitions())
         {
             PetriNet tmpPetrinet = petrinet.getDeepCopy();
@@ -152,5 +151,15 @@ public class CoverabilityTreeNode {
     public Transition getTransitionFromParent()
     {
         return transitionFromParent;
+    }
+
+    public NODELABEL getLabel()
+    {
+        return this.label;
+    }
+    public ArrayList<CoverabilityTreeNode> getChildren()
+    {
+        if(this.children==null)this.generateChildren();
+        return this.children;
     }
 }

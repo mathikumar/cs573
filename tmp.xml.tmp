@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <petrinet>
     <places>
-        <place id="1" name="Ready to send" numberOfTokens="1" x="64" y="107"/>
+        <place id="1" name="Ready to send" numberOfTokens="0" x="64" y="107"/>
         <place id="2" name="Ready to recieve" numberOfTokens="1" x="644" y="108"/>
-        <place id="3" name="Buffer full" numberOfTokens="0" x="318" y="138"/>
-        <place id="4" name="Wait for ack" numberOfTokens="0" x="236" y="296"/>
+        <place id="3" name="Buffer full" numberOfTokens="1" x="318" y="138"/>
+        <place id="4" name="Wait for ack" numberOfTokens="1" x="236" y="296"/>
         <place id="5" name="Message received" numberOfTokens="0" x="474" y="274"/>
         <place id="6" name="Ack recieved" numberOfTokens="0" x="78" y="445"/>
         <place id="7" name="Buffer full" numberOfTokens="0" x="363" y="425"/>
