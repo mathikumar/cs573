@@ -1,7 +1,5 @@
 package edu.bsu.petriNet.analytics;
 
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
-
 import java.util.ArrayList;
 
 import edu.bsu.petriNet.model.PetriNet;
@@ -157,9 +155,10 @@ public class CoverabilityTreeNode {
     {
         return this.label;
     }
+    
     public ArrayList<CoverabilityTreeNode> getChildren()
     {
-        if(this.children==null)this.generateChildren();
+        if(this.children==null) this.generateChildren();
         return this.children;
     }
 }
