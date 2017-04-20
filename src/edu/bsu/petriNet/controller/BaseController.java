@@ -135,9 +135,11 @@ public class BaseController implements IController {
 	public Boolean translate(Integer id, Integer dx, Integer dy, Boolean notify) {
 		synchronized(this.petrinet){
 			GraphNode node = petrinet.getGraphNodeById(id);
-			petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
-			if(notify){
-				this.dispatch.notifyStateListeners();
+			if (node != null) {
+				petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
+				if(notify){
+					this.dispatch.notifyStateListeners();
+				}
 			}
 		}
 		return null;
