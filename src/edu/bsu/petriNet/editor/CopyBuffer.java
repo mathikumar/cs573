@@ -20,10 +20,14 @@ public class CopyBuffer {
 		int minY = Integer.MAX_VALUE;
 		for (Integer id : selection) {
 			GElement element = candidateElements.get(id);
-			Point elementOrigin = element.getUpperLeftVisualCorner();
-			minX = Math.min(minX, elementOrigin.x);
-			minY = Math.min(minY, elementOrigin.y);
-			elements.add(candidateElements.get(id));
+			// In certain situations it is possible to select elements that no
+			// longer exist
+			if (element != null) {
+				Point elementOrigin = element.getUpperLeftVisualCorner();
+				minX = Math.min(minX, elementOrigin.x);
+				minY = Math.min(minY, elementOrigin.y);
+				elements.add(candidateElements.get(id));
+			}
 		}
 		origin = new Point(minX,minY);
 	}

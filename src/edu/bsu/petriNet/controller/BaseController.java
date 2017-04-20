@@ -24,7 +24,7 @@ public class BaseController implements IController {
 	private PetriNet petrinet;
 	private Random random;
 	private BranchedHistoryProvider history;
-	
+	private boolean inUndoBlock;
 
 	public BaseController(){
 		this.dispatch = new ChangeDispatch();
@@ -44,12 +44,29 @@ public class BaseController implements IController {
 		}
 		return true;
 	}
+	
+	public void beginUndoBlock() throws IllegalStateException {
+		if (inUndoBlock) {
+			throw new IllegalStateException("Already in undo block");
+		} else {
+			inUndoBlock = true;
+		}
+	}
+	
+	public void endUndoBlock() throws IllegalStateException {
+		if (inUndoBlock) {
+			inUndoBlock = false;
+			dispatch.notifyStateListeners();
+		} else {
+			throw new IllegalStateException("Not in undo block");
+		}
+	}
 
 	@Override
 	public Integer addTransition(AbstractTransition t) {
 		synchronized(this.petrinet){
 			Integer id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
-			this.dispatch.notifyStateListeners();
+			if (!inUndoBlock) this.dispatch.notifyStateListeners();
 			return id;
 		}
 	}
@@ -58,7 +75,7 @@ public class BaseController implements IController {
 	public Integer addPlace(AbstractPlace p) {
 		synchronized(this.petrinet){
 			Integer id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
-			this.dispatch.notifyStateListeners();
+			if (!inUndoBlock) this.dispatch.notifyStateListeners();
 			return id;
 		}
 	}
@@ -67,7 +84,7 @@ public class BaseController implements IController {
 	public Integer addArc(AbstractArc a) {
 		synchronized(this.petrinet){
 			Integer id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
-			this.dispatch.notifyStateListeners();
+			if (!inUndoBlock) this.dispatch.notifyStateListeners();
 			return id;
 		}
 	}
@@ -76,7 +93,7 @@ public class BaseController implements IController {
 	public Boolean delete(Integer ID) {
 		synchronized(this.petrinet){
 			petrinet.delete(ID);
-			this.dispatch.notifyStateListeners();
+			if (!inUndoBlock) this.dispatch.notifyStateListeners();
 		}
 		return null;
 	}
@@ -85,7 +102,7 @@ public class BaseController implements IController {
 	public Boolean setArcWeight(AbstractArc a, Boolean notify) {
 		synchronized(this.petrinet){
 			Boolean r = petrinet.setArcWeight(a.getID(), a.getWeight());
-			if(notify){
+			if(notify && !inUndoBlock){
 				this.dispatch.notifyStateListeners();
 			}
 			return r;
@@ -96,7 +113,7 @@ public class BaseController implements IController {
 	public Boolean setPlaceTokenCount(AbstractPlace p, Boolean notify) {
 		synchronized(this.petrinet){
 			Boolean r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
-			if(notify){
+			if(notify && !inUndoBlock){
 				this.dispatch.notifyStateListeners();
 			}
 			return r;
@@ -107,7 +124,7 @@ public class BaseController implements IController {
 	public Boolean setName(AbstractGraphNode n, Boolean notify) {
 		synchronized(this.petrinet){
 			petrinet.setName(n.getID(), n.getName());
-			if(notify){
+			if(notify && !inUndoBlock){
 				this.dispatch.notifyStateListeners();
 			}
 		}
@@ -125,7 +142,7 @@ public class BaseController implements IController {
 	public Boolean setLocation(AbstractGraphNode n, Boolean notify) {
 		synchronized(this.petrinet){
 			petrinet.setPosition(n.getID(), n.getX(), n.getY());
-			if(notify){
+			if(notify && !inUndoBlock){
 				this.dispatch.notifyStateListeners();
 			}
 		}
@@ -137,7 +154,7 @@ public class BaseController implements IController {
 			GraphNode node = petrinet.getGraphNodeById(id);
 			if (node != null) {
 				petrinet.setPosition(id, node.getX()+dx, node.getY()+dy);
-				if(notify){
+				if(notify && !inUndoBlock){
 					this.dispatch.notifyStateListeners();
 				}
 			}
@@ -165,7 +182,7 @@ public class BaseController implements IController {
 	public Boolean fire(AbstractTransition t) {
 		synchronized(this.petrinet){
 			Boolean r = petrinet.fire(t.getID());
-			this.dispatch.notifyStateListeners(true, false);
+			if (!inUndoBlock) this.dispatch.notifyStateListeners(true, false);
 			return r;
 		}
 	}

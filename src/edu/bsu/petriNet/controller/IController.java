@@ -131,4 +131,19 @@ public interface IController {
 	 * @return
 	 */
 	public Boolean undoSimulation();
+	
+	/**
+	 * Start an undo block.
+	 * 
+	 * @throws IllegalStateException if already in an undo block.
+	 */
+	public void beginUndoBlock() throws IllegalStateException;
+	
+	/**
+	 * End an undo block. All actions that happened within the undo block will
+	 * be undone by a single undo() call.
+	 * 
+	 * @throws IllegalStateException if not in an undo block.
+	 */
+	public void endUndoBlock() throws IllegalStateException;
 }

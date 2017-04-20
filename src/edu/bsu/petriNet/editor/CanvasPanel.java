@@ -259,10 +259,11 @@ public class CanvasPanel extends JPanel implements IStateListener {
 					// Otherwise, if there's anything selected, move it
 						Point moveEndpoint = e.getPoint();
 						Point delta = new Point(moveEndpoint.x-moveOrigin.x,moveEndpoint.y-moveOrigin.y);
+						controller.beginUndoBlock();
 						for (Integer id : selection) {
 							controller.translate(id,delta.x,delta.y, true);
 						}
-						
+						controller.endUndoBlock();
 						moveOrigin = null;
 					}
 				}
@@ -419,10 +420,12 @@ public class CanvasPanel extends JPanel implements IStateListener {
 
 	public void cut() {
 		copy();
+		controller.beginUndoBlock();
 		for (Integer id : selection) {
 			controller.delete(id);
 		}
 		selection.clear();
+		controller.endUndoBlock();
 	}
 	
 	public void copy() {
@@ -430,9 +433,10 @@ public class CanvasPanel extends JPanel implements IStateListener {
 	}
 	
 	public void paste() {
+		controller.beginUndoBlock();
 		if (clipboard != null) {
 			clipboard.paste(controller, getMousePosition());
-			clipboard = null;
 		}
+		controller.endUndoBlock();
 	}
 }
