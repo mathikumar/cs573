@@ -188,7 +188,7 @@ public class BaseController implements IController {
 	}
 
 	@Override
-	public Boolean simulate(int n_steps, int delay_ms) {
+	public Boolean simulate(final int n_steps, final int delay_ms) {
 		new Thread(){
 			public void run(){
 				synchronized(BaseController.this.petrinet){
