@@ -1,6 +1,7 @@
 package edu.bsu.petriNet.editor;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ public class EditorMenuBar extends JMenuBar
 	 * 
 	 */
 	private static final long serialVersionUID = 4060203894740766714L;
+	File currentFile;
 
 	public enum AnalyzeType
 	{
@@ -202,6 +204,51 @@ public class EditorMenuBar extends JMenuBar
 		
 		// Creates the analysis menu
 		menu = add(new JMenu("Analysis"));
+		JMenuItem boundedItem = new JMenuItem("Check Boundedness");
+		boundedItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+				currentFile = editor.getCurrentFile();
+				if(currentFile != null){
+					editor.checkBoundedness(currentFile);
+				}
+			}
+		});
+		menu.add(boundedItem);
+		
+		JMenuItem deadLockItem = new JMenuItem("Check DeadLock");
+		deadLockItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+				currentFile = editor.getCurrentFile();
+				if(currentFile != null){
+					editor.checkDeadLock(currentFile);
+				}
+			}
+		});
+		menu.add(deadLockItem);
+		
+		JMenuItem reachabilityItem = new JMenuItem("Check Reachability");
+		reachabilityItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+				currentFile = editor.getCurrentFile();
+				if(currentFile != null){
+					editor.checkReachability(currentFile);
+				}
+			}
+		});
+		menu.add(reachabilityItem);
+		
+		JMenuItem coverabilityItem = new JMenuItem("Show Coverability Tree");
+		coverabilityItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+				currentFile = editor.getCurrentFile();
+				
+				System.out.println(currentFile);
+				if(currentFile != null){
+					editor.showCTree(currentFile);
+				}
+			}
+		});
+		menu.add(coverabilityItem);
 		
 	}
 	
