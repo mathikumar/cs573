@@ -215,7 +215,10 @@ public class GCoverabilityTree extends JPanel {
 	   PetriNet net = node.getPetrinet();
 	   String label = "";
 	   for(Place p:net.getPlaces()){
-		   label+=p.getNumberOfTokens();
+		   if(p.getNumberOfTokens() == Integer.MAX_VALUE)
+			   label+="N";
+		   else
+			   label+=p.getNumberOfTokens();
 	   }
 	   return label;
    }
