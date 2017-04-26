@@ -64,29 +64,32 @@ public class BaseController implements IController {
 
 	@Override
 	public Integer addTransition(AbstractTransition t) {
+		Integer id;
 		synchronized(this.petrinet){
-			Integer id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
+			id = petrinet.createTransition(t.getName(),t.getX(),t.getY());
 			if (!inUndoBlock) this.dispatch.notifyStateListeners();
-			return id;
 		}
+		return id;
 	}
 
 	@Override
 	public Integer addPlace(AbstractPlace p) {
+		Integer id;
 		synchronized(this.petrinet){
-			Integer id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
+			id = petrinet.createPlace(p.getName(), p.getTokens(),p.getX(),p.getY());
 			if (!inUndoBlock) this.dispatch.notifyStateListeners();
-			return id;
 		}
+		return id;
 	}
 
 	@Override
 	public Integer addArc(AbstractArc a) {
+		Integer id;
 		synchronized(this.petrinet){
-			Integer id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
+			id = petrinet.createArc(a.getName(), a.getOrigin(), a.getTarget(), a.getWeight());
 			if (!inUndoBlock) this.dispatch.notifyStateListeners();
-			return id;
 		}
+		return id;
 	}
 
 	@Override
@@ -100,24 +103,26 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean setArcWeight(AbstractArc a, Boolean notify) {
+		Boolean r;
 		synchronized(this.petrinet){
-			Boolean r = petrinet.setArcWeight(a.getID(), a.getWeight());
+			r = petrinet.setArcWeight(a.getID(), a.getWeight());
 			if(notify && !inUndoBlock){
 				this.dispatch.notifyStateListeners();
 			}
-			return r;
 		}
+		return r;
 	}
 
 	@Override
 	public Boolean setPlaceTokenCount(AbstractPlace p, Boolean notify) {
+		Boolean r;
 		synchronized(this.petrinet){
-			Boolean r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
+			r = petrinet.setPlaceTokenNumber(p.getID(), p.getTokens());
 			if(notify && !inUndoBlock){
 				this.dispatch.notifyStateListeners();
 			}
-			return r;
 		}
+		return r;
 	}
 
 	@Override
@@ -164,9 +169,11 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean save(String filename) {
+		Boolean r;
 		synchronized(this.petrinet){
-			return XmlInputOutput.printModel(petrinet, filename);
+			r = XmlInputOutput.printModel(petrinet, filename);
 		}
+		return r;
 	}
 
 	@Override
@@ -180,11 +187,12 @@ public class BaseController implements IController {
 
 	@Override
 	public Boolean fire(AbstractTransition t) {
+		Boolean r;
 		synchronized(this.petrinet){
-			Boolean r = petrinet.fire(t.getID());
+			r = petrinet.fire(t.getID());
 			if (!inUndoBlock) this.dispatch.notifyStateListeners(true, false);
-			return r;
 		}
+		return r;
 	}
 
 	@Override
@@ -250,6 +258,10 @@ public class BaseController implements IController {
 			this.dispatch.notifyStateListeners(false, true);
 		}
 		return true;
+	}
+	
+	public void pollState(){
+		this.dispatch.notifyStateListeners(false, true);
 	}
 	
 	private class ChangeDispatch implements Runnable{

@@ -46,7 +46,6 @@ public class CanvasPanel extends JPanel implements IStateListener {
 	MouseListener editBehavior;
 	MouseListener selectBehavior;
 	MouseMotionListener selectMotionListener;
-	Boolean isRecentering;
 	ElementSelection selection;
 	
 	Point lastMousePos;
@@ -56,8 +55,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 		elements = new ConcurrentHashMap<>();
 		mainPanel = p;
 		controller = c;
-		isRecentering = false;
-		
+		this.setOpaque(true);
 		selection = new ElementSelection(elements);		
 		
 		this.moveBehavior = new MouseListener(){
@@ -390,18 +388,11 @@ public class CanvasPanel extends JPanel implements IStateListener {
 			elements.put(p.getID(),new GArc(p));
 		}
 		if(minX < 0 || minY < 0){
-			if(!isRecentering){
-				isRecentering = true;
-				reCenter(minX, minY);
-			}
+			reCenter(minX, minY);
 			return;
 		}
-		isRecentering = false;
 		setPreferredSize(new Dimension(maxX,maxY));
-		//Graphics g = this.getGraphics();
-		//this.paint(g);
-		revalidate();
-		this.repaint();
+		mainPanel.repaint();
 	}
 	
 	private void reCenter(int minX, int minY){
@@ -416,6 +407,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 			e.setY(e.getY()-minY);
 			controller.setLocation(e, false);
 		}
+		controller.pollState();
 	}
 
 	public void cut() {

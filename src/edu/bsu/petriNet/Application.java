@@ -47,16 +47,22 @@ public class Application
 		}
 		IController controller = new BaseController();
 
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		BasicGraphEditorPanel mainPanel = new BasicGraphEditorPanel(controller);
-		frame.setJMenuBar(new EditorMenuBar(mainPanel,controller));
-		frame.getContentPane().add(mainPanel);
-		//UIManager.setLookAndFeel(clazz);
-		SwingUtilities.updateComponentTreeUI(frame);
-		frame.setTitle("PetriNetz");
-		frame.setPreferredSize(new Dimension(640,480));
-		frame.pack();
-		frame.setVisible(true);
+		javax.swing.SwingUtilities.invokeLater(new Runnable(){
+			
+			public void run(){
+				JFrame frame = new JFrame();
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				BasicGraphEditorPanel mainPanel = new BasicGraphEditorPanel(controller);
+				frame.setJMenuBar(new EditorMenuBar(mainPanel,controller));
+				frame.getContentPane().add(mainPanel);
+				//UIManager.setLookAndFeel(clazz);
+				SwingUtilities.updateComponentTreeUI(frame);
+				frame.setTitle("PetriNetz");
+				frame.setPreferredSize(new Dimension(640,480));
+				frame.pack();
+				frame.setVisible(true);
+			}
+		});
+		
 	}
 }

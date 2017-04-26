@@ -146,4 +146,6 @@ public interface IController {
 	 * @throws IllegalStateException if not in an undo block.
 	 */
 	public void endUndoBlock() throws IllegalStateException;
+	
+	public void pollState();
 }
