@@ -2,6 +2,7 @@ package edu.bsu.petriNet.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -19,6 +20,7 @@ import java.util.Map.Entry;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
@@ -80,7 +82,7 @@ public class BasicGraphEditorPanel extends JPanel
 		add(new JLabel("<html>Place: Left click to place.  Right click to modify. Right drag to move.<br>"
 					+ "Transition: Left click to place.  Right click to modify. Right drag to move.<br>"
 				    + "Arc: Left drag to create. Right click to modify.<br>"
-				    + "Fire: Left click firable transition to fire.</html>"), BorderLayout.NORTH);
+				    + "Fire: Left click firable transition to fire.</html>"), BorderLayout.SOUTH);
 		
 		displayPane = new JTabbedPane();
 		add(displayPane, BorderLayout.CENTER);
@@ -111,19 +113,20 @@ public class BasicGraphEditorPanel extends JPanel
 		ButtonGroup modesGroup = new ButtonGroup();
 		designPanel = new EditorPalette(modesGroup, canvasPanel, controller);
 		simulatePanel = new SimulationPalette(modesGroup, canvasPanel, controller);
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,designPanel, simulatePanel);
-		splitPane.setDividerLocation(120);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,designPanel, simulatePanel);
+		splitPane.setLayout(new BoxLayout(splitPane, BoxLayout.X_AXIS));
+		splitPane.setResizeWeight(0.5);
 		splitPane.setResizeWeight(1);
 		splitPane.setDividerSize(6);
 		splitPane.setBorder(null);
-		splitPane.setPreferredSize(new Dimension(100,480));
-		this.add(splitPane, BorderLayout.WEST);
+		splitPane.setPreferredSize(new Dimension(20,74));
+		this.add(splitPane, BorderLayout.NORTH);
 		
 		
 		
 
-		statusBar = createStatusBar();
-		add(statusBar, BorderLayout.SOUTH);
+		//statusBar = createStatusBar();
+		//add(statusBar, BorderLayout.SOUTH);
 		
 		// Create controller with an empty (new) Petri net
 		petriNetController.registerStateListener(canvasPanel);

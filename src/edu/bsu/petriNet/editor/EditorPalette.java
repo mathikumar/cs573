@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
@@ -22,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -51,24 +54,42 @@ public class EditorPalette extends JPanel implements ActionListener
 	public EditorPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel, IController controller)
 	{
 		setBackground(new Color(149, 230, 190));
-		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.canvasPanel = canvasPanel;
 		this.controller = controller;
 		
 		add(new JLabel("Design"));
 		
 			
-		newPlaceButton = new JToggleButton("Place"); 
+		newPlaceButton = new JToggleButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/place.gif"));
+		    newPlaceButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	newPlaceButton.setText("Place");
+	    }
 		designChoicesGroup.add(newPlaceButton);
 		newPlaceButton.addActionListener(this);
 		add(newPlaceButton);
 		
-		newArcButton = new JToggleButton("Arc");
+		newArcButton = new JToggleButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/arc.gif"));
+		    newArcButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	newArcButton.setText("Arc");
+	    }
 		designChoicesGroup.add(newArcButton);
 		newArcButton.addActionListener(this);
 		add(newArcButton);
 		
-		newTransitionButton = new JToggleButton("Transition");
+		newTransitionButton = new JToggleButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/transition.gif"));
+		    newTransitionButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	newTransitionButton.setText("Transition");
+	    }
 		designChoicesGroup.add(newTransitionButton);
 		newTransitionButton.addActionListener(this);
 		add(newTransitionButton);

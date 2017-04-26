@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <petrinet>
-    <places>
-        <place id="1" name="" numberOfTokens="0" x="340" y="230"/>
-        <place id="2" name="" numberOfTokens="0" x="398" y="199"/>
-        <place id="3" name="" numberOfTokens="0" x="391" y="280"/>
-        <place id="4" name="" numberOfTokens="0" x="414" y="302"/>
-        <place id="5" name="" numberOfTokens="0" x="464" y="350"/>
-        <place id="6" name="" numberOfTokens="0" x="516" y="329"/>
-        <place id="7" name="" numberOfTokens="0" x="552" y="282"/>
-        <place id="8" name="" numberOfTokens="0" x="489" y="271"/>
-        <place id="9" name="" numberOfTokens="0" x="456" y="313"/>
-        <place id="10" name="" numberOfTokens="0" x="410" y="236"/>
-        <place id="11" name="" numberOfTokens="0" x="410" y="236"/>
-        <place id="12" name="" numberOfTokens="0" x="346" y="264"/>
-        <place id="13" name="" numberOfTokens="0" x="302" y="319"/>
-        <place id="14" name="" numberOfTokens="0" x="315" y="365"/>
-        <place id="15" name="" numberOfTokens="0" x="266" y="286"/>
-        <place id="16" name="" numberOfTokens="0" x="241" y="217"/>
-        <place id="17" name="" numberOfTokens="0" x="207" y="159"/>
-        <place id="18" name="" numberOfTokens="0" x="173" y="120"/>
-        <place id="19" name="" numberOfTokens="0" x="126" y="77"/>
-        <place id="20" name="" numberOfTokens="0" x="86" y="125"/>
-        <place id="21" name="" numberOfTokens="0" x="64" y="206"/>
-        <place id="22" name="" numberOfTokens="0" x="64" y="250"/>
-        <place id="23" name="" numberOfTokens="0" x="129" y="243"/>
-        <place id="24" name="" numberOfTokens="0" x="143" y="193"/>
-        <place id="25" name="" numberOfTokens="0" x="253" y="130"/>
-        <place id="26" name="" numberOfTokens="0" x="294" y="83"/>
-        <place id="27" name="" numberOfTokens="0" x="448" y="116"/>
-        <place id="28" name="" numberOfTokens="0" x="456" y="64"/>
-        <place id="29" name="" numberOfTokens="0" x="344" y="114"/>
-    </places>
+    <places/>
     <transitions/>
     <arcs/>
 </petrinet>

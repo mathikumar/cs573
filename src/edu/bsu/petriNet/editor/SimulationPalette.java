@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,7 +53,7 @@ public class SimulationPalette extends JPanel implements ActionListener
 	public SimulationPalette(ButtonGroup designChoicesGroup, CanvasPanel canvasPanel, IController controller)
 	{
 		setBackground(new Color(230, 180, 190));
-		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.canvasPanel = canvasPanel;
 		this.controller = controller;
 		
