@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import edu.bsu.petriNet.controller.IController;
 import edu.bsu.petriNet.model.AbstractGraphNode;
 import edu.bsu.petriNet.model.AbstractPlace;
 import edu.bsu.petriNet.model.GraphElement;
+import edu.bsu.petriNet.util.PropertiesLoader;
 
 public class GPlace implements GElement{
 	
@@ -46,10 +48,12 @@ public class GPlace implements GElement{
 		g.drawOval(abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS, 2*RADIUS, 2*RADIUS);
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		String str = String.valueOf(abstractPlace.getTokens());
+
 		g.drawString(str, 
 				abstractPlace.getX()-metrics.stringWidth(str)/2, 
 				abstractPlace.getY()- metrics.getHeight()/2 + metrics.getAscent());
-		g.drawString(""+abstractPlace.getName(), abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS);
+		
+		g.drawString(""+abstractPlace.getName(), abstractPlace.getX()-RADIUS, abstractPlace.getY()-RADIUS-12);
 		
 		// draw selection indicator
 		if (selection.contains(this)) {
@@ -100,8 +104,9 @@ public class GPlace implements GElement{
 	}
 
 	@Override
-	public void editDialog(JFrame frame, final IController controller) {
+	public void editDialog(JFrame frame, final IController controller,MouseEvent ev) {
 		final JDialog dialog = new JDialog(frame,"Click a button", true);
+		dialog.setLocation(ev.getX(), ev.getY()+Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("rcMenuTopPadding")));
 		JTextField nameField = new JTextField(this.abstractPlace.getName());
 		nameField.setPreferredSize(new Dimension(100,35));
 		JTextField tokensField = new JTextField(this.abstractPlace.getTokens());

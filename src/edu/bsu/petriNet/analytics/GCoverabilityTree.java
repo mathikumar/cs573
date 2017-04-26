@@ -18,7 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.omg.PortableInterceptor.ACTIVE;
 
+import edu.bsu.petriNet.analytics.CoverabilityTreeNode.NODELABEL;
 import edu.bsu.petriNet.model.PetriNet;
 import edu.bsu.petriNet.model.Place;
 import edu.bsu.petriNet.util.PropertiesLoader;
@@ -119,7 +121,7 @@ public class GCoverabilityTree extends JPanel {
     }
 
     public void addNode(String label, int x, int y,boolean dead) { 
-		nodes.add(new Node(label,x,y));
+		nodes.add(new Node(label,x,y,NODELABEL.ACTIVE));
     	this.repaint();
     }
     
@@ -178,7 +180,25 @@ public class GCoverabilityTree extends JPanel {
 		
 		for (Node n : nodes) {
 		    int nodeWidth = getNodeWidth(g, n.label);
-		    g.setColor(Color.white);
+		    
+		    switch(n.type){
+		    case ACTIVE:
+		    	g.setColor(Color.white);
+		    	break;
+		    	
+		    case DEADEND:
+		    	g.setColor(Color.red);
+		    	break;
+		    	
+		    case REPEATED:
+		    	g.setColor(Color.gray);
+		    	break;
+		    	
+			default:
+				g.setColor(Color.white);
+				break;
+		    }		
+		    
 		    g.fillRect(n.x-nodeWidth/2, n.y-nodeHeight/2, nodeWidth, nodeHeight);
 		    g.setColor(Color.black);
 		    g.drawRect(n.x-nodeWidth/2, n.y-nodeHeight/2, nodeWidth, nodeHeight);
@@ -192,11 +212,13 @@ public class GCoverabilityTree extends JPanel {
     	int x;
     	int y;
     	String label;
+		public NODELABEL type;
 	
-    	public Node(String label, int x, int y) {
+    	public Node(String label, int x, int y, NODELABEL type) {
     		this.x = x;
     		this.y = y;
     		this.label = label;
+    		this.type = type;
 		}
     }
     
@@ -215,7 +237,10 @@ public class GCoverabilityTree extends JPanel {
 	   PetriNet net = node.getPetrinet();
 	   String label = "";
 	   for(Place p:net.getPlaces()){
-		   label+=p.getNumberOfTokens();
+		   if(p.getNumberOfTokens() == Integer.MAX_VALUE)
+			   label+="N";
+		   else
+			   label+=p.getNumberOfTokens();
 	   }
 	   return label;
    }
@@ -252,8 +277,8 @@ public class GCoverabilityTree extends JPanel {
 	  return canvasHeight;
   }
   
-  public void makeTree(PetriNet petrinet){
-	    this.tree = new CoverabilityTree(petrinet);
+  public void makeTree(CoverabilityTree cv){
+	    this.tree = cv;
 		List<CoverabilityTreeNode> currentLevel = new ArrayList<CoverabilityTreeNode>();
 		ArrayList<CoverabilityTreeNode> nextLevel ;
 		Map<String,Node> nodes;
@@ -262,7 +287,7 @@ public class GCoverabilityTree extends JPanel {
 		int nodeWidth = tree.getRoot().getPetrinet().getPlaces().size()*letterWidth;
 		canvasWidth = getRequiredCanvasWidth();
 		setHScale(canvasWidth);
-		Node rootNode = new Node(GCoverabilityTree.getNodeLabel(tree.getRoot()),this.getViewWidth()/2,topPadding);
+		Node rootNode = new Node(GCoverabilityTree.getNodeLabel(tree.getRoot()),this.getViewWidth()/2,topPadding,NODELABEL.ACTIVE);
 		this.addNode(rootNode);
 		currentLevel.addAll(tree.getRoot().getChildren());
 		prevNodes.put(tree.getRoot().toString(),rootNode);
@@ -276,7 +301,8 @@ public class GCoverabilityTree extends JPanel {
 			int xLoc = this.getViewWidth()/2-totalWidth/2;
 			
 			for(CoverabilityTreeNode node: currentLevel){
-				n = new Node(GCoverabilityTree.getNodeLabel(node),xLoc,topPadding+(level)*nodeSpacingV);
+				n = new Node(GCoverabilityTree.getNodeLabel(node),xLoc,topPadding+(level)*nodeSpacingV,node.getLabel());
+						
 				if(n.y+30 > canvasHeight){
 					setVScale(n.y+30);
 				}

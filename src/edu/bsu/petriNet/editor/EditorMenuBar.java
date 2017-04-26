@@ -207,10 +207,11 @@ public class EditorMenuBar extends JMenuBar
 		JMenuItem boundedItem = new JMenuItem("Check Boundedness");
 		boundedItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
-				currentFile = editor.getCurrentFile();
-				if(currentFile != null){
-					editor.checkBoundedness(currentFile);
-				}
+//				currentFile = editor.getCurrentFile();
+//				if(currentFile != null){
+//					editor.checkBoundedness(currentFile);
+//				}
+				editor.checkBoundedness();
 			}
 		});
 		menu.add(boundedItem);
@@ -218,10 +219,11 @@ public class EditorMenuBar extends JMenuBar
 		JMenuItem deadLockItem = new JMenuItem("Check DeadLock");
 		deadLockItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
-				currentFile = editor.getCurrentFile();
-				if(currentFile != null){
-					editor.checkDeadLock(currentFile);
-				}
+//				currentFile = editor.getCurrentFile();
+//				if(currentFile != null){
+//					editor.checkDeadLock(currentFile);
+//				}
+				editor.checkDeadLock();
 			}
 		});
 		menu.add(deadLockItem);
@@ -229,10 +231,11 @@ public class EditorMenuBar extends JMenuBar
 		JMenuItem reachabilityItem = new JMenuItem("Check Reachability");
 		reachabilityItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
-				currentFile = editor.getCurrentFile();
-				if(currentFile != null){
-					editor.checkReachability(currentFile);
-				}
+//				currentFile = editor.getCurrentFile();
+//				if(currentFile != null){
+//					editor.checkReachability(currentFile);
+//				}
+				editor.checkReachability();
 			}
 		});
 		menu.add(reachabilityItem);
@@ -240,12 +243,13 @@ public class EditorMenuBar extends JMenuBar
 		JMenuItem coverabilityItem = new JMenuItem("Show Coverability Tree");
 		coverabilityItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
-				currentFile = editor.getCurrentFile();
+//				currentFile = editor.getCurrentFile();
 				
 				System.out.println(currentFile);
-				if(currentFile != null){
-					editor.showCTree(currentFile);
-				}
+//				if(currentFile != null){
+//					editor.showCTree(currentFile);
+//				}
+				editor.showCTree();
 			}
 		});
 		menu.add(coverabilityItem);

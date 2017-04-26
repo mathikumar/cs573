@@ -45,7 +45,7 @@ public class Application
 		{
 			e1.printStackTrace();
 		}
-		IController controller = new BaseController();
+		final IController controller = new BaseController();
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable(){
 			

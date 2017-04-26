@@ -33,7 +33,7 @@ import edu.bsu.petriNet.model.AbstractTransition;
 public class CanvasPanel extends JPanel implements IStateListener {
 	
 	public static final Integer BUFFER=64;
-	public static final Integer LINE_THICKNESS=2;
+	public static final Integer LINE_THICKNESS=1;
 	
 	Map<Integer,GElement> elements;
 	BasicGraphEditorPanel mainPanel;
@@ -106,7 +106,7 @@ public class CanvasPanel extends JPanel implements IStateListener {
 					Point pt = e.getPoint();
 					for(Map.Entry<Integer, GElement> el: elements.entrySet()){
 						if (el.getValue().containsPoint(pt)){
-							el.getValue().editDialog((JFrame) SwingUtilities.getWindowAncestor(CanvasPanel.this), controller);
+							el.getValue().editDialog((JFrame) SwingUtilities.getWindowAncestor(CanvasPanel.this), controller,e);
 						}
 					}
 				}

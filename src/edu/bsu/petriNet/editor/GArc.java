@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -23,11 +24,13 @@ import edu.bsu.petriNet.model.AbstractArc;
 import edu.bsu.petriNet.model.AbstractGraphNode;
 import edu.bsu.petriNet.model.AbstractTransition;
 import edu.bsu.petriNet.model.GraphElement;
+import edu.bsu.petriNet.util.GeometryUtil;
+import edu.bsu.petriNet.util.PropertiesLoader;
 
 public class GArc implements GElement {
 
 	AbstractArc abstractArc;
-	Integer ARROW_SIZE=16;
+	Integer ARROW_SIZE=10;
 	private GPoint originExit, targetExit;
 	
 	public GArc(AbstractArc p){
@@ -49,8 +52,15 @@ public class GArc implements GElement {
 		GPoint b = new GPoint(new Vector(targetExit).add(arrow_unit.inv()).add(arrow_unit.orth().inv()));
 		g.fillPolygon(new int[]{targetExit.x,a.x,b.x}, new int[]{targetExit.y,a.y,b.y}, 3);
 		
-		GPoint textLoc = originExit.add(new Vector(targetExit).add(new Vector(originExit).inv()).mul(0.1));
-		g.drawString(String.valueOf(abstractArc.getWeight()), textLoc.x, textLoc.y+4);
+		//GPoint textLoc = originExit.add(new Vector(targetExit).add(new Vector(originExit).inv()).mul(0.1));
+		GPoint textLoc = GeometryUtil.getMidPoint(origin, target);
+		if(Math.abs(origin.getX()-target.getX()) > 35){
+			textLoc.x-=6;
+		} else{
+			textLoc.x+=3;
+		}
+		
+		g.drawString(String.valueOf(abstractArc.getWeight()), textLoc.x, textLoc.y-5);
 		
 		// draw selection indicator
 		if (selection.contains(this)) {
@@ -102,10 +112,12 @@ public class GArc implements GElement {
 	}
 
 	@Override
-	public void editDialog(JFrame frame, final IController controller) {
+	public void editDialog(JFrame frame, final IController controller,MouseEvent ev) {
 		final JDialog dialog = new JDialog(frame,"Click a button", true);
 		//JTextField nameField = new JTextField(this.abstractArc.getName());
 		//nameField.setPreferredSize(new Dimension(100,35));
+		dialog.setLocation(ev.getX(), ev.getY()+Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("rcMenuTopPadding")));
+		
 		JTextField weightField = new JTextField(this.abstractArc.getWeight());
 		weightField.setPreferredSize(new Dimension(100,35));
 		JPanel contentPane = new JPanel();
