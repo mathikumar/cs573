@@ -58,7 +58,7 @@ public class Application
 				//UIManager.setLookAndFeel(clazz);
 				SwingUtilities.updateComponentTreeUI(frame);
 				frame.setTitle("PetriNetz");
-				frame.setPreferredSize(new Dimension(640,480));
+				frame.setPreferredSize(new Dimension(800,480));
 				frame.pack();
 				frame.setVisible(true);
 			}

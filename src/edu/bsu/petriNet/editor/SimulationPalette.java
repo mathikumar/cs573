@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
@@ -22,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -60,17 +62,35 @@ public class SimulationPalette extends JPanel implements ActionListener
 		add(new JLabel("Simulate"));
 		
 		
-		fireButton = new JToggleButton("Fire"); 
+		fireButton = new JToggleButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/fire_transition.gif"));
+		    fireButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	fireButton.setText("Fire");
+	    }
 		designChoicesGroup.add(fireButton);
 		fireButton.addActionListener(this);
 		add(fireButton);
 		
-		fireRandomButton = new JButton("Fire@Random");
+		fireRandomButton = new JButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/fire_random_transition.gif"));
+		    fireRandomButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	fireRandomButton.setText("Fire Random");
+	    }
 		//designChoicesGroup.add(fireRandomButton);
 		fireRandomButton.addActionListener(this);
 		add(fireRandomButton);
 		
-		fireNButton = new JButton("Fire@N");
+		fireNButton = new JButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/simulate.gif"));
+		    fireNButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	fireNButton.setText("Simulate N steps");
+	    }
 		//designChoicesGroup.add(fireNButton);
 		fireNButton.addActionListener(this);
 		add(fireNButton);

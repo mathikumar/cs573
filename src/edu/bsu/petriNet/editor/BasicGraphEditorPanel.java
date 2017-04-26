@@ -117,7 +117,6 @@ public class BasicGraphEditorPanel extends JPanel
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,designPanel, simulatePanel);
 		splitPane.setLayout(new BoxLayout(splitPane, BoxLayout.X_AXIS));
 		splitPane.setResizeWeight(0.5);
-		splitPane.setResizeWeight(1);
 		splitPane.setDividerSize(6);
 		splitPane.setBorder(null);
 		splitPane.setPreferredSize(new Dimension(20,74));

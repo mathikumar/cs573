@@ -94,7 +94,13 @@ public class EditorPalette extends JPanel implements ActionListener
 		newTransitionButton.addActionListener(this);
 		add(newTransitionButton);
 		
-		selectButton = new JToggleButton("Select");
+		selectButton = new JToggleButton();
+		try {
+		    Image img = ImageIO.read(getClass().getResource("../resources/select.gif"));
+		    selectButton.setIcon(new ImageIcon(img));
+	    } catch (Exception ex) {
+	    	selectButton.setText("Select");
+	    }
 		designChoicesGroup.add(selectButton);
 		selectButton.addActionListener(this);
 		add(selectButton);
