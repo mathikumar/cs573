@@ -97,12 +97,12 @@ public class SimulationPalette extends JPanel implements ActionListener
 		
 		nField = new JTextField();
 		nField.setEditable(true);
-		nField.setText("5");
+		nField.setText("# Steps");
 		add(nField);
 		
 		delayField = new JTextField();
 		delayField.setEditable(true);
-		delayField.setText("1");
+		delayField.setText("Delay");
 		add(delayField);
 	}
 
@@ -120,7 +120,8 @@ public class SimulationPalette extends JPanel implements ActionListener
 				Integer n = Integer.valueOf(nField.getText());
 				controller.simulate(n, 1000*Integer.valueOf(delayField.getText()));
 			}catch(NumberFormatException e){
-				nField.setText("1");
+				nField.setText("# Steps");
+				delayField.setText("Delay");
 			}
 		}
 		
