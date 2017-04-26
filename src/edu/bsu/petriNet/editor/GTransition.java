@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ import edu.bsu.petriNet.controller.IController;
 import edu.bsu.petriNet.model.AbstractPlace;
 import edu.bsu.petriNet.model.AbstractTransition;
 import edu.bsu.petriNet.model.GraphElement;
+import edu.bsu.petriNet.util.PropertiesLoader;
 
 public class GTransition implements GElement {
 
@@ -42,7 +44,7 @@ public class GTransition implements GElement {
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(CanvasPanel.LINE_THICKNESS));
 		g.drawRect(abstractTransition.getX()-W/2, abstractTransition.getY()-H/2, W, H);
-		g.drawString(""+abstractTransition.getName(), abstractTransition.getX()-W/2, abstractTransition.getY()-H/2);
+		g.drawString(""+abstractTransition.getName(), abstractTransition.getX()-W/2-abstractTransition.getName().length()/2*5, abstractTransition.getY()-H/2-12);
 		
 		// draw selection indicator
 		if (selection.contains(this)) {
@@ -108,8 +110,9 @@ public class GTransition implements GElement {
 	}
 
 	@Override
-	public void editDialog(JFrame frame, final IController controller) {
+	public void editDialog(JFrame frame, final IController controller,MouseEvent ev) {
 		final JDialog dialog = new JDialog(frame,"Click a button", true);
+		dialog.setLocation(ev.getX(), ev.getY()+Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("rcMenuTopPadding")));
 		JTextField nameField = new JTextField(this.abstractTransition.getName());
 		nameField.setPreferredSize(new Dimension(100,35));
 		JPanel contentPane = new JPanel();
