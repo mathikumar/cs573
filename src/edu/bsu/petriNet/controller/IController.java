@@ -1,5 +1,6 @@
 package edu.bsu.petriNet.controller;
 
+import edu.bsu.petriNet.analytics.CoverabilityTree;
 import edu.bsu.petriNet.model.AbstractArc;
 import edu.bsu.petriNet.model.AbstractPlace;
 import edu.bsu.petriNet.model.AbstractTransition;
@@ -148,4 +149,6 @@ public interface IController {
 	public void endUndoBlock() throws IllegalStateException;
 	
 	public void pollState();
+	
+	public CoverabilityTree getCoverabilityTree();
 }

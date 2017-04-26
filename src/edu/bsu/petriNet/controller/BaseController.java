@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import edu.bsu.petriNet.analytics.CoverabilityTree;
 import edu.bsu.petriNet.editor.BasicGraphEditorPanel;
 import edu.bsu.petriNet.helper.BranchedHistoryProvider;
 import edu.bsu.petriNet.helper.HistoryProvider;
@@ -311,5 +312,9 @@ public class BaseController implements IController {
 			}
 		}
 	}
+	
+	public CoverabilityTree getCoverabilityTree(){
+		return new CoverabilityTree(this.history.getCurrentPetriNet());
+	};
 	
 }

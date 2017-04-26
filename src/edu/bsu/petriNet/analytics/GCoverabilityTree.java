@@ -277,8 +277,8 @@ public class GCoverabilityTree extends JPanel {
 	  return canvasHeight;
   }
   
-  public void makeTree(PetriNet petrinet){
-	    this.tree = new CoverabilityTree(petrinet);
+  public void makeTree(CoverabilityTree cv){
+	    this.tree = cv;
 		List<CoverabilityTreeNode> currentLevel = new ArrayList<CoverabilityTreeNode>();
 		ArrayList<CoverabilityTreeNode> nextLevel ;
 		Map<String,Node> nodes;

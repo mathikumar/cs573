@@ -97,10 +97,11 @@ public class BasicGraphEditorPanel extends JPanel
 				//System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
 				if(index == 1){
 					//displayPane.remove(1);
-					File xmlFileName = getCurrentFile();
-					if(xmlFileName != null){
-						showCTree(xmlFileName);
-					}
+//					File xmlFileName = getCurrentFile();
+//					if(xmlFileName != null){
+//						showCTree(xmlFileName);
+//					}
+					showCTree();
 				}
 			}
 		};
@@ -230,12 +231,14 @@ public class BasicGraphEditorPanel extends JPanel
 		canvasPanel.paste();
 	}
 	
-	public void showCTree(File xmlFile){
+	public void showCTree(){
 		
 		JFrame frame = new JFrame();
 		GCoverabilityTree graph = new GCoverabilityTree("Coverability Tree");
-    	PetriNet petrinet = getPetriNet(xmlFile.getAbsolutePath());
-    	graph.makeTree(petrinet);
+    	//PetriNet petrinet = getPetriNet(xmlFile.getAbsolutePath());
+		CoverabilityTree tree = petriNetController.getCoverabilityTree();
+		
+		graph.makeTree(tree);
 		//frame.setLayout(new BorderLayout());
         JScrollPane scroll = new JScrollPane(graph);
        //frame.add(scroll);
@@ -250,9 +253,10 @@ public class BasicGraphEditorPanel extends JPanel
 		
 	}
 	
-	public void checkDeadLock(File xmlFile){
-		PetriNet petrinet = getPetriNet(xmlFile.getAbsolutePath());
-		CoverabilityTree tree = new CoverabilityTree(petrinet);
+	public void checkDeadLock(){
+		//PetriNet petrinet = petriNetController.;
+		//CoverabilityTree tree = new CoverabilityTree(petrinet);
+		CoverabilityTree tree = petriNetController.getCoverabilityTree();
 		
 		String message = "The petrinet has ";
     	if(tree.hasDeadEnd()){
@@ -263,9 +267,11 @@ public class BasicGraphEditorPanel extends JPanel
        JOptionPane.showMessageDialog(null,message);
 	}
 	
-	public void checkBoundedness(File xmlFile){
-		PetriNet petrinet = getPetriNet(xmlFile.getAbsolutePath());
-		CoverabilityTree tree = new CoverabilityTree(petrinet);
+	public void checkBoundedness(){
+		//PetriNet petrinet = petriNetController.;
+		//CoverabilityTree tree = new CoverabilityTree(petrinet);
+		CoverabilityTree tree = petriNetController.getCoverabilityTree();
+				
 		
 		String message = "The petrinet is ";
     	if(tree.isBounded()){
@@ -276,9 +282,11 @@ public class BasicGraphEditorPanel extends JPanel
        JOptionPane.showMessageDialog(null,message);
 	}
 	
-	public void checkReachability(File xmlFile){
-		PetriNet petrinet = getPetriNet(xmlFile.getAbsolutePath());
-		CoverabilityTree tree = new CoverabilityTree(petrinet);
+	public void checkReachability(){
+		//PetriNet petrinet = petriNetController.;
+		//CoverabilityTree tree = new CoverabilityTree(petrinet);
+		CoverabilityTree tree = petriNetController.getCoverabilityTree();
+				
 		ArrayList<Integer> tokenList = new ArrayList<Integer>();
 		GCoverabilityTree graph = new GCoverabilityTree("Coverability Tree");
 		String marking = graph.getNodeLabel(tree.getRoot());
