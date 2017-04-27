@@ -18,25 +18,51 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.omg.PortableInterceptor.ACTIVE;
-
 import edu.bsu.petriNet.analytics.CoverabilityTreeNode.NODELABEL;
 import edu.bsu.petriNet.model.PetriNet;
 import edu.bsu.petriNet.model.Place;
+import edu.bsu.petriNet.util.GeometryUtil;
 import edu.bsu.petriNet.util.PropertiesLoader;
 
 public class GCoverabilityTree extends JPanel {
     private static final long serialVersionUID = 1L;
-	private static int transitionNameOffset;
-	private static int transitionNameAlternateOffset;
-	private static int width;
-	private static int height;
-	private static int topPadding;
-	private static int nodeSpacingH;
-	private static int nodeSpacingV;
-	private static int letterWidth;
-    private static int canvasWidth ;
-    private static int canvasHeight;
+	static class Styles{
+  	  static int transitionNameOffset;
+  	  static int transitionNameAlternateOffset;
+  	  static int width;
+  	  static int height;
+  	  static int topPadding;
+  	  static int nodeSpacingH;
+  	  static int nodeSpacingV;
+  	  static int letterWidth;
+  	  static int canvasWidth ;
+  	  static int canvasHeight;
+    }
+    static class Node {
+      	int x;
+      	int y;
+      	String label;
+  		public NODELABEL type;
+  	
+      	public Node(String label, int x, int y, NODELABEL type) {
+      		this.x = x;
+      		this.y = y;
+      		this.label = label;
+      		this.type = type;
+  		}
+    }
+      
+    static class edge {
+      	Node source;
+      	Node target;
+      	String name;
+      	public edge(Node source, Node target,String name) {
+      		this.source = source;
+      		this.target = target;
+      		this.name = name;
+      	}
+      }
+     
     private ArrayList<Node> nodes;
     private ArrayList<edge> edges;
     private CoverabilityTree tree; 
@@ -48,17 +74,17 @@ public class GCoverabilityTree extends JPanel {
     }
     
     private void loadStyleConfigs(){
-    	transitionNameOffset = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("transitionNameOffset"));
-    	transitionNameAlternateOffset = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("transitionNameAlternateOffset"));
-    	width = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("width"));
-    	height = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("height"));
-    	topPadding = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("topPadding"));
-    	nodeSpacingH = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("nodeSpacingH"));
-    	nodeSpacingV = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("nodeSpacingV"));
-    	letterWidth = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("letterWidth"));
+    	Styles.transitionNameOffset = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("transitionNameOffset"));
+    	Styles.transitionNameAlternateOffset = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("transitionNameAlternateOffset"));
+    	Styles.width = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("width"));
+    	Styles.height = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("height"));
+    	Styles.topPadding = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("topPadding"));
+    	Styles.nodeSpacingH = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("nodeSpacingH"));
+    	Styles.nodeSpacingV = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("nodeSpacingV"));
+    	Styles.letterWidth = Integer.parseInt(PropertiesLoader.getProperties("config").getProperty("letterWidth"));
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        canvasWidth=(int)screenSize.getWidth();
-        canvasHeight=(int)screenSize.getHeight();
+    	Styles.canvasWidth=(int)screenSize.getWidth();
+    	Styles.canvasHeight=(int)screenSize.getHeight();
     }
     
     public GCoverabilityTree(String name) { 
@@ -73,18 +99,20 @@ public class GCoverabilityTree extends JPanel {
                String message = "The given marking is ";
                
                ArrayList<Integer> tokenList = new ArrayList<Integer>();
-               if(isMarkingValid(marking)){
-            	   for(int i = 0;i<marking.length();i++){
-            		   tokenList.add(Integer.parseInt(String.valueOf(marking.charAt(i))));
-            	   }
-            	   if(tree.isReachable(tokenList)){
-                	   message += "reachable";
-                   }else{
-                	   message += "not reachable";
-                   }
-                   JOptionPane.showMessageDialog(null,message);
-               } else{
-                   JOptionPane.showMessageDialog(null,"Invalid marking");
+               if(marking !=null){
+	               if(isMarkingValid(marking)){
+	            	   for(int i = 0;i<marking.length();i++){
+	            		   tokenList.add(Integer.parseInt(String.valueOf(marking.charAt(i))));
+	            	   }
+	            	   if(tree.isReachable(tokenList)){
+	                	   message += "reachable";
+	                   }else{
+	                	   message += "not reachable";
+	                   }
+	                   JOptionPane.showMessageDialog(null,message);
+	               } else{
+	                   JOptionPane.showMessageDialog(null,"Invalid marking");
+	               }
                }
             }
         });
@@ -139,18 +167,18 @@ public class GCoverabilityTree extends JPanel {
         super.paint(g);
 
     	FontMetrics f = g.getFontMetrics();
-		int nodeHeight = Math.max(height, f.getHeight());
+		int nodeHeight = Math.max(Styles.height, f.getHeight());
 		g.setColor(Color.black);
 		boolean flag = false;
 		int yOffset;
 		for (edge e : edges) {
-				yOffset = transitionNameOffset;
+				yOffset = Styles.transitionNameOffset;
 			if(flag){
-				yOffset += transitionNameAlternateOffset;
+				yOffset += Styles.transitionNameAlternateOffset;
 			}
 			Point p1 = new Point(e.source.x,e.source.y);
 			Point p2 = new Point(e.target.x, e.target.y);
-			float m = getSlope(p1,p2);
+			float m = GeometryUtil.getSlope(p1,p2);
 			float x = (e.source.y+yOffset-e.source.y)/m+e.source.x;
 			
 			float x2 = (e.target.y-nodeHeight/2-e.source.y)/(m)+e.source.x;
@@ -207,38 +235,13 @@ public class GCoverabilityTree extends JPanel {
     }
     
     
-    
-   static class Node {
-    	int x;
-    	int y;
-    	String label;
-		public NODELABEL type;
-	
-    	public Node(String label, int x, int y, NODELABEL type) {
-    		this.x = x;
-    		this.y = y;
-    		this.label = label;
-    		this.type = type;
-		}
-    }
-    
-   static class edge {
-    	Node source;
-    	Node target;
-    	String name;
-    	public edge(Node source, Node target,String name) {
-    		this.source = source;
-    		this.target = target;
-    		this.name = name;
-    	}
-    }
    
    public static String getNodeLabel(CoverabilityTreeNode node){
 	   PetriNet net = node.getPetrinet();
 	   String label = "";
 	   for(Place p:net.getPlaces()){
 		   if(p.getNumberOfTokens() == Integer.MAX_VALUE)
-			   label+="N";
+			   label+="\u03C9";
 		   else
 			   label+=p.getNumberOfTokens();
 	   }
@@ -247,7 +250,7 @@ public class GCoverabilityTree extends JPanel {
    
   private int getNodeWidth(Graphics g,String label){
 	   FontMetrics f = g.getFontMetrics();
-	   return Math.max(width, f.stringWidth(label)+width/2);
+	   return Math.max(Styles.width, f.stringWidth(label)+Styles.width/2);
    }
   
   private void drawArrowHead(Graphics2D g2, Point tip, Point tail){
@@ -265,18 +268,19 @@ public class GCoverabilityTree extends JPanel {
       }
   }
   
-  private static float getSlope(Point p1, Point p2){
-	  return (float) (p2.y - p1.y) / (p2.x - p1.x);
-  }
+  
   
   public int getViewWidth(){
-	  return canvasWidth;
+	  return Styles.canvasWidth;
   }
   
   public int getViewHeight(){
-	  return canvasHeight;
+	  return Styles.canvasHeight;
   }
-  
+  /**
+   * cv could not be null and should be valid coverability tree representation of the petrinet
+   * @param cv
+   */
   public void makeTree(CoverabilityTree cv){
 	    this.tree = cv;
 		List<CoverabilityTreeNode> currentLevel = new ArrayList<CoverabilityTreeNode>();
@@ -284,10 +288,10 @@ public class GCoverabilityTree extends JPanel {
 		Map<String,Node> nodes;
 		Map<String,Node> prevNodes = new HashMap<String,Node>();
 		int level = 0;
-		int nodeWidth = tree.getRoot().getPetrinet().getPlaces().size()*letterWidth;
-		canvasWidth = getRequiredCanvasWidth();
-		setHScale(canvasWidth);
-		Node rootNode = new Node(GCoverabilityTree.getNodeLabel(tree.getRoot()),this.getViewWidth()/2,topPadding,NODELABEL.ACTIVE);
+		int nodeWidth = tree.getRoot().getPetrinet().getPlaces().size()*Styles.letterWidth;
+		Styles.canvasWidth = getRequiredCanvasWidth();
+		setHScale(Styles.canvasWidth);
+		Node rootNode = new Node(GCoverabilityTree.getNodeLabel(tree.getRoot()),this.getViewWidth()/2,Styles.topPadding,NODELABEL.ACTIVE);
 		this.addNode(rootNode);
 		currentLevel.addAll(tree.getRoot().getChildren());
 		prevNodes.put(tree.getRoot().toString(),rootNode);
@@ -297,13 +301,13 @@ public class GCoverabilityTree extends JPanel {
 			Node n;
 			nodes = new HashMap<String,Node>();
 			int size = currentLevel.size();
-			int totalWidth = (size-1)* nodeWidth + (size -1) * nodeSpacingH;
+			int totalWidth = (size-1)* nodeWidth + (size -1) * Styles.nodeSpacingH;
 			int xLoc = this.getViewWidth()/2-totalWidth/2;
 			
 			for(CoverabilityTreeNode node: currentLevel){
-				n = new Node(GCoverabilityTree.getNodeLabel(node),xLoc,topPadding+(level)*nodeSpacingV,node.getLabel());
+				n = new Node(GCoverabilityTree.getNodeLabel(node),xLoc,Styles.topPadding+(level)*Styles.nodeSpacingV,node.getLabel());
 						
-				if(n.y+30 > canvasHeight){
+				if(n.y+30 > Styles.canvasHeight){
 					setVScale(n.y+30);
 				}
 				this.addNode(n);
@@ -313,13 +317,12 @@ public class GCoverabilityTree extends JPanel {
 				this.addEdge(source, n,node.getTransitionFromParent().getName());
 				if(node.getLabel()!=CoverabilityTreeNode.NODELABEL.REPEATED)
 					nextLevel.addAll(node.getChildren());
-				xLoc += nodeWidth + nodeSpacingH;
+				xLoc += nodeWidth + Styles.nodeSpacingH;
 			}
 			level++;
 			currentLevel = nextLevel;
 			prevNodes = nodes;
 		}
-		
   }
   
   private boolean isMarkingValid(String marking){
@@ -333,21 +336,20 @@ public class GCoverabilityTree extends JPanel {
 	  } else{
 		  return false;
 	  }
-	  
   }
   
   public int getRequiredCanvasWidth(){
 	  List<CoverabilityTreeNode> currentLevel = new ArrayList<CoverabilityTreeNode>();
 	  ArrayList<CoverabilityTreeNode> nextLevel ;
 	  currentLevel.add(tree.getRoot());
-	  int maxWidth = canvasWidth;
-	  int nodeWidth = tree.getRoot().getPetrinet().getPlaces().size()*letterWidth;
+	  int maxWidth = Styles.canvasWidth;
+	  int nodeWidth = tree.getRoot().getPetrinet().getPlaces().size()*Styles.letterWidth;
 		
 	  while(!currentLevel.isEmpty()){
 		  nextLevel = new ArrayList<CoverabilityTreeNode>();
 		  int size = currentLevel.size();
 			
-			int totalWidth = (size-1)* nodeWidth + (size -1) * nodeSpacingH;
+			int totalWidth = (size-1)* nodeWidth + (size -1) * Styles.nodeSpacingH;
 			if(totalWidth + 150 > maxWidth){
 				maxWidth = totalWidth + 150;
 			}
@@ -357,22 +359,18 @@ public class GCoverabilityTree extends JPanel {
 			}
 			currentLevel = nextLevel;
 		}
-	  if(maxWidth>canvasWidth){
-		  nodeSpacingH-=15;
-		  nodeSpacingV+=40;
-	  }
 	  return maxWidth;
   }
   
   public void setHScale(int value) {
-	     this.setPreferredSize(new Dimension(value, canvasHeight));
-	     canvasWidth=value;
+	     this.setPreferredSize(new Dimension(value, Styles.canvasHeight));
+	     Styles.canvasWidth=value;
 	     this.revalidate();
  }
   
   public void setVScale(int value) {
-	     this.setPreferredSize(new Dimension(canvasWidth,value));   
-	     canvasHeight=value;
+	     this.setPreferredSize(new Dimension(Styles.canvasWidth,value));   
+	     Styles.canvasHeight=value;
 	     this.revalidate();
   }
 }

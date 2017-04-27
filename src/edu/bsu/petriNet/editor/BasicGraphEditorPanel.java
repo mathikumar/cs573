@@ -239,14 +239,15 @@ public class BasicGraphEditorPanel extends JPanel
 		GCoverabilityTree graph = new GCoverabilityTree("Coverability Tree");
     	//PetriNet petrinet = getPetriNet(xmlFile.getAbsolutePath());
 		CoverabilityTree tree = petriNetController.getCoverabilityTree();
-		
-		graph.makeTree(tree);
-		//frame.setLayout(new BorderLayout());
-        JScrollPane scroll = new JScrollPane(graph);
-       //frame.add(scroll);
-		//displayPane.addTab("Coverability Tree", null, scroll, "The Coverability Tree");
-        displayPane.setComponentAt(1, scroll);
-		displayPane.setSelectedIndex(1);
+		if(tree!=null && tree.getRoot().getPetrinet().getPlaces().size()>0){
+			graph.makeTree(tree);
+			//frame.setLayout(new BorderLayout());
+			JScrollPane scroll = new JScrollPane(graph);
+			//frame.add(scroll);
+			//displayPane.addTab("Coverability Tree", null, scroll, "The Coverability Tree");
+			displayPane.setComponentAt(1, scroll);
+			displayPane.setSelectedIndex(1);
+		}
 	}
 	
 	public PetriNet getPetriNet(String sourcePath){
