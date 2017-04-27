@@ -26,10 +26,12 @@ public class Place extends GraphNode
 	
 	public void addTokens(int n)
 	{
+		if(!(this.getNumberOfTokens()== Integer.MAX_VALUE))
 		this.setNumberOfTokens(this.getNumberOfTokens()+n);
 	}
 	
 	public void removeTokens(int n){
+		if(!(this.getNumberOfTokens()== Integer.MAX_VALUE))
 		this.setNumberOfTokens(this.getNumberOfTokens()-n);
 	}
 	

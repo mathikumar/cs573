@@ -26,8 +26,9 @@ public class CoverabilityTree {
 
 		queue.add(root);
 
+		int n = 0;
 		while (!queue.isEmpty()) {
-			// System.out.print("Iteration"+(n++)+"queue:"+queue.size()+"\n");
+			//System.out.print("Iteration"+(n++)+"queue:"+queue.size()+"\n");
 			CoverabilityTreeNode current = queue.poll();
 
 			nodeList.add(current);
