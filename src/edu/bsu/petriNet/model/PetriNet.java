@@ -77,6 +77,7 @@ public class PetriNet implements Serializable
     	
     	if(source != null && target != null && !source.getClass().equals(target.getClass())){
     		Arc a = new Arc(id, name, source, target);
+    		a.setWeight(weight);
     		
     		source.addArc(a);
     		target.addArc(a);
@@ -245,8 +246,7 @@ public class PetriNet implements Serializable
 		String fileName = "tmp.xml.tmp";
 		XmlInputOutput.printModel(this, fileName);
 		PetriNet newNet = XmlInputOutput.readModel(fileName);
-
-
+		
 		return newNet;
 	}
 	public ArrayList<Arc> getArcs()

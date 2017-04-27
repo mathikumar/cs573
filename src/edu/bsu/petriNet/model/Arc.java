@@ -4,13 +4,14 @@ public class Arc extends GraphElement
 {
 	private GraphNode source;
 	private GraphNode target;
-	private int weight=1;
+	private int weight;
 	
 	protected Arc(int id, String name, GraphNode source, GraphNode target)
 	{
 		super(id,name);
 		this.source = source;
 		this.target = target;
+		this.weight=1;
 	}
 
 	public GraphNode getSource()

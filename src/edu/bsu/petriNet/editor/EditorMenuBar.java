@@ -94,7 +94,7 @@ public class EditorMenuBar extends JMenuBar
 		cpItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
 				
-		            String file = "AsyncCommunication.xml";
+		            String file = "Examples/AsyncCommunication-Finished.xml";
 		            controller.load(file);		        
 		        
 			}
@@ -106,7 +106,7 @@ public class EditorMenuBar extends JMenuBar
 		dpItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
 				
-		            String file = "AsyncDiningPhilosophers.xml";
+		            String file = "Examples/AsyncDiningPhilosophers-Finished.xml";
 		            controller.load(file);		        
 		        
 			}
@@ -116,8 +116,8 @@ public class EditorMenuBar extends JMenuBar
 		JMenuItem vmItem = new JMenuItem("Vending Machine");
 		vmItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
-				
-		            String file = "AsyncVendingMachine.xml";
+
+		            String file = "Examples/AsyncVendingMachine-Finished.xml";
 		            controller.load(file);		        
 		        
 			}
@@ -128,7 +128,7 @@ public class EditorMenuBar extends JMenuBar
 		rwItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {	
 				
-		            String file = "AsyncReadersWriter.xml";
+		            String file = "Examples/AsyncReadersWriter-Finished.xml";
 		            controller.load(file);		        
 		        
 			}

@@ -288,7 +288,7 @@ public class BaseController implements IController {
 			if(!isUndoChange){
 				history.checkPoint(petrinet, isSimulation);
 			}
-			this.queue.add(petrinet.getDeepCopy());
+			this.queue.add(petrinet.getDeepCopy());				
 		}
 		
 		public void run(){
